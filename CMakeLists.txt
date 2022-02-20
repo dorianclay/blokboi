@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories( ./include ./src )
 
 # Executable
-add_executable(Tutorial tutorial.cpp)
+add_executable(blokboi ./src/game.cpp)
 
 
 # External Libraries - 3rd party libs
