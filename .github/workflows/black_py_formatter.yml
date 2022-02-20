@@ -1,0 +1,9 @@
+workflow "Black Python Formatter" {
+  on = "push"
+  resolves = ["Lint"]
+}
+
+action "Lint" {
+  uses = "lgeiger/black-action@master"
+  args = "."
+}
