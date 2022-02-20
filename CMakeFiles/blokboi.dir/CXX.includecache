@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dorian/code/blokboi/src/game.cpp
+iostream
+-
+map.h
+/home/dorian/code/blokboi/src/map.h
+location.h
+/home/dorian/code/blokboi/src/location.h
+
+/home/dorian/code/blokboi/src/location.h
+
+/home/dorian/code/blokboi/src/map.h
+
