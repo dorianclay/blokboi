@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include "map.h"
 #include "location.h"
+#include "map.h"
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     cout << "Hello World!" << endl;
 }

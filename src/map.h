@@ -3,9 +3,8 @@
 
 class Map
 {
-protected:
-
-public:
+  protected:
+  public:
 };
 
 #endif /* MAP_H */
