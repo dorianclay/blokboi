@@ -1,15 +1,14 @@
-# include "block.h"
-# include <cstdlib>
+#include "block.h"
+#include <cstdlib>
 
 using namespace std;
 
-Block::Block() 
+Block::Block()
 {
     Block(Location(0, 0));
 }
 
-Block::Block(Location location)
-    : _location(location)
+Block::Block(Location location) : _location(location)
 {
     _color = static_cast<Color>(rand() % COUNT);
     srand(time(0));

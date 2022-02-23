@@ -1,14 +1,14 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-# include "location.h"
+#include "location.h"
 
 int MIN_NUMBER = 0;
 int MAX_NUMBER = 9;
 
 class Block
 {
-protected:
+  protected:
     enum Color
     {
         RED,
@@ -26,25 +26,25 @@ protected:
     Location *_location;
     Block();
 
-public:
+  public:
     Block(Location location);
     Block(int color, int number, bool movable, Location location);
 
     void pick_up();
 
-    int color() const 
+    int color() const
     {
         return _color;
     }
-    int number() const 
+    int number() const
     {
         return _number;
     }
-    bool movable() const 
+    bool movable() const
     {
         return _movable;
     }
-    const Location* location() const
+    const Location *location() const
     {
         return _location;
     }
@@ -52,9 +52,8 @@ public:
 
 class Ground : public Block
 {
-protected:
-
-public:
+  protected:
+  public:
     Ground();
     Ground(Location location);
 }
