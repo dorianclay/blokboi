@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 /home/dorian/code/blokboi/src/block.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
 location.h
 /home/dorian/code/blokboi/src/location.h
 
@@ -16,19 +18,29 @@ iostream
 map.h
 /home/dorian/code/blokboi/src/map.h
 
+/home/dorian/code/blokboi/src/game_object.h
+location.h
+/home/dorian/code/blokboi/src/location.h
+
 /home/dorian/code/blokboi/src/location.h
 
 /home/dorian/code/blokboi/src/map.h
-vector
--
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
 block.h
 /home/dorian/code/blokboi/src/block.h
 player.h
 /home/dorian/code/blokboi/src/player.h
-
-/home/dorian/code/blokboi/src/player.h
 location.h
 /home/dorian/code/blokboi/src/location.h
+vector
+-
+
+/home/dorian/code/blokboi/src/player.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
 block.h
 /home/dorian/code/blokboi/src/block.h
+location.h
+/home/dorian/code/blokboi/src/location.h
 

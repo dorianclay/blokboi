@@ -1,13 +1,16 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "game_object.h"
 #include "block.h"
 #include "player.h"
 #include "location.h"
 #include <vector>
 
 typedef std::vector<Block *> Blocks;
-typedef std::vector<vector<Location *>> Locations;
+typedef std::vector<std::vector<GameObject *>> Objects;
+
+
 
 class Map
 {
@@ -16,16 +19,14 @@ class Map
     Blocks _ground;
     Player _player;
     unsigned _size[2] = {10, 10};
-    Locations _space;
-    
+    Objects _space;
+    Map();
 
   public:
-    Map();
     Map(int x, int y);
     
     void generate();
     void refresh();
-    Location *assign_location(int x, int y);
 };
 
 #endif /* MAP_H */

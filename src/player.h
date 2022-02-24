@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "game_object.h"
 #include "block.h"
 #include "location.h"
 
@@ -10,10 +11,9 @@ enum Direction
     RIGHT,
 };
 
-class Player
+class Player : public GameObject
 {
   protected:
-    Location *_location;
     Block _held;
     Direction _facing;
 

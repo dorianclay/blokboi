@@ -1,6 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include "game_object.h"
 #include "location.h"
 
 int MIN_NUMBER = 0;
@@ -18,13 +19,12 @@ enum Color
     COUNT
 };
 
-class Block
+class Block : public GameObject
 {
   protected:
     Color _color;
     int _number;
     bool _movable;
-    Location *_location;
 
   public:
     Block();
