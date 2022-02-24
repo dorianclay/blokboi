@@ -27,8 +27,6 @@ Block::~Block()
     delete _location;
 }
 
-
-
 Ground::Ground()
 {
     Ground(new Location(0, 0));

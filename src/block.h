@@ -56,6 +56,7 @@ class Ground : public Block
   protected:
     Ground();
     ~Ground();
+
   public:
     Ground(Location *location);
 };
