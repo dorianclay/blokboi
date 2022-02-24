@@ -1,4 +1,4 @@
-# include "player.h"
+#include "player.h"
 
 Player::Player()
 {
@@ -11,7 +11,7 @@ Player::Player(Location *location) : _location(location)
     _facing = RIGHT;
 }
 
-Player::~Player() 
+Player::~Player()
 {
     delete _location;
 }

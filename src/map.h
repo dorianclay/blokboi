@@ -1,9 +1,9 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <vector>
 #include "block.h"
 #include "player.h"
+#include <vector>
 
 typedef std::vector<Block *> Blocks;
 
