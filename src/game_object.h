@@ -16,7 +16,10 @@ class GameObject
     {
         delete _location;
     }
-    Location *location() const { return _location; }
+    Location *location() const
+    {
+        return _location;
+    }
 };
 
 #endif /* GAME_OBJECT_H */

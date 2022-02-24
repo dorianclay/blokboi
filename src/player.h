@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "game_object.h"
 #include "block.h"
+#include "game_object.h"
 #include "location.h"
 
 enum Direction
