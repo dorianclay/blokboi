@@ -14,8 +14,12 @@ class GameObject
     GameObject()
     {
     }
+
   public:
-    const int *location() const { return _location; }
+    const int *location() const
+    {
+        return _location;
+    }
 };
 
 #endif /* GAME_OBJECT_H */

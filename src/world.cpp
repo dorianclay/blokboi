@@ -1,6 +1,6 @@
 #include "world.h"
-#include <vector>
 #include <cassert>
+#include <vector>
 
 World::World()
 {
@@ -24,15 +24,13 @@ World::World(int x, int y)
 
 void World::generate()
 {
-
 }
 
 void World::refresh()
 {
-
 }
 
-GameObject* World::get_object(int x, int y)
+GameObject *World::get_object(int x, int y)
 {
     return _space[x][y];
 }

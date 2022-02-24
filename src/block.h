@@ -1,8 +1,8 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "world.h"
 #include "game_object.h"
+#include "world.h"
 
 int MIN_NUMBER = 0;
 int MAX_NUMBER = 9;
