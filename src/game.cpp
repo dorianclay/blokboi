@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "map.h"
+#include "world.h"
 
 using namespace std;
 

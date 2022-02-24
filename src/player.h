@@ -3,7 +3,7 @@
 
 #include "block.h"
 #include "game_object.h"
-#include "location.h"
+#include "world.h"
 
 enum Direction
 {
@@ -14,12 +14,13 @@ enum Direction
 class Player : public GameObject
 {
   protected:
-    Block _held;
+    Block *_held;
     Direction _facing;
 
   public:
     Player();
-    Player(Location *location);
+    Player(World *world);
+    Player(World *world, int x, int y);
     ~Player();
 
     void move(int x, int y);

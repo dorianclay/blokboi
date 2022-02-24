@@ -4,7 +4,6 @@
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/block.h
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/game.cpp
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/game_object.h
-CMakeFiles/blokboi.dir/src/game.cpp.o: src/location.h
-CMakeFiles/blokboi.dir/src/game.cpp.o: src/map.h
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/player.h
+CMakeFiles/blokboi.dir/src/game.cpp.o: src/world.h
 

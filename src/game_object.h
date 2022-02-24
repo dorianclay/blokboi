@@ -1,25 +1,21 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
-#include "location.h"
+#include "world.h"
+
+class World;
 
 class GameObject
 {
   protected:
-    Location *_location;
+    int _location[2];
+    World *_world;
+
     GameObject()
     {
     }
-
   public:
-    ~GameObject()
-    {
-        delete _location;
-    }
-    Location *location() const
-    {
-        return _location;
-    }
+    const int *location() const { return _location; }
 };
 
 #endif /* GAME_OBJECT_H */

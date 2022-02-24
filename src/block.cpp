@@ -6,41 +6,44 @@ using namespace std;
 
 Block::Block()
 {
-    Block(nullptr);
+    Block(nullptr, 0, 0);
 }
 
-Block::Block(Location *location) : _location(location)
+Block::Block(World *world, int x, int y)
 {
+    _world = world;
+    _location[0] = x;
+    _location[1] = y;
     _color = static_cast<Color>(rand() % COUNT);
     srand(time(0));
     _number = 1 + (rand() % (MAX_NUMBER - 1));
     _movable = true;
 }
 
-Block::Block(Color color, int number, bool movable, Location *location)
-    : _color(color), _number(number), _movable(movable), _location(location)
+Block::Block(World *world, int x, int y, Color color, int number, bool movable)
+    :, _color(color), _number(number), _movable(movable)
 {
+    _world = world;
+    _location[0] = x;
+    _location[1] = y;
 }
 
 Block::~Block()
 {
-    delete _location;
+    delete _world;
 }
 
-Ground::Ground()
+Ground::Ground(World *world, int x, int y)
 {
-    Ground(new Location(0, 0));
-}
-
-Ground::Ground(Location *location)
-{
-    _location = location;
-    _number = 0;
+    _location[0] = x;
+    _location[1] = y;
+    _world = world;
+    _number = -1;
     _color = GREY;
     _movable = false;
 }
 
 Ground::~Ground()
 {
-    delete _location;
+    delete _world;
 }

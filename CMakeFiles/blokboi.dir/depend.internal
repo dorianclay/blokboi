@@ -5,6 +5,5 @@ CMakeFiles/blokboi.dir/src/game.cpp.o
  /home/dorian/code/blokboi/src/block.h
  /home/dorian/code/blokboi/src/game.cpp
  /home/dorian/code/blokboi/src/game_object.h
- /home/dorian/code/blokboi/src/location.h
- /home/dorian/code/blokboi/src/map.h
  /home/dorian/code/blokboi/src/player.h
+ /home/dorian/code/blokboi/src/world.h

@@ -7,40 +7,36 @@
 #IncludeRegexTransform: 
 
 /home/dorian/code/blokboi/src/block.h
+world.h
+/home/dorian/code/blokboi/src/world.h
 game_object.h
 /home/dorian/code/blokboi/src/game_object.h
-location.h
-/home/dorian/code/blokboi/src/location.h
 
 /home/dorian/code/blokboi/src/game.cpp
 iostream
 -
-map.h
-/home/dorian/code/blokboi/src/map.h
+world.h
+/home/dorian/code/blokboi/src/world.h
 
 /home/dorian/code/blokboi/src/game_object.h
-location.h
-/home/dorian/code/blokboi/src/location.h
+world.h
+/home/dorian/code/blokboi/src/world.h
 
-/home/dorian/code/blokboi/src/location.h
-
-/home/dorian/code/blokboi/src/map.h
-game_object.h
-/home/dorian/code/blokboi/src/game_object.h
+/home/dorian/code/blokboi/src/player.h
 block.h
 /home/dorian/code/blokboi/src/block.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
+world.h
+/home/dorian/code/blokboi/src/world.h
+
+/home/dorian/code/blokboi/src/world.h
+block.h
+/home/dorian/code/blokboi/src/block.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
 player.h
 /home/dorian/code/blokboi/src/player.h
-location.h
-/home/dorian/code/blokboi/src/location.h
 vector
 -
-
-/home/dorian/code/blokboi/src/player.h
-game_object.h
-/home/dorian/code/blokboi/src/game_object.h
-block.h
-/home/dorian/code/blokboi/src/block.h
-location.h
-/home/dorian/code/blokboi/src/location.h
 

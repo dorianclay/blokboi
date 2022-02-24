@@ -1,8 +1,8 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include "world.h"
 #include "game_object.h"
-#include "location.h"
 
 int MIN_NUMBER = 0;
 int MAX_NUMBER = 9;
@@ -28,8 +28,8 @@ class Block : public GameObject
 
   public:
     Block();
-    Block(Location *location);
-    Block(Color color, int number, bool movable, Location *location);
+    Block(World *world, int x, int y);
+    Block(World *world, int x, int y, Color color, int number, bool movable);
     ~Block();
 
     void pick_up();
@@ -46,20 +46,15 @@ class Block : public GameObject
     {
         return _movable;
     }
-    const Location *location() const
-    {
-        return _location;
-    }
 };
 
 class Ground : public Block
 {
   protected:
-    Ground();
     ~Ground();
 
   public:
-    Ground(Location *location);
+    Ground(World *world, int x, int y);
 };
 
 #endif /* BLOCK_H */
