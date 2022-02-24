@@ -1,10 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "location.h"
 #include "block.h"
+#include "location.h"
 
-enum Direction {
+enum Direction
+{
     LEFT,
     RIGHT,
 };
@@ -16,7 +17,6 @@ class Player
     Block _held;
     Direction _facing;
 
-
   public:
     Player();
     Player(Location *location);
@@ -26,7 +26,6 @@ class Player
     void jump();
     void pick_up();
     void put_down();
-
 };
 
 #endif /* PLAYER_H */
