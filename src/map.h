@@ -4,8 +4,10 @@
 #include <vector>
 #include "block.h"
 #include "player.h"
+#include "location.h"
 
 typedef std::vector<Block *> Blocks;
+typedef std::vector<vector<Location *>> Locations;
 
 class Map
 {
@@ -13,11 +15,17 @@ class Map
     Blocks _blocks;
     Blocks _ground;
     Player _player;
-    unsigned size[2];
+    unsigned _size[2] = {10, 10};
+    Locations _space;
+    
 
   public:
+    Map();
+    Map(int x, int y);
+    
     void generate();
     void refresh();
+    Location *assign_location(int x, int y);
 };
 
 #endif /* MAP_H */
