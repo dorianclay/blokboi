@@ -25,10 +25,11 @@ class Block
     bool _movable;
     Location *_location;
     Block();
+    ~Block();
 
   public:
-    Block(Location location);
-    Block(int color, int number, bool movable, Location location);
+    Block(Location *location);
+    Block(Color color, int number, bool movable, Location *location);
 
     void pick_up();
 
@@ -48,14 +49,15 @@ class Block
     {
         return _location;
     }
-}
+};
 
 class Ground : public Block
 {
   protected:
-  public:
     Ground();
-    Ground(Location location);
-}
+    ~Ground();
+  public:
+    Ground(Location *location);
+};
 
 #endif /* BLOCK_H */
