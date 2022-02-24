@@ -6,7 +6,7 @@ using namespace std;
 
 Block::Block()
 {
-    Block(new Location(0, 0));
+    Block(nullptr);
 }
 
 Block::Block(Location *location) : _location(location)

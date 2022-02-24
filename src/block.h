@@ -6,30 +6,31 @@
 int MIN_NUMBER = 0;
 int MAX_NUMBER = 9;
 
+enum Color
+{
+    RED,
+    ORANGE,
+    YELLOW,
+    GREEN,
+    BLUE,
+    PURPLE,
+    GREY,
+    COUNT
+};
+
 class Block
 {
   protected:
-    enum Color
-    {
-        RED,
-        ORANGE,
-        YELLOW,
-        GREEN,
-        BLUE,
-        PURPLE,
-        GREY,
-        COUNT
-    };
     Color _color;
     int _number;
     bool _movable;
     Location *_location;
-    Block();
-    ~Block();
 
   public:
+    Block();
     Block(Location *location);
     Block(Color color, int number, bool movable, Location *location);
+    ~Block();
 
     void pick_up();
 
