@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "location.h"
 #include "map.h"
 
 using namespace std;
