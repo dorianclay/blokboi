@@ -15,6 +15,11 @@ class GameObject
     }
 
   public:
+    void update(int x, int y)
+    {
+        _location[0] = x;
+        _location[1] = y;
+    }
     const int *location() const
     {
         return _location;

@@ -25,12 +25,6 @@ Block::Block(int x, int y, Color color, int number, bool movable) : _color(color
     _location[1] = y;
 }
 
-void Block::update(int x, int y)
-{
-    _location[0];
-    _location[1];
-}
-
 Ground::Ground(int x, int y)
 {
     _location[0] = x;

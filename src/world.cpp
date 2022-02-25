@@ -89,5 +89,6 @@ void World::move(int x, int y, int dx, int dy)
         newy = _size[1];
 
     _space[newx][newy] = _space[x][y];
+    _space[newx][newy]->update(newx, newy);
     _space[x][y] = nullptr;
 }

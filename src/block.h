@@ -31,8 +31,6 @@ class Block : public GameObject
     Block(int x, int y);
     Block(int x, int y, Color color, int number, bool movable);
 
-    void update(int x, int y);
-
     int color() const
     {
         return _color;
