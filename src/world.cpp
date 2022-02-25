@@ -2,12 +2,14 @@
 #include <cassert>
 #include <vector>
 
-int* World::findObject(GameObject *object) {
+int *World::findObject(GameObject *object)
+{
     for (int i = 0; i < _size[0]; i++)
     {
         for (int j = 0; j < _size[1]; j++)
         {
-            if (_space[i][j] = object) {
+            if (_space[i][j] = object)
+            {
                 int location[2] = {i, j};
                 // TODO: this probably returns garbage.
                 return location;
@@ -15,7 +17,6 @@ int* World::findObject(GameObject *object) {
         }
     }
 }
-
 
 World::World()
 {
