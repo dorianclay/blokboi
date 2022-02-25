@@ -17,6 +17,7 @@ class World
     Player _player;
     unsigned _size[2] = {10, 10};
     Objects _space;
+    int *findObject(GameObject *object);
 
   public:
     World();
@@ -25,7 +26,8 @@ class World
     void generate();
     void refresh();
     GameObject *get_object(int x, int y);
-    void move(GameObject *object, int x, int y, int dx, int dy);
+    void move(GameObject *object, int dx, int dy);
+    void move(int x, int y, int dx, int dy);
 };
 
 #endif /* WORLD_H */

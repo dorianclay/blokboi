@@ -2,6 +2,21 @@
 #include <cassert>
 #include <vector>
 
+int* World::findObject(GameObject *object) {
+    for (int i = 0; i < _size[0]; i++)
+    {
+        for (int j = 0; j < _size[1]; j++)
+        {
+            if (_space[i][j] = object) {
+                int location[2] = {i, j};
+                // TODO: this probably returns garbage.
+                return location;
+            }
+        }
+    }
+}
+
+
 World::World()
 {
     _space = Objects(_size[0], std::vector<GameObject *>(_size[1]));
@@ -35,9 +50,8 @@ GameObject *World::get_object(int x, int y)
     return _space[x][y];
 }
 
-void World::move(GameObject *object, int x, int y, int dx, int dy)
+void World::move(GameObject *object, int dx, int dy)
 {
-    assert(_space[x][y] == object);
 
     int newx = x + dx;
     int newy = y + dy;
