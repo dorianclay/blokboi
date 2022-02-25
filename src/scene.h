@@ -14,7 +14,7 @@ typedef union location {
     int y;
 } LOCATION;
 
-class World
+class Scene
 {
   protected:
     Blocks _blocks;
@@ -25,8 +25,8 @@ class World
     LOCATION *findObject(GameObject *object);
 
   public:
-    World();
-    World(int x, int y);
+    Scene();
+    Scene(int x, int y);
 
     void generate();
     void refresh();

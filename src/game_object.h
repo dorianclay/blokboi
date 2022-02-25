@@ -1,9 +1,9 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
-// #include "world.h"
+// #include "scene.h"
 
-class World;
+class Scene;
 
 class GameObject
 {

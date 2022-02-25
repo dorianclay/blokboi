@@ -13,6 +13,6 @@ This game is inspired by Block Dude, made by Brandon Sterner. I originally encou
 ## What makes this game?
 blokboi is mostly intended as just a sandbox. This is useful for testing the strategic learning of artificial intelligence.
 
-> in a world with limited rules, your only purpose in life is to move blocks around as you're told.
+> in a scene with limited rules, your only purpose in life is to move blocks around as you're told.
 
 ![blokboi sketch](img/blokboi.png)

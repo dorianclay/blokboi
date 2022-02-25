@@ -8,6 +8,8 @@ CMakeFiles/blokboi.dir/src/game.cpp.o: src/game_object.h
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/logger.cpp
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/player.cpp
 CMakeFiles/blokboi.dir/src/game.cpp.o: src/player.h
-CMakeFiles/blokboi.dir/src/game.cpp.o: src/world.cpp
-CMakeFiles/blokboi.dir/src/game.cpp.o: src/world.h
+CMakeFiles/blokboi.dir/src/game.cpp.o: src/player_controller.cpp
+CMakeFiles/blokboi.dir/src/game.cpp.o: src/player_controller.h
+CMakeFiles/blokboi.dir/src/game.cpp.o: src/scene.cpp
+CMakeFiles/blokboi.dir/src/game.cpp.o: src/scene.h
 

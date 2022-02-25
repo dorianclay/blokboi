@@ -17,12 +17,14 @@ ctime
 /home/dorian/code/blokboi/src/block.h
 game_object.h
 /home/dorian/code/blokboi/src/game_object.h
-world.h
-/home/dorian/code/blokboi/src/world.h
+scene.h
+/home/dorian/code/blokboi/src/scene.h
 
 /home/dorian/code/blokboi/src/game.cpp
-world.cpp
-/home/dorian/code/blokboi/src/world.cpp
+player_controller.cpp
+/home/dorian/code/blokboi/src/player_controller.cpp
+scene.cpp
+/home/dorian/code/blokboi/src/scene.cpp
 iostream
 -
 
@@ -47,22 +49,34 @@ block.h
 /home/dorian/code/blokboi/src/block.h
 game_object.h
 /home/dorian/code/blokboi/src/game_object.h
-world.h
-/home/dorian/code/blokboi/src/world.h
+scene.h
+/home/dorian/code/blokboi/src/scene.h
 
-/home/dorian/code/blokboi/src/world.cpp
-world.h
-/home/dorian/code/blokboi/src/world.h
+/home/dorian/code/blokboi/src/player_controller.cpp
+player_controller.h
+/home/dorian/code/blokboi/src/player_controller.h
+
+/home/dorian/code/blokboi/src/player_controller.h
+block.h
+/home/dorian/code/blokboi/src/block.h
+player.h
+/home/dorian/code/blokboi/src/player.h
+scene.h
+/home/dorian/code/blokboi/src/scene.h
+
+/home/dorian/code/blokboi/src/scene.cpp
+scene.h
+/home/dorian/code/blokboi/src/scene.h
+logger.cpp
+/home/dorian/code/blokboi/src/logger.cpp
 cassert
 -
 cstdio
 -
 vector
 -
-logger.cpp
-/home/dorian/code/blokboi/src/logger.cpp
 
-/home/dorian/code/blokboi/src/world.h
+/home/dorian/code/blokboi/src/scene.h
 block.cpp
 /home/dorian/code/blokboi/src/block.cpp
 game_object.h

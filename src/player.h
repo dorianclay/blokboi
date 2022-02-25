@@ -3,7 +3,7 @@
 
 #include "block.h"
 #include "game_object.h"
-#include "world.h"
+#include "scene.h"
 
 enum Direction
 {

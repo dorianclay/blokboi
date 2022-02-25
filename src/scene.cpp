@@ -1,10 +1,10 @@
-#include "world.h"
+#include "scene.h"
 #include "logger.cpp"
 #include <cassert>
 #include <cstdio>
 #include <vector>
 
-LOCATION *World::findObject(GameObject *object)
+LOCATION *Scene::findObject(GameObject *object)
 {
     for (int i = 0; i < _size[0]; i++)
     {
@@ -22,7 +22,7 @@ LOCATION *World::findObject(GameObject *object)
     return nullptr;
 }
 
-World::World()
+Scene::Scene()
 {
     _space = Objects(_size[0], std::vector<GameObject *>(_size[1]));
 
@@ -35,27 +35,27 @@ World::World()
     }
 }
 
-World::World(int x, int y)
+Scene::Scene(int x, int y)
 {
     _size[0] = x;
     _size[1] = y;
-    World();
+    Scene();
 }
 
-void World::generate()
+void Scene::generate()
 {
 }
 
-void World::refresh()
+void Scene::refresh()
 {
 }
 
-GameObject *World::get_object(int x, int y)
+GameObject *Scene::get_object(int x, int y)
 {
     return _space[x][y];
 }
 
-void World::move(GameObject *object, int dx, int dy)
+void Scene::move(GameObject *object, int dx, int dy)
 {
     LOCATION *coords = findObject(object);
 
@@ -68,7 +68,7 @@ void World::move(GameObject *object, int dx, int dy)
     move(coords->x, coords->y, dx, dy);
 }
 
-void World::move(int x, int y, int dx, int dy)
+void Scene::move(int x, int y, int dx, int dy)
 {
     if (_space[x][y] == nullptr)
     {

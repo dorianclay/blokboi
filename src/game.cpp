@@ -1,10 +1,10 @@
 #include "player_controller.cpp"
-#include "world.cpp"
+#include "scene.cpp"
 #include <iostream>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    World earth = World(20, 30);
+    Scene earth = Scene(20, 30);
 }
