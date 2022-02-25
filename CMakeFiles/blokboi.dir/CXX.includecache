@@ -21,32 +21,16 @@ world.h
 /home/dorian/code/blokboi/src/world.h
 
 /home/dorian/code/blokboi/src/game.cpp
-iostream
--
 world.cpp
 /home/dorian/code/blokboi/src/world.cpp
+iostream
+-
 
 /home/dorian/code/blokboi/src/game_object.h
-
-/home/dorian/code/blokboi/src/loguru.hpp
-loguru.hpp
--
-sal.h
--
-fmt/format.h
--
-cstdarg
--
-sstream
--
-string
--
 
 /home/dorian/code/blokboi/src/player.cpp
 player.h
 /home/dorian/code/blokboi/src/player.h
-loguru.hpp
-/home/dorian/code/blokboi/src/loguru.hpp
 
 /home/dorian/code/blokboi/src/player.h
 block.h

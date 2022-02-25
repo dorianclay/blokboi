@@ -19,8 +19,7 @@ class Player : public GameObject
 
   public:
     Player();
-    Player(World *world);
-    Player(World *world, int x, int y);
+    Player(int x, int y);
 
     void move(int x, int y);
     void jump();

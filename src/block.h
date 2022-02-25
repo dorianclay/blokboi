@@ -28,11 +28,10 @@ class Block : public GameObject
 
   public:
     Block();
-    Block(World *world, int x, int y);
-    Block(World *world, int x, int y, Color color, int number, bool movable);
+    Block(int x, int y);
+    Block(int x, int y, Color color, int number, bool movable);
 
-    void pick_up();
-    void move(int x, int y);
+    void update(int x, int y);
 
     int color() const
     {
@@ -52,7 +51,7 @@ class Ground : public Block
 {
   protected:
   public:
-    Ground(World *world, int x, int y);
+    Ground(int x, int y);
 };
 
 #endif /* BLOCK_H */

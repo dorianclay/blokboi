@@ -9,7 +9,6 @@ class GameObject
 {
   protected:
     int _location[2];
-    World *_world;
 
     GameObject()
     {
