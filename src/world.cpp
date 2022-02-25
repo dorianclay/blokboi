@@ -1,8 +1,8 @@
 #include "world.h"
+#include "logger.cpp"
 #include <cassert>
 #include <cstdio>
 #include <vector>
-#include "logger.cpp"
 
 LOCATION *World::findObject(GameObject *object)
 {
@@ -59,7 +59,8 @@ void World::move(GameObject *object, int dx, int dy)
 {
     LOCATION *coords = findObject(object);
 
-    if (coords == nullptr) {
+    if (coords == nullptr)
+    {
         logerror("Object not found.");
         return;
     }
@@ -69,11 +70,12 @@ void World::move(GameObject *object, int dx, int dy)
 
 void World::move(int x, int y, int dx, int dy)
 {
-    if (_space[x][y] == nullptr) {
+    if (_space[x][y] == nullptr)
+    {
         logerror("No object found at location.");
         return;
     }
-    
+
     int newx = x + dx;
     int newy = y + dy;
 
@@ -88,5 +90,4 @@ void World::move(int x, int y, int dx, int dy)
 
     _space[newx][newy] = _space[x][y];
     _space[x][y] = nullptr;
-
 }
