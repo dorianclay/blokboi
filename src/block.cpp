@@ -21,16 +21,16 @@ Block::Block(World *world, int x, int y)
 }
 
 Block::Block(World *world, int x, int y, Color color, int number, bool movable)
-    :, _color(color), _number(number), _movable(movable)
+    : _color(color), _number(number), _movable(movable)
 {
     _world = world;
     _location[0] = x;
     _location[1] = y;
 }
 
-Block::~Block()
+void Block::move(int x, int y)
 {
-    delete _world;
+    _world->move(this, _location[0], _location[1], x, y);
 }
 
 Ground::Ground(World *world, int x, int y)
@@ -41,9 +41,4 @@ Ground::Ground(World *world, int x, int y)
     _number = -1;
     _color = GREY;
     _movable = false;
-}
-
-Ground::~Ground()
-{
-    delete _world;
 }

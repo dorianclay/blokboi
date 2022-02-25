@@ -7,21 +7,20 @@
 
 enum Direction
 {
-    LEFT,
-    RIGHT,
+    LEFT = -1,
+    RIGHT = 1,
 };
 
 class Player : public GameObject
 {
   protected:
-    Block *_held;
+    GameObject *_held;
     Direction _facing;
 
   public:
     Player();
     Player(World *world);
     Player(World *world, int x, int y);
-    ~Player();
 
     void move(int x, int y);
     void jump();

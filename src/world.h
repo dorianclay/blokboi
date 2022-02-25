@@ -1,9 +1,9 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "block.h"
+#include "block.cpp"
 #include "game_object.h"
-#include "player.h"
+#include "player.cpp"
 #include <vector>
 
 typedef std::vector<Block *> Blocks;
@@ -17,9 +17,9 @@ class World
     Player _player;
     unsigned _size[2] = {10, 10};
     Objects _space;
-    World();
 
   public:
+    World();
     World(int x, int y);
 
     void generate();

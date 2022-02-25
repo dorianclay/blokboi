@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "*.txt": "cpp",
+        "*.txt": "cmake",
         "*.in": "cpp"
     }
 }

@@ -17,11 +17,6 @@ Player::Player(World *world, int x, int y)
     _facing = RIGHT;
 }
 
-Player::~Player()
-{
-    delete _world;
-}
-
 void Player::move(int x, int y)
 {
     if (_facing == LEFT && x > 0)
@@ -35,4 +30,13 @@ void Player::move(int x, int y)
 void Player::jump()
 {
     move(0, 1);
+}
+
+void Player::pick_up()
+{
+    // If there's already a block held... (nullptr is true)
+    if (_held)
+        return;
+
+    _held = _world->get_object(_location[0] + _facing, _location[1]);
 }

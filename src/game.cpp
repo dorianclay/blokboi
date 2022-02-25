@@ -1,10 +1,9 @@
 #include <iostream>
-
-#include "world.h"
+#include "world.cpp"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    cout << "Hello World!" << endl;
+    World earth = World(20, 30);
 }

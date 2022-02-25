@@ -30,9 +30,9 @@ class Block : public GameObject
     Block();
     Block(World *world, int x, int y);
     Block(World *world, int x, int y, Color color, int number, bool movable);
-    ~Block();
 
     void pick_up();
+    void move(int x, int y);
 
     int color() const
     {
@@ -51,7 +51,6 @@ class Block : public GameObject
 class Ground : public Block
 {
   protected:
-    ~Ground();
 
   public:
     Ground(World *world, int x, int y);
