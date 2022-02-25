@@ -9,6 +9,11 @@
 typedef std::vector<Block *> Blocks;
 typedef std::vector<std::vector<GameObject *>> Objects;
 
+typedef union location {
+    int x;
+    int y;
+} LOCATION;
+
 class World
 {
   protected:
@@ -17,7 +22,7 @@ class World
     Player _player;
     unsigned _size[2] = {10, 10};
     Objects _space;
-    int *findObject(GameObject *object);
+    LOCATION *findObject(GameObject *object);
 
   public:
     World();

@@ -1,8 +1,10 @@
 #include "world.h"
 #include <cassert>
+#include <cstdio>
 #include <vector>
+#include "logger.cpp"
 
-int *World::findObject(GameObject *object)
+LOCATION *World::findObject(GameObject *object)
 {
     for (int i = 0; i < _size[0]; i++)
     {
@@ -10,12 +12,14 @@ int *World::findObject(GameObject *object)
         {
             if (_space[i][j] = object)
             {
-                int location[2] = {i, j};
-                // TODO: this probably returns garbage.
-                return location;
+                LOCATION *coords = new LOCATION;
+                coords->x = i;
+                coords->y = j;
+                return coords;
             }
         }
     }
+    return nullptr;
 }
 
 World::World()
@@ -53,7 +57,23 @@ GameObject *World::get_object(int x, int y)
 
 void World::move(GameObject *object, int dx, int dy)
 {
+    LOCATION *coords = findObject(object);
 
+    if (coords == nullptr) {
+        logerror("Object not found.");
+        return;
+    }
+
+    move(coords->x, coords->y, dx, dy);
+}
+
+void World::move(int x, int y, int dx, int dy)
+{
+    if (_space[x][y] == nullptr) {
+        logerror("No object found at location.");
+        return;
+    }
+    
     int newx = x + dx;
     int newy = y + dy;
 
@@ -66,6 +86,7 @@ void World::move(GameObject *object, int dx, int dy)
     else if (newy > _size[1])
         newy = _size[1];
 
-    _space[newx][newy] = object;
+    _space[newx][newy] = _space[x][y];
     _space[x][y] = nullptr;
+
 }
