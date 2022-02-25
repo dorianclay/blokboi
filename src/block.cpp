@@ -19,8 +19,7 @@ Block::Block(int x, int y)
     _movable = true;
 }
 
-Block::Block(int x, int y, Color color, int number, bool movable)
-    : _color(color), _number(number), _movable(movable)
+Block::Block(int x, int y, Color color, int number, bool movable) : _color(color), _number(number), _movable(movable)
 {
     _location[0] = x;
     _location[1] = y;
