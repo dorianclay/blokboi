@@ -51,7 +51,6 @@ class Block : public GameObject
 class Ground : public Block
 {
   protected:
-
   public:
     Ground(World *world, int x, int y);
 };
