@@ -73,7 +73,13 @@ cassert
 -
 cstdio
 -
+sstream
+-
 vector
+-
+cstdlib
+-
+ctime
 -
 
 /home/dorian/code/blokboi/src/scene.h
@@ -83,6 +89,8 @@ game_object.h
 /home/dorian/code/blokboi/src/game_object.h
 player.cpp
 /home/dorian/code/blokboi/src/player.cpp
+string
+-
 vector
 -
 

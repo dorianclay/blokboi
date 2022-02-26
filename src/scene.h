@@ -21,7 +21,8 @@ class Scene
     Blocks _blocks;
     Blocks _ground;
     Player _player;
-    unsigned _size[2] = {10, 10};
+    unsigned _height = 10;
+    unsigned _width = 10;
     Objects _space;
     LOCATION *findObject(GameObject *object);
 

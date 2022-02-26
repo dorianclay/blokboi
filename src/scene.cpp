@@ -4,27 +4,36 @@
 #include <cstdio>
 #include <sstream>
 #include <vector>
+#include <random>
 
 using namespace std;
 
+typedef std::mt19937 RNG_ENGINE;
+uint32_t seed_val = 0;
+
+RNG_ENGINE rng;
+
+uniform_int_distribution<int> dist_heightdiff(-2,2);
+
 Scene::Scene()
 {
-    _space = Objects(_size[0], std::vector<GameObject *>(_size[1]));
+    rng.seed(seed_val);
+    _space = Objects(_width, std::vector<GameObject *>(_height));
     flush();
 }
 
 Scene::Scene(int x, int y)
 {
-    _size[0] = x;
-    _size[1] = y;
+    _width = x;
+    _height = y;
     Scene();
 }
 
 LOCATION *Scene::findObject(GameObject *object)
 {
-    for (int i = 0; i < _size[0]; i++)
+    for (int i = 0; i < _width; i++)
     {
-        for (int j = 0; j < _size[1]; j++)
+        for (int j = 0; j < _height; j++)
         {
             if (_space[i][j] = object)
             {
@@ -40,6 +49,34 @@ LOCATION *Scene::findObject(GameObject *object)
 
 void Scene::generate()
 {
+    flush();
+    srand(time(0));
+
+    unsigned maxheight = rand() % (_height * 2 / 3);
+    unsigned startcol = rand() % _width;
+    unsigned lastheight = maxheight;
+
+    // Generate blocks right
+    for (int i = (int) startcol; i < _width; i++)
+    {
+        int thisheight = lastheight + dist_heightdiff(rng);
+        if (thisheight < 1)
+            thisheight = 1;
+        else if (thisheight >= _height)
+            thisheight = _height - 1;
+        
+        // put a block here...
+        
+        lastheight = thisheight;
+    }
+
+    lastheight = maxheight;
+    // Generate blocks left
+
+    for (int i = 0; i < _width; i++)
+    {
+
+    }
 }
 
 void Scene::generate(const string &str)
@@ -60,9 +97,9 @@ void Scene::refresh()
 
 void Scene::flush()
 {
-    for (int i = 0; i < _size[0]; i++)
+    for (int i = 0; i < _width; i++)
     {
-        for (int j = 0; j < _size[1]; j++)
+        for (int j = 0; j < _height; j++)
         {
             _space[i][j] = nullptr;
         }
@@ -100,12 +137,12 @@ void Scene::move(int x, int y, int dx, int dy)
 
     if (newx < 0)
         newx = 0;
-    else if (newx > _size[0])
-        newx = _size[0];
+    else if (newx > _width)
+        newx = _width;
     if (newy < 0)
         newy = 0;
-    else if (newy > _size[1])
-        newy = _size[1];
+    else if (newy > _height)
+        newy = _height;
 
     _space[newx][newy] = _space[x][y];
     _space[newx][newy]->update(newx, newy);
