@@ -3,6 +3,22 @@
 #include <cassert>
 #include <cstdio>
 #include <vector>
+#include <sstream>
+
+using namespace std;
+
+Scene::Scene()
+{
+    _space = Objects(_size[0], std::vector<GameObject *>(_size[1]));
+    flush();
+}
+
+Scene::Scene(int x, int y)
+{
+    _size[0] = x;
+    _size[1] = y;
+    Scene();
+}
 
 LOCATION *Scene::findObject(GameObject *object)
 {
@@ -22,10 +38,28 @@ LOCATION *Scene::findObject(GameObject *object)
     return nullptr;
 }
 
-Scene::Scene()
+void Scene::generate()
 {
-    _space = Objects(_size[0], std::vector<GameObject *>(_size[1]));
+}
 
+void Scene::generate(const string& str)
+{
+    flush();
+    int x = 0;
+    int y = 0;
+
+    stringstream ss;
+    ss.str(str);
+
+    // TODO: parse the stream and generate objects.
+}
+
+void Scene::refresh()
+{
+}
+
+void Scene::flush()
+{
     for (int i = 0; i < _size[0]; i++)
     {
         for (int j = 0; j < _size[1]; j++)
@@ -33,21 +67,6 @@ Scene::Scene()
             _space[i][j] = nullptr;
         }
     }
-}
-
-Scene::Scene(int x, int y)
-{
-    _size[0] = x;
-    _size[1] = y;
-    Scene();
-}
-
-void Scene::generate()
-{
-}
-
-void Scene::refresh()
-{
 }
 
 GameObject *Scene::get_object(int x, int y)

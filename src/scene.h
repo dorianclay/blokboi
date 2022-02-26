@@ -4,6 +4,7 @@
 #include "block.cpp"
 #include "game_object.h"
 #include "player.cpp"
+#include <string>
 #include <vector>
 
 typedef std::vector<Block *> Blocks;
@@ -29,7 +30,9 @@ class Scene
     Scene(int x, int y);
 
     void generate();
+    void generate(const string& str);
     void refresh();
+    void flush();
     GameObject *get_object(int x, int y);
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);
