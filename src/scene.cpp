@@ -2,9 +2,9 @@
 #include "logger.cpp"
 #include <cassert>
 #include <cstdio>
+#include <random>
 #include <sstream>
 #include <vector>
-#include <random>
 
 using namespace std;
 
@@ -13,7 +13,7 @@ uint32_t seed_val = 0;
 
 RNG_ENGINE rng;
 
-uniform_int_distribution<int> dist_heightdiff(-2,2);
+uniform_int_distribution<int> dist_heightdiff(-2, 2);
 
 Scene::Scene()
 {
@@ -57,16 +57,16 @@ void Scene::generate()
     unsigned lastheight = maxheight;
 
     // Generate blocks right
-    for (int i = (int) startcol; i < _width; i++)
+    for (int i = (int)startcol; i < _width; i++)
     {
         int thisheight = lastheight + dist_heightdiff(rng);
         if (thisheight < 1)
             thisheight = 1;
         else if (thisheight >= _height)
             thisheight = _height - 1;
-        
+
         // put a block here...
-        
+
         lastheight = thisheight;
     }
 
@@ -75,7 +75,6 @@ void Scene::generate()
 
     for (int i = 0; i < _width; i++)
     {
-
     }
 }
 
