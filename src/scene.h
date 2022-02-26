@@ -30,7 +30,7 @@ class Scene
     Scene(int x, int y);
 
     void generate();
-    void generate(const string& str);
+    void generate(const string &str);
     void refresh();
     void flush();
     GameObject *get_object(int x, int y);

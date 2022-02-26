@@ -2,8 +2,8 @@
 #include "logger.cpp"
 #include <cassert>
 #include <cstdio>
-#include <vector>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -42,7 +42,7 @@ void Scene::generate()
 {
 }
 
-void Scene::generate(const string& str)
+void Scene::generate(const string &str)
 {
     flush();
     int x = 0;
