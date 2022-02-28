@@ -6,5 +6,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    Scene earth = Scene(20, 30);
+    cout<<"Hello World!"<<endl;
+    // Scene earth = Scene(20, 30);
 }

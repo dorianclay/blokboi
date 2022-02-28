@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/blokboi.dir/src/game.cpp.o"
-  "blokboi"
   "blokboi.pdb"
+  "blokboi"
 )
 
 # Per-language clean rules from dependency scanning.

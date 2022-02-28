@@ -6,3 +6,31 @@
 
 #IncludeRegexTransform: 
 
+/home/dorian/code/blokboi/src/block.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
+
+/home/dorian/code/blokboi/src/game.cpp
+scene.h
+/home/dorian/code/blokboi/src/scene.h
+iostream
+-
+
+/home/dorian/code/blokboi/src/game_object.h
+
+/home/dorian/code/blokboi/src/player.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
+
+/home/dorian/code/blokboi/src/scene.h
+block.h
+/home/dorian/code/blokboi/src/block.h
+game_object.h
+/home/dorian/code/blokboi/src/game_object.h
+player.h
+/home/dorian/code/blokboi/src/player.h
+string
+-
+vector
+-
+
