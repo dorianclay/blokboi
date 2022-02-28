@@ -17,7 +17,8 @@ typedef union location {
 
 class Scene
 {
-  typedef std::string string;
+    typedef std::string string;
+
   protected:
     Blocks _blocks;
     Blocks _ground;

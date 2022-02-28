@@ -15,7 +15,7 @@ RNG_ENGINE rng;
 
 uniform_int_distribution<int> dist_heightdiff(-2, 2);
 uniform_int_distribution<int> dist_nums(MIN_NUMBER, MAX_NUMBER);
-uniform_int_distribution<int> dist_colors((int) RED, (int) PURPLE);
+uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
 Scene::Scene()
 {
@@ -68,7 +68,7 @@ void Scene::generate()
             thisheight = _height - 1;
 
         // put a block here...
-        _space[i][thisheight] = new Block(i, thisheight, (Color) dist_colors(rng), dist_nums(rng), true);
+        _space[i][thisheight] = new Block(i, thisheight, (Color)dist_colors(rng), dist_nums(rng), true);
 
         lastheight = thisheight;
     }
