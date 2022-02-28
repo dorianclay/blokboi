@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/dorian/code/blokboi/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9   -I.././include -I.././src  -g   -std=gnu++11 -o CMakeFiles/blokboi.dir/src/game.cpp.o -c /home/dorian/code/blokboi/src/game.cpp",
+  "command": "/bin/x86_64-linux-gnu-g++-9    -g   -Wall -Wextra -Wpedantic -o src/CMakeFiles/blokboi.dir/game.cpp.o -c /home/dorian/code/blokboi/src/game.cpp",
   "file": "/home/dorian/code/blokboi/src/game.cpp"
 }
 ]

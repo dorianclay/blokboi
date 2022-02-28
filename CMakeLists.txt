@@ -1,20 +1,35 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Project name
-project(blokboi)
+project(Blokboi)
 
-# Flags
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Files
+add_subdirectory(src)
+# # Executable
+# add_executable(blokboi ./src/game.cpp ${HEADER_FILES})
+
+# # Flags
+# set(CMAKE_CXX_STANDARD 11)
+# set(CMAKE_CXX_STANDARD_REQUIRED True)
+# if(MSVC)
+#   target_compile_options(blokboi PRIVATE /W4 /WX)
+# else()
+#   target_compile_options(blokboi PRIVATE -Wall -Wextra -Wpedantic)
+# endif()
+
+# # Files
+# set(DIRECTORIES src)
+# set(HEADER_FILES ${DIRECTORIES}/player_controller.h
+#                  ${DIRECTORIES}/scene.h
+#                  ${DIRECTORIES}/player.h
+#                  ${DIRECTORIES}/block.h 
+#                  ${DIRECTORIES}/game_object.h
+#                  )
+# target_include_directories(blokboi PRIVATE ${DIRECTORIES})
 
 # Includes
-include_directories( ./include ./src )
 
-# Executable
-add_executable(blokboi ./src/game.cpp)
-
+###########################################
 
 # External Libraries - 3rd party libs
 # find_package(Threads)

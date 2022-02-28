@@ -2,6 +2,54 @@
 	"entries" : 
 	[
 		{
+			"name" : "BLOKBOI_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/dorian/code/blokboi/build"
+		},
+		{
+			"name" : "BLOKBOI_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/dorian/code/blokboi"
+		},
+		{
+			"name" : "Blokboi_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/dorian/code/blokboi/build"
+		},
+		{
+			"name" : "Blokboi_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/dorian/code/blokboi"
+		},
+		{
 			"name" : "Boost_DIR",
 			"properties" : 
 			[
@@ -819,7 +867,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "1"
+			"value" : "2"
 		},
 		{
 			"name" : "CMAKE_OBJCOPY",
@@ -899,7 +947,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "blokboi"
+			"value" : "Blokboi"
 		},
 		{
 			"name" : "CMAKE_RANLIB",

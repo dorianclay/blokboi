@@ -53,46 +53,64 @@ CMAKE_BINARY_DIR = /home/dorian/code/blokboi
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/blokboi.dir/all
+all: src/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: src/preinstall
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/blokboi.dir/clean
+clean: src/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/blokboi.dir
+# Directory level rules for directory src
+
+# Recursive "all" directory target.
+src/all: src/CMakeFiles/blokboi.dir/all
+
+.PHONY : src/all
+
+# Recursive "preinstall" directory target.
+src/preinstall:
+
+.PHONY : src/preinstall
+
+# Recursive "clean" directory target.
+src/clean: src/CMakeFiles/blokboi.dir/clean
+
+.PHONY : src/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/blokboi.dir
 
 # All Build rule for target.
-CMakeFiles/blokboi.dir/all:
-	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/depend
-	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/build
+src/CMakeFiles/blokboi.dir/all:
+	$(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/depend
+	$(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=1,2 "Built target blokboi"
-.PHONY : CMakeFiles/blokboi.dir/all
+.PHONY : src/CMakeFiles/blokboi.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/blokboi.dir/rule: cmake_check_build_system
+src/CMakeFiles/blokboi.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/blokboi.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/blokboi.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 0
-.PHONY : CMakeFiles/blokboi.dir/rule
+.PHONY : src/CMakeFiles/blokboi.dir/rule
 
 # Convenience name for target.
-blokboi: CMakeFiles/blokboi.dir/rule
+blokboi: src/CMakeFiles/blokboi.dir/rule
 
 .PHONY : blokboi
 
 # clean rule for target.
-CMakeFiles/blokboi.dir/clean:
-	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/clean
-.PHONY : CMakeFiles/blokboi.dir/clean
+src/CMakeFiles/blokboi.dir/clean:
+	$(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/clean
+.PHONY : src/CMakeFiles/blokboi.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

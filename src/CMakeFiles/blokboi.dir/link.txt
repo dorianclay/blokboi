@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/blokboi.dir/game.cpp.o  -o blokboi 

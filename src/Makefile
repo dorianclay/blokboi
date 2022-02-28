@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles /home/dorian/code/blokboi/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/dorian/code/blokboi && $(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles /home/dorian/code/blokboi/src/CMakeFiles/progress.marks
+	cd /home/dorian/code/blokboi && $(MAKE) -f CMakeFiles/Makefile2 src/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/dorian/code/blokboi && $(MAKE) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,31 +97,60 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/dorian/code/blokboi && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/dorian/code/blokboi && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/dorian/code/blokboi && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named blokboi
+# Convenience name for target.
+src/CMakeFiles/blokboi.dir/rule:
+	cd /home/dorian/code/blokboi && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/blokboi.dir/rule
+.PHONY : src/CMakeFiles/blokboi.dir/rule
 
-# Build rule for target.
-blokboi: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 blokboi
+# Convenience name for target.
+blokboi: src/CMakeFiles/blokboi.dir/rule
+
 .PHONY : blokboi
 
 # fast build rule for target.
 blokboi/fast:
-	$(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/build
+	cd /home/dorian/code/blokboi && $(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/build
 .PHONY : blokboi/fast
+
+game.o: game.cpp.o
+
+.PHONY : game.o
+
+# target to build an object file
+game.cpp.o:
+	cd /home/dorian/code/blokboi && $(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/game.cpp.o
+.PHONY : game.cpp.o
+
+game.i: game.cpp.i
+
+.PHONY : game.i
+
+# target to preprocess a source file
+game.cpp.i:
+	cd /home/dorian/code/blokboi && $(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/game.cpp.i
+.PHONY : game.cpp.i
+
+game.s: game.cpp.s
+
+.PHONY : game.s
+
+# target to generate assembly for a file
+game.cpp.s:
+	cd /home/dorian/code/blokboi && $(MAKE) -f src/CMakeFiles/blokboi.dir/build.make src/CMakeFiles/blokboi.dir/game.cpp.s
+.PHONY : game.cpp.s
 
 # Help Target
 help:
@@ -132,6 +161,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... blokboi"
+	@echo "... game.o"
+	@echo "... game.i"
+	@echo "... game.s"
 .PHONY : help
 
 
@@ -143,6 +175,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/dorian/code/blokboi && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
