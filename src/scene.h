@@ -1,9 +1,9 @@
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef SCENE_H
+#define SCENE_H
 
-#include "block.cpp"
+#include "block.h"
 #include "game_object.h"
-#include "player.cpp"
+#include "player.h"
 #include <string>
 #include <vector>
 
@@ -17,6 +17,7 @@ typedef union location {
 
 class Scene
 {
+  typedef std::string string;
   protected:
     Blocks _blocks;
     Blocks _ground;
@@ -39,4 +40,4 @@ class Scene
     void move(int x, int y, int dx, int dy);
 };
 
-#endif /* WORLD_H */
+#endif /* SCENE_H */

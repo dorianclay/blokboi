@@ -1,9 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "block.h"
 #include "game_object.h"
-#include "scene.h"
 
 enum Direction
 {

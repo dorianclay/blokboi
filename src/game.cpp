@@ -1,5 +1,5 @@
-#include "player_controller.cpp"
-#include "scene.cpp"
+#include "scene.h"
+// #include "player_controller.h"
 #include <iostream>
 
 using namespace std;

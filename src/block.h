@@ -2,7 +2,6 @@
 #define BLOCK_H
 
 #include "game_object.h"
-#include "scene.h"
 
 int MIN_NUMBER = 0;
 int MAX_NUMBER = 9;
