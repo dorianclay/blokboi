@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include "block.h"
-#include "game_object.h"
+// #include "game_object.h"
 #include "player.h"
 #include <string>
 #include <vector>

@@ -3,8 +3,8 @@
 
 #include "game_object.h"
 
-int MIN_NUMBER = 0;
-int MAX_NUMBER = 9;
+#define MIN_NUMBER 0
+#define MAX_NUMBER 9
 
 enum Color
 {
