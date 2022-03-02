@@ -1,6 +1,12 @@
 [
 {
   "directory": "/home/dorian/code/blokboi/build",
+  "command": "/bin/x86_64-linux-gnu-g++-9    -g   -std=gnu++11 -o CMakeFiles/Loguru.dir/lib/loguru/loguru.cpp.o -c /home/dorian/code/blokboi/lib/loguru/loguru.cpp",
+  "file": "/home/dorian/code/blokboi/lib/loguru/loguru.cpp"
+},
+
+{
+  "directory": "/home/dorian/code/blokboi/build",
   "command": "/bin/x86_64-linux-gnu-g++-9   -I../src -I../lib/loguru  -g   -Wall -Wextra -Wpedantic -o CMakeFiles/blokboi.dir/src/game.cpp.o -c /home/dorian/code/blokboi/src/game.cpp",
   "file": "/home/dorian/code/blokboi/src/game.cpp"
 },
@@ -21,11 +27,5 @@
   "directory": "/home/dorian/code/blokboi/build",
   "command": "/bin/x86_64-linux-gnu-g++-9   -I../src -I../lib/loguru  -g   -Wall -Wextra -Wpedantic -o CMakeFiles/blokboi.dir/src/player.cpp.o -c /home/dorian/code/blokboi/src/player.cpp",
   "file": "/home/dorian/code/blokboi/src/player.cpp"
-},
-
-{
-  "directory": "/home/dorian/code/blokboi/build",
-  "command": "/bin/x86_64-linux-gnu-g++-9    -g   -std=gnu++11 -o lib/loguru/CMakeFiles/Loguru.dir/loguru.cpp.o -c /home/dorian/code/blokboi/lib/loguru/loguru.cpp",
-  "file": "/home/dorian/code/blokboi/lib/loguru/loguru.cpp"
 }
 ]

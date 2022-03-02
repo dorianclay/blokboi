@@ -19,7 +19,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/dorian/code/blokboi/lib/loguru/CMakeFiles/Loguru.dir/DependInfo.cmake"
+  "/home/dorian/code/blokboi/CMakeFiles/Loguru.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lib/loguru/libLoguru.a"
+			"path" : "libLoguru.a"
 		}
 	],
 	"backtrace" : 1,
@@ -16,7 +16,7 @@
 		],
 		"files" : 
 		[
-			"lib/loguru/CMakeLists.txt"
+			"CMakeLists.txt"
 		],
 		"nodes" : 
 		[
@@ -26,13 +26,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 1,
+				"line" : 36,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 7,
+				"line" : 38,
 				"parent" : 0
 			}
 		]
@@ -56,7 +56,7 @@
 			]
 		}
 	],
-	"id" : "Loguru::@e182a60bd057cda7c6ba",
+	"id" : "Loguru::@6890427a1f51a3e7e1df",
 	"install" : 
 	{
 		"destinations" : 
@@ -75,8 +75,8 @@
 	"nameOnDisk" : "libLoguru.a",
 	"paths" : 
 	{
-		"build" : "lib/loguru",
-		"source" : "lib/loguru"
+		"build" : ".",
+		"source" : "."
 	},
 	"sourceGroups" : 
 	[

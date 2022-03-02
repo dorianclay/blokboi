@@ -22,25 +22,6 @@ rule CUSTOM_COMMAND
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__blokboi
-  depfile = $DEP_FILE
-  deps = gcc
-  command = /bin/x86_64-linux-gnu-g++-9  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building CXX object $out
-
-
-#############################################
-# Rule for linking CXX executable.
-
-rule CXX_EXECUTABLE_LINKER__blokboi
-  command = $PRE_LINK && /bin/x86_64-linux-gnu-g++-9  $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
-  description = Linking CXX executable $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling CXX files.
-
 rule CXX_COMPILER__Loguru
   depfile = $DEP_FILE
   deps = gcc
@@ -54,6 +35,25 @@ rule CXX_COMPILER__Loguru
 rule CXX_STATIC_LIBRARY_LINKER__Loguru
   command = $PRE_LINK && /usr/bin/cmake -E remove $TARGET_FILE && /bin/ar qc $TARGET_FILE $LINK_FLAGS $in && /bin/ranlib $TARGET_FILE && $POST_BUILD
   description = Linking CXX static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling CXX files.
+
+rule CXX_COMPILER__blokboi
+  depfile = $DEP_FILE
+  deps = gcc
+  command = /bin/x86_64-linux-gnu-g++-9  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building CXX object $out
+
+
+#############################################
+# Rule for linking CXX executable.
+
+rule CXX_EXECUTABLE_LINKER__blokboi
+  command = $PRE_LINK && /bin/x86_64-linux-gnu-g++-9  $FLAGS  $LINK_FLAGS $in  -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
+  description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
 

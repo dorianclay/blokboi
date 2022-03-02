@@ -157,6 +157,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named Loguru
+
+# Build rule for target.
+Loguru: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Loguru
+.PHONY : Loguru
+
+# fast build rule for target.
+Loguru/fast:
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/build
+.PHONY : Loguru/fast
+
+#=============================================================================
 # Target rules for targets named blokboi
 
 # Build rule for target.
@@ -169,18 +182,32 @@ blokboi/fast:
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/build
 .PHONY : blokboi/fast
 
-#=============================================================================
-# Target rules for targets named Loguru
+lib/loguru/loguru.o: lib/loguru/loguru.cpp.o
 
-# Build rule for target.
-Loguru: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Loguru
-.PHONY : Loguru
+.PHONY : lib/loguru/loguru.o
 
-# fast build rule for target.
-Loguru/fast:
-	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/build
-.PHONY : Loguru/fast
+# target to build an object file
+lib/loguru/loguru.cpp.o:
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/lib/loguru/loguru.cpp.o
+.PHONY : lib/loguru/loguru.cpp.o
+
+lib/loguru/loguru.i: lib/loguru/loguru.cpp.i
+
+.PHONY : lib/loguru/loguru.i
+
+# target to preprocess a source file
+lib/loguru/loguru.cpp.i:
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/lib/loguru/loguru.cpp.i
+.PHONY : lib/loguru/loguru.cpp.i
+
+lib/loguru/loguru.s: lib/loguru/loguru.cpp.s
+
+.PHONY : lib/loguru/loguru.s
+
+# target to generate assembly for a file
+lib/loguru/loguru.cpp.s:
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/lib/loguru/loguru.cpp.s
+.PHONY : lib/loguru/loguru.cpp.s
 
 src/block.o: src/block.cpp.o
 
@@ -302,8 +329,11 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... blokboi"
 	@echo "... Loguru"
+	@echo "... blokboi"
+	@echo "... lib/loguru/loguru.o"
+	@echo "... lib/loguru/loguru.i"
+	@echo "... lib/loguru/loguru.s"
 	@echo "... src/block.o"
 	@echo "... src/block.i"
 	@echo "... src/block.s"

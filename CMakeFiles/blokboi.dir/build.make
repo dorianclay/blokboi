@@ -124,7 +124,7 @@ blokboi: CMakeFiles/blokboi.dir/src/scene.cpp.o
 blokboi: CMakeFiles/blokboi.dir/src/block.cpp.o
 blokboi: CMakeFiles/blokboi.dir/src/player.cpp.o
 blokboi: CMakeFiles/blokboi.dir/build.make
-blokboi: lib/loguru/libLoguru.a
+blokboi: libLoguru.a
 blokboi: CMakeFiles/blokboi.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable blokboi"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/blokboi.dir/link.txt --verbose=$(VERBOSE)

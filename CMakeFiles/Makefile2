@@ -53,45 +53,54 @@ CMAKE_BINARY_DIR = /home/dorian/code/blokboi
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/Loguru.dir/all
 all: CMakeFiles/blokboi.dir/all
-all: lib/loguru/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: lib/loguru/preinstall
+preinstall:
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/Loguru.dir/clean
 clean: CMakeFiles/blokboi.dir/clean
-clean: lib/loguru/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory lib/loguru
+# Target rules for target CMakeFiles/Loguru.dir
 
-# Recursive "all" directory target.
-lib/loguru/all: lib/loguru/CMakeFiles/Loguru.dir/all
+# All Build rule for target.
+CMakeFiles/Loguru.dir/all:
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/depend
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=1,2 "Built target Loguru"
+.PHONY : CMakeFiles/Loguru.dir/all
 
-.PHONY : lib/loguru/all
+# Build rule for subdir invocation for target.
+CMakeFiles/Loguru.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Loguru.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 0
+.PHONY : CMakeFiles/Loguru.dir/rule
 
-# Recursive "preinstall" directory target.
-lib/loguru/preinstall:
+# Convenience name for target.
+Loguru: CMakeFiles/Loguru.dir/rule
 
-.PHONY : lib/loguru/preinstall
+.PHONY : Loguru
 
-# Recursive "clean" directory target.
-lib/loguru/clean: lib/loguru/CMakeFiles/Loguru.dir/clean
-
-.PHONY : lib/loguru/clean
+# clean rule for target.
+CMakeFiles/Loguru.dir/clean:
+	$(MAKE) -f CMakeFiles/Loguru.dir/build.make CMakeFiles/Loguru.dir/clean
+.PHONY : CMakeFiles/Loguru.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/blokboi.dir
 
 # All Build rule for target.
-CMakeFiles/blokboi.dir/all: lib/loguru/CMakeFiles/Loguru.dir/all
+CMakeFiles/blokboi.dir/all: CMakeFiles/Loguru.dir/all
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/depend
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=3,4,5,6,7 "Built target blokboi"
@@ -113,33 +122,6 @@ blokboi: CMakeFiles/blokboi.dir/rule
 CMakeFiles/blokboi.dir/clean:
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/clean
 .PHONY : CMakeFiles/blokboi.dir/clean
-
-#=============================================================================
-# Target rules for target lib/loguru/CMakeFiles/Loguru.dir
-
-# All Build rule for target.
-lib/loguru/CMakeFiles/Loguru.dir/all:
-	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/depend
-	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=1,2 "Built target Loguru"
-.PHONY : lib/loguru/CMakeFiles/Loguru.dir/all
-
-# Build rule for subdir invocation for target.
-lib/loguru/CMakeFiles/Loguru.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 lib/loguru/CMakeFiles/Loguru.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 0
-.PHONY : lib/loguru/CMakeFiles/Loguru.dir/rule
-
-# Convenience name for target.
-Loguru: lib/loguru/CMakeFiles/Loguru.dir/rule
-
-.PHONY : Loguru
-
-# clean rule for target.
-lib/loguru/CMakeFiles/Loguru.dir/clean:
-	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/clean
-.PHONY : lib/loguru/CMakeFiles/Loguru.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

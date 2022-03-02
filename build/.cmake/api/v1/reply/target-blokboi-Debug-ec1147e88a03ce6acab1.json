@@ -11,6 +11,7 @@
 		"commands" : 
 		[
 			"add_executable",
+			"install",
 			"target_link_libraries",
 			"target_compile_options",
 			"target_include_directories"
@@ -33,17 +34,23 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 36,
+				"line" : 47,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 22,
+				"line" : 41,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
 				"file" : 0,
 				"line" : 27,
 				"parent" : 0
@@ -59,26 +66,26 @@
 					"fragment" : "-g  "
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"fragment" : "-Wall"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"fragment" : "-Wextra"
 				},
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"fragment" : "-Wpedantic"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
+					"backtrace" : 5,
 					"path" : "/home/dorian/code/blokboi/src"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"path" : "/home/dorian/code/blokboi/lib/loguru"
 				}
 			],
@@ -95,11 +102,25 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 2,
-			"id" : "Loguru::@e182a60bd057cda7c6ba"
+			"backtrace" : 3,
+			"id" : "Loguru::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "blokboi::@6890427a1f51a3e7e1df",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 2,
+				"path" : "bin"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "/usr/local"
+		}
+	},
 	"link" : 
 	{
 		"commandFragments" : 
@@ -113,8 +134,8 @@
 				"role" : "flags"
 			},
 			{
-				"backtrace" : 2,
-				"fragment" : "lib/loguru/libLoguru.a",
+				"backtrace" : 3,
+				"fragment" : "libLoguru.a",
 				"role" : "libraries"
 			},
 			{
