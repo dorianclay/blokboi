@@ -6,26 +6,12 @@
 			[
 				{
 					"build" : ".",
-					"childIndexes" : 
-					[
-						1
-					],
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
 					},
 					"projectIndex" : 0,
-					"source" : "."
-				},
-				{
-					"build" : "src",
-					"minimumCMakeVersion" : 
-					{
-						"string" : "3.10"
-					},
-					"parentIndex" : 0,
-					"projectIndex" : 0,
-					"source" : "src",
+					"source" : ".",
 					"targetIndexes" : 
 					[
 						0
@@ -38,8 +24,7 @@
 				{
 					"directoryIndexes" : 
 					[
-						0,
-						1
+						0
 					],
 					"name" : "Blokboi",
 					"targetIndexes" : 
@@ -51,9 +36,9 @@
 			"targets" : 
 			[
 				{
-					"directoryIndex" : 1,
-					"id" : "blokboi::@145eef247bfb46b6828c",
-					"jsonFile" : "target-blokboi-Debug-b0c18ba9b4ececbe3cd8.json",
+					"directoryIndex" : 0,
+					"id" : "blokboi::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-blokboi-Debug-b0266f94b526a28adceb.json",
 					"name" : "blokboi",
 					"projectIndex" : 0
 				}

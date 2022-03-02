@@ -53,47 +53,41 @@ build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
 build edit_cache: phony CMakeFiles/edit_cache.util
 
 # =============================================================================
-# Write statements declared in CMakeLists.txt:
-# /home/dorian/code/blokboi/CMakeLists.txt
-# =============================================================================
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build src/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/dorian/code/blokboi/build/src && /usr/bin/cmake -S/home/dorian/code/blokboi -B/home/dorian/code/blokboi/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build src/rebuild_cache: phony src/CMakeFiles/rebuild_cache.util
-
-
-#############################################
-# Utility command for edit_cache
-
-build src/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/dorian/code/blokboi/build/src && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build src/edit_cache: phony src/CMakeFiles/edit_cache.util
-
-# =============================================================================
 # Object build statements for EXECUTABLE target blokboi
 
 
 #############################################
 # Order-only phony target for blokboi
 
-build cmake_object_order_depends_target_blokboi: phony || src/CMakeFiles/blokboi.dir
+build cmake_object_order_depends_target_blokboi: phony || CMakeFiles/blokboi.dir
 
-build src/CMakeFiles/blokboi.dir/game.cpp.o: CXX_COMPILER__blokboi ../src/game.cpp || cmake_object_order_depends_target_blokboi
-  DEP_FILE = src/CMakeFiles/blokboi.dir/game.cpp.o.d
+build CMakeFiles/blokboi.dir/src/game.cpp.o: CXX_COMPILER__blokboi ../src/game.cpp || cmake_object_order_depends_target_blokboi
+  DEP_FILE = CMakeFiles/blokboi.dir/src/game.cpp.o.d
   FLAGS = -g   -Wall -Wextra -Wpedantic
-  OBJECT_DIR = src/CMakeFiles/blokboi.dir
-  OBJECT_FILE_DIR = src/CMakeFiles/blokboi.dir
+  INCLUDES = -I../src
+  OBJECT_DIR = CMakeFiles/blokboi.dir
+  OBJECT_FILE_DIR = CMakeFiles/blokboi.dir/src
+
+build CMakeFiles/blokboi.dir/src/scene.cpp.o: CXX_COMPILER__blokboi ../src/scene.cpp || cmake_object_order_depends_target_blokboi
+  DEP_FILE = CMakeFiles/blokboi.dir/src/scene.cpp.o.d
+  FLAGS = -g   -Wall -Wextra -Wpedantic
+  INCLUDES = -I../src
+  OBJECT_DIR = CMakeFiles/blokboi.dir
+  OBJECT_FILE_DIR = CMakeFiles/blokboi.dir/src
+
+build CMakeFiles/blokboi.dir/src/block.cpp.o: CXX_COMPILER__blokboi ../src/block.cpp || cmake_object_order_depends_target_blokboi
+  DEP_FILE = CMakeFiles/blokboi.dir/src/block.cpp.o.d
+  FLAGS = -g   -Wall -Wextra -Wpedantic
+  INCLUDES = -I../src
+  OBJECT_DIR = CMakeFiles/blokboi.dir
+  OBJECT_FILE_DIR = CMakeFiles/blokboi.dir/src
+
+build CMakeFiles/blokboi.dir/src/player.cpp.o: CXX_COMPILER__blokboi ../src/player.cpp || cmake_object_order_depends_target_blokboi
+  DEP_FILE = CMakeFiles/blokboi.dir/src/player.cpp.o.d
+  FLAGS = -g   -Wall -Wextra -Wpedantic
+  INCLUDES = -I../src
+  OBJECT_DIR = CMakeFiles/blokboi.dir
+  OBJECT_FILE_DIR = CMakeFiles/blokboi.dir/src
 
 
 # =============================================================================
@@ -101,20 +95,18 @@ build src/CMakeFiles/blokboi.dir/game.cpp.o: CXX_COMPILER__blokboi ../src/game.c
 
 
 #############################################
-# Link the executable src/blokboi
+# Link the executable blokboi
 
-build src/blokboi: CXX_EXECUTABLE_LINKER__blokboi src/CMakeFiles/blokboi.dir/game.cpp.o
+build blokboi: CXX_EXECUTABLE_LINKER__blokboi CMakeFiles/blokboi.dir/src/game.cpp.o CMakeFiles/blokboi.dir/src/scene.cpp.o CMakeFiles/blokboi.dir/src/block.cpp.o CMakeFiles/blokboi.dir/src/player.cpp.o
   FLAGS = -g
-  OBJECT_DIR = src/CMakeFiles/blokboi.dir
+  OBJECT_DIR = CMakeFiles/blokboi.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = src/blokboi
+  TARGET_FILE = blokboi
   TARGET_PDB = blokboi.dbg
 
 # =============================================================================
 # Target aliases.
-
-build blokboi: phony src/blokboi
 
 # =============================================================================
 # Folder targets.
@@ -124,14 +116,7 @@ build blokboi: phony src/blokboi
 #############################################
 # Folder: /home/dorian/code/blokboi/build
 
-build all: phony src/all
-
-# =============================================================================
-
-#############################################
-# Folder: /home/dorian/code/blokboi/build/src
-
-build src/all: phony src/blokboi
+build all: phony blokboi
 
 # =============================================================================
 # Built-in targets
@@ -145,14 +130,14 @@ default all
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../src/CMakeLists.txt /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt ../src/CMakeLists.txt /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake: phony
+build ../CMakeLists.txt /usr/share/cmake-3.16/Modules/CMakeCInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.16/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake /usr/share/cmake-3.16/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.16/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.16/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.16/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.16/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.16/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Compiler/GNU.cmake /usr/share/cmake-3.16/Modules/Internal/CMakeCheckCompilerFlag.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.16/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.16/Modules/Platform/Linux.cmake /usr/share/cmake-3.16/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.16.3/CMakeCCompiler.cmake CMakeFiles/3.16.3/CMakeCXXCompiler.cmake CMakeFiles/3.16.3/CMakeSystem.cmake: phony
 
 
 #############################################

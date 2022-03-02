@@ -4,7 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/dorian/code/blokboi/src/block.cpp" "/home/dorian/code/blokboi/CMakeFiles/blokboi.dir/src/block.cpp.o"
   "/home/dorian/code/blokboi/src/game.cpp" "/home/dorian/code/blokboi/CMakeFiles/blokboi.dir/src/game.cpp.o"
+  "/home/dorian/code/blokboi/src/player.cpp" "/home/dorian/code/blokboi/CMakeFiles/blokboi.dir/src/player.cpp.o"
+  "/home/dorian/code/blokboi/src/scene.cpp" "/home/dorian/code/blokboi/CMakeFiles/blokboi.dir/src/scene.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

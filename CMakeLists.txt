@@ -3,9 +3,15 @@ cmake_minimum_required(VERSION 3.10)
 # Project name
 project(Blokboi)
 
+# Source Files
+set(SOURCE_FILES
+    src/scene.cpp
+    src/block.cpp
+    src/player.cpp
+)
 
 # Executable
-add_executable(blokboi ./src/game.cpp ${HEADER_FILES})
+add_executable(blokboi src/game.cpp ${SOURCE_FILES})
 
 # Flags
 set(CMAKE_CXX_STANDARD 11)
@@ -16,14 +22,8 @@ else()
   target_compile_options(blokboi PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-# Files
+# Include directories
 set(DIRECTORIES src)
-set(HEADER_FILES ${DIRECTORIES}/player_controller.h
-                 ${DIRECTORIES}/scene.h
-                 ${DIRECTORIES}/player.h
-                 ${DIRECTORIES}/block.h 
-                 ${DIRECTORIES}/game_object.h
-                 )
 target_include_directories(blokboi PRIVATE ${DIRECTORIES})
 
 # Includes

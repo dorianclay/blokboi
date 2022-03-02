@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+/home/dorian/code/blokboi/src/block.cpp
+block.h
+/home/dorian/code/blokboi/src/block.h
+cstdlib
+-
+ctime
+-
+
 /home/dorian/code/blokboi/src/block.h
 game_object.h
 /home/dorian/code/blokboi/src/game_object.h
@@ -18,15 +26,43 @@ iostream
 
 /home/dorian/code/blokboi/src/game_object.h
 
+/home/dorian/code/blokboi/src/logger.cpp
+cstdio
+-
+cstdlib
+-
+cstring
+-
+iostream
+-
+
+/home/dorian/code/blokboi/src/player.cpp
+player.h
+/home/dorian/code/blokboi/src/player.h
+
 /home/dorian/code/blokboi/src/player.h
 game_object.h
 /home/dorian/code/blokboi/src/game_object.h
 
+/home/dorian/code/blokboi/src/scene.cpp
+scene.h
+/home/dorian/code/blokboi/src/scene.h
+logger.cpp
+/home/dorian/code/blokboi/src/logger.cpp
+cassert
+-
+cstdio
+-
+random
+-
+sstream
+-
+vector
+-
+
 /home/dorian/code/blokboi/src/scene.h
 block.h
 /home/dorian/code/blokboi/src/block.h
-game_object.h
-/home/dorian/code/blokboi/src/game_object.h
 player.h
 /home/dorian/code/blokboi/src/player.h
 string
