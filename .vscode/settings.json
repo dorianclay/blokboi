@@ -68,5 +68,14 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.o": { "when" : "$(basename).cpp" }
     }
 }
