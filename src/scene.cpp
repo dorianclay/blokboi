@@ -90,7 +90,7 @@ void Scene::generate()
         // Make sure the height is no more than our window
         else if (thisheight >= _height)
             thisheight = _height - 1;
-        
+
         // put a block here...
         _space[i][thisheight] = new Ground(i, thisheight);
 
@@ -175,11 +175,16 @@ string Scene::representation()
     stringstream ss;
     ss.str("");
 
-    for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++) {
-        for (iter_y = iter_x->begin(); iter_y != iter_x->end(); iter_y++) {
-            if (*iter_y == nullptr) {
+    for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
+    {
+        for (iter_y = iter_x->begin(); iter_y != iter_x->end(); iter_y++)
+        {
+            if (*iter_y == nullptr)
+            {
                 ss << ".";
-            } else {
+            }
+            else
+            {
                 ss << (*iter_y);
             }
         }

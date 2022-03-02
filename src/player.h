@@ -28,5 +28,4 @@ class Player : public GameObject
 
 std::ostream &operator<<(std::ostream &ostr, const Player &player);
 
-
 #endif /* PLAYER_H */

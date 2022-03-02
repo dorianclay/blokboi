@@ -55,5 +55,4 @@ class Ground : public Block
 std::ostream &operator<<(std::ostream &ostr, const Block &block);
 std::ostream &operator<<(std::ostream &ostr, const Ground &ground);
 
-
 #endif /* BLOCK_H */
