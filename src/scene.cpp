@@ -59,26 +59,42 @@ void Scene::generate()
     unsigned startcol = rand() % _width;
     unsigned lastheight = maxheight;
 
-    // Generate blocks right
+    // Generate ground right
     for (int i = (int)startcol; i < _width; i++)
     {
+        // Get a new height that is the prev. height +/- [-2,2]
         int thisheight = lastheight + dist_heightdiff(rng);
+        // Make sure the height is no less than 1
         if (thisheight < 1)
             thisheight = 1;
+        // Make sure the height is no more than our window
         else if (thisheight >= _height)
             thisheight = _height - 1;
 
         // put a block here...
-        _space[i][thisheight] = new Block(i, thisheight, (Color)dist_colors(rng), dist_nums(rng), true);
+        _space[i][thisheight] = new Ground(i, thisheight);
 
         lastheight = thisheight;
     }
 
     lastheight = maxheight;
-    // Generate blocks left
 
+    // Generate ground  left
     for (int i = 0; i < _width; i++)
     {
+        // Get a new height that is the prev. height +/- [-2,2]
+        int thisheight = lastheight + dist_heightdiff(rng);
+        // Make sure the height is no less than 1
+        if (thisheight < 1)
+            thisheight = 1;
+        // Make sure the height is no more than our window
+        else if (thisheight >= _height)
+            thisheight = _height - 1;
+        
+        // put a block here...
+        _space[i][thisheight] = new Ground(i, thisheight);
+
+        lastheight = thisheight;
     }
 }
 
@@ -150,4 +166,24 @@ void Scene::move(int x, int y, int dx, int dy)
     _space[newx][newy] = _space[x][y];
     _space[newx][newy]->update(newx, newy);
     _space[x][y] = nullptr;
+}
+
+string Scene::representation()
+{
+    Objects::iterator iter_x;
+    ObjectList::iterator iter_y;
+    stringstream ss;
+    ss.str("");
+
+    for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++) {
+        for (iter_y = iter_x->begin(); iter_y != iter_x->end(); iter_y++) {
+            if (*iter_y == nullptr) {
+                ss << ".";
+            } else {
+                ss << (*iter_y);
+            }
+        }
+        ss << endl;
+    }
+    return ss.str();
 }

@@ -33,3 +33,26 @@ Ground::Ground(int x, int y)
     _color = GREY;
     _movable = false;
 }
+
+std::ostream &operator<<(std::ostream &ostr, const Block &block)
+{
+    if (block.color() == RED)
+        ostr << "r";
+    else if (block.color() == ORANGE)
+        ostr << "o";
+    else if (block.color() == YELLOW)
+        ostr << "y";
+    else if (block.color() == GREEN)
+        ostr << "g";
+    else if (block.color() == BLUE)
+        ostr << "b";
+    else if (block.color() == PURPLE)
+        ostr << "p";
+    return ostr;
+}
+
+std::ostream &operator<<(std::ostream &ostr, const Ground &ground)
+{
+    ostr << "0";
+    return ostr;
+}

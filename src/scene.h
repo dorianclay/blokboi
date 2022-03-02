@@ -8,6 +8,7 @@
 #include <vector>
 
 typedef std::vector<Block *> Blocks;
+typedef std::vector<GameObject *> ObjectList;
 typedef std::vector<std::vector<GameObject *>> Objects;
 
 typedef union location {
@@ -39,6 +40,7 @@ class Scene
     GameObject *get_object(int x, int y);
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);
+    string representation();
 };
 
 #endif /* SCENE_H */

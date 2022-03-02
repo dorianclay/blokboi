@@ -32,3 +32,10 @@ void Player::pick_up()
     if (_held)
         return;
 }
+
+std::ostream &operator<<(std::ostream &ostr, const Player &player) 
+{
+    ostr << "P";
+    
+    return ostr;
+}

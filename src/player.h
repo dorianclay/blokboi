@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "game_object.h"
+#include <ostream>
 
 enum Direction
 {
@@ -24,5 +25,8 @@ class Player : public GameObject
     void pick_up();
     void put_down();
 };
+
+std::ostream &operator<<(std::ostream &ostr, const Player &player);
+
 
 #endif /* PLAYER_H */

@@ -2,6 +2,7 @@
 #define BLOCK_H
 
 #include "game_object.h"
+#include <ostream>
 
 #define MIN_NUMBER 0
 #define MAX_NUMBER 9
@@ -50,5 +51,9 @@ class Ground : public Block
   public:
     Ground(int x, int y);
 };
+
+std::ostream &operator<<(std::ostream &ostr, const Block &block);
+std::ostream &operator<<(std::ostream &ostr, const Ground &ground);
+
 
 #endif /* BLOCK_H */
