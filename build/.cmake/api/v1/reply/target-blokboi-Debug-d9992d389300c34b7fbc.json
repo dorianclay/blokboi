@@ -11,6 +11,7 @@
 		"commands" : 
 		[
 			"add_executable",
+			"target_link_libraries",
 			"target_compile_options",
 			"target_include_directories"
 		],
@@ -32,11 +33,17 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 22,
+				"line" : 36,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
 				"file" : 0,
 				"line" : 27,
 				"parent" : 0
@@ -52,23 +59,27 @@
 					"fragment" : "-g  "
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"fragment" : "-Wall"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"fragment" : "-Wextra"
 				},
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"fragment" : "-Wpedantic"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "/home/dorian/code/blokboi/src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/dorian/code/blokboi/lib/loguru"
 				}
 			],
 			"language" : "CXX",
@@ -79,6 +90,13 @@
 				2,
 				3
 			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "Loguru::@e182a60bd057cda7c6ba"
 		}
 	],
 	"id" : "blokboi::@6890427a1f51a3e7e1df",
@@ -93,6 +111,19 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "lib/loguru/libLoguru.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lpthread",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-ldl",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"

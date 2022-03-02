@@ -11,6 +11,7 @@ CMakeFiles/blokboi.dir/src/game.cpp.o
  /home/dorian/code/blokboi/src/game_object.h
  /home/dorian/code/blokboi/src/player.h
  /home/dorian/code/blokboi/src/scene.h
+ lib/loguru/loguru.hpp
 CMakeFiles/blokboi.dir/src/player.cpp.o
  /home/dorian/code/blokboi/src/game_object.h
  /home/dorian/code/blokboi/src/player.cpp
@@ -18,7 +19,7 @@ CMakeFiles/blokboi.dir/src/player.cpp.o
 CMakeFiles/blokboi.dir/src/scene.cpp.o
  /home/dorian/code/blokboi/src/block.h
  /home/dorian/code/blokboi/src/game_object.h
- /home/dorian/code/blokboi/src/logger.cpp
  /home/dorian/code/blokboi/src/player.h
  /home/dorian/code/blokboi/src/scene.cpp
  /home/dorian/code/blokboi/src/scene.h
+ lib/loguru/loguru.hpp

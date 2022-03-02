@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/blokboi.dir/src/game.cpp.o CMakeFiles/blokboi.dir/src/scene.cpp.o CMakeFiles/blokboi.dir/src/block.cpp.o CMakeFiles/blokboi.dir/src/player.cpp.o  -o blokboi 
+/usr/bin/c++     CMakeFiles/blokboi.dir/src/game.cpp.o CMakeFiles/blokboi.dir/src/scene.cpp.o CMakeFiles/blokboi.dir/src/block.cpp.o CMakeFiles/blokboi.dir/src/player.cpp.o  -o blokboi  lib/loguru/libLoguru.a -lpthread -ldl 

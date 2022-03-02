@@ -6,12 +6,32 @@
 			[
 				{
 					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "lib/loguru",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "lib/loguru",
 					"targetIndexes" : 
 					[
 						0
@@ -24,21 +44,30 @@
 				{
 					"directoryIndexes" : 
 					[
-						0
+						0,
+						1
 					],
 					"name" : "Blokboi",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
 			"targets" : 
 			[
 				{
+					"directoryIndex" : 1,
+					"id" : "Loguru::@e182a60bd057cda7c6ba",
+					"jsonFile" : "target-Loguru-Debug-658b982d0ff31c710f7f.json",
+					"name" : "Loguru",
+					"projectIndex" : 0
+				},
+				{
 					"directoryIndex" : 0,
 					"id" : "blokboi::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-blokboi-Debug-b0266f94b526a28adceb.json",
+					"jsonFile" : "target-blokboi-Debug-d9992d389300c34b7fbc.json",
 					"name" : "blokboi",
 					"projectIndex" : 0
 				}

@@ -54,32 +54,52 @@ CMAKE_BINARY_DIR = /home/dorian/code/blokboi
 
 # The main recursive "all" target.
 all: CMakeFiles/blokboi.dir/all
+all: lib/loguru/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: lib/loguru/preinstall
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/blokboi.dir/clean
+clean: lib/loguru/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory lib/loguru
+
+# Recursive "all" directory target.
+lib/loguru/all: lib/loguru/CMakeFiles/Loguru.dir/all
+
+.PHONY : lib/loguru/all
+
+# Recursive "preinstall" directory target.
+lib/loguru/preinstall:
+
+.PHONY : lib/loguru/preinstall
+
+# Recursive "clean" directory target.
+lib/loguru/clean: lib/loguru/CMakeFiles/Loguru.dir/clean
+
+.PHONY : lib/loguru/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/blokboi.dir
 
 # All Build rule for target.
-CMakeFiles/blokboi.dir/all:
+CMakeFiles/blokboi.dir/all: lib/loguru/CMakeFiles/Loguru.dir/all
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/depend
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=1,2,3,4,5 "Built target blokboi"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=3,4,5,6,7 "Built target blokboi"
 .PHONY : CMakeFiles/blokboi.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/blokboi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/blokboi.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 0
 .PHONY : CMakeFiles/blokboi.dir/rule
@@ -93,6 +113,33 @@ blokboi: CMakeFiles/blokboi.dir/rule
 CMakeFiles/blokboi.dir/clean:
 	$(MAKE) -f CMakeFiles/blokboi.dir/build.make CMakeFiles/blokboi.dir/clean
 .PHONY : CMakeFiles/blokboi.dir/clean
+
+#=============================================================================
+# Target rules for target lib/loguru/CMakeFiles/Loguru.dir
+
+# All Build rule for target.
+lib/loguru/CMakeFiles/Loguru.dir/all:
+	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/depend
+	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/dorian/code/blokboi/CMakeFiles --progress-num=1,2 "Built target Loguru"
+.PHONY : lib/loguru/CMakeFiles/Loguru.dir/all
+
+# Build rule for subdir invocation for target.
+lib/loguru/CMakeFiles/Loguru.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 lib/loguru/CMakeFiles/Loguru.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dorian/code/blokboi/CMakeFiles 0
+.PHONY : lib/loguru/CMakeFiles/Loguru.dir/rule
+
+# Convenience name for target.
+Loguru: lib/loguru/CMakeFiles/Loguru.dir/rule
+
+.PHONY : Loguru
+
+# clean rule for target.
+lib/loguru/CMakeFiles/Loguru.dir/clean:
+	$(MAKE) -f lib/loguru/CMakeFiles/Loguru.dir/build.make lib/loguru/CMakeFiles/Loguru.dir/clean
+.PHONY : lib/loguru/CMakeFiles/Loguru.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

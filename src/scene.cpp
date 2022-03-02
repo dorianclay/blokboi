@@ -1,10 +1,10 @@
 #include "scene.h"
-#include "logger.cpp"
 #include <cassert>
 #include <cstdio>
 #include <random>
 #include <sstream>
 #include <vector>
+#include <loguru.hpp>
 
 using namespace std;
 
@@ -21,6 +21,7 @@ Scene::Scene()
 {
     rng.seed(seed_val);
     _space = Objects(_width, std::vector<GameObject *>(_height));
+    LOG_F(INFO, "Making a Scene now... flushing.");
     flush();
 }
 
@@ -119,7 +120,7 @@ void Scene::move(GameObject *object, int dx, int dy)
 
     if (coords == nullptr)
     {
-        logerror("Object not found.");
+        LOG_F(ERROR, "Object not found.");
         return;
     }
 
@@ -130,7 +131,7 @@ void Scene::move(int x, int y, int dx, int dy)
 {
     if (_space[x][y] == nullptr)
     {
-        logerror("No object found at location.");
+        LOG_F(ERROR, "No object found at location.");
         return;
     }
 

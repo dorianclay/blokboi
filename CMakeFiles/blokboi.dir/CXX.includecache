@@ -6,39 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/dorian/code/blokboi/src/block.cpp
-block.h
-/home/dorian/code/blokboi/src/block.h
-cstdlib
--
-ctime
--
-
 /home/dorian/code/blokboi/src/block.h
 game_object.h
 /home/dorian/code/blokboi/src/game_object.h
 
-/home/dorian/code/blokboi/src/game.cpp
-scene.h
-/home/dorian/code/blokboi/src/scene.h
-iostream
--
-
 /home/dorian/code/blokboi/src/game_object.h
-
-/home/dorian/code/blokboi/src/logger.cpp
-cstdio
--
-cstdlib
--
-cstring
--
-iostream
--
-
-/home/dorian/code/blokboi/src/player.cpp
-player.h
-/home/dorian/code/blokboi/src/player.h
 
 /home/dorian/code/blokboi/src/player.h
 game_object.h
@@ -47,8 +19,6 @@ game_object.h
 /home/dorian/code/blokboi/src/scene.cpp
 scene.h
 /home/dorian/code/blokboi/src/scene.h
-logger.cpp
-/home/dorian/code/blokboi/src/logger.cpp
 cassert
 -
 cstdio
@@ -59,6 +29,8 @@ sstream
 -
 vector
 -
+loguru.hpp
+-
 
 /home/dorian/code/blokboi/src/scene.h
 block.h
@@ -68,5 +40,19 @@ player.h
 string
 -
 vector
+-
+
+lib/loguru/loguru.hpp
+loguru.hpp
+-
+sal.h
+-
+fmt/format.h
+-
+cstdarg
+-
+sstream
+-
+string
 -
 

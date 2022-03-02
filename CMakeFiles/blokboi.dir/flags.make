@@ -6,5 +6,5 @@ CXX_FLAGS =   -Wall -Wextra -Wpedantic
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/dorian/code/blokboi/src 
+CXX_INCLUDES = -I/home/dorian/code/blokboi/src -I/home/dorian/code/blokboi/lib/loguru 
 

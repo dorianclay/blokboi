@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 3.10)
-
-include_directories(${PROJECT_SOURCE_DIR})
-add_executable(blokboi game.cpp scene.cpp block.cpp player.cpp)
-

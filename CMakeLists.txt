@@ -31,9 +31,9 @@ target_include_directories(blokboi PRIVATE ${DIRECTORIES})
 ###########################################
 
 # External Libraries - 3rd party libs
-# find_package(Threads)
-# add_subdirectory(./lib/loguru)
-# target_link_libraries(blokboi PUBLIC Loguru ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})
+find_package(Threads)
+add_subdirectory(lib/loguru)
+target_link_libraries(blokboi PUBLIC Loguru ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})
 # target_include_directories(blokboi PUBLIC
 #                           "${PROJECT_BIN_DIR}"
 #                           "./lib/loguru"
