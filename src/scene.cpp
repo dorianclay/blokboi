@@ -1,10 +1,10 @@
 #include "scene.h"
 #include <cassert>
 #include <cstdio>
+#include <loguru.hpp>
 #include <random>
 #include <sstream>
 #include <vector>
-#include <loguru.hpp>
 
 using namespace std;
 
