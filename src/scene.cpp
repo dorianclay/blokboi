@@ -19,8 +19,8 @@ uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
 std::ostream &operator<<(std::ostream &ostr, const GameObject &gameobject)
 {
-  gameobject.repr(ostr);
-  return ostr;
+    gameobject.repr(ostr);
+    return ostr;
 }
 
 Scene::Scene()

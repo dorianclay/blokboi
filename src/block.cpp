@@ -50,7 +50,7 @@ Ground::Ground(int x, int y)
     _movable = false;
 }
 
-void Ground::repr(ostream &ostr) const 
+void Ground::repr(ostream &ostr) const
 {
     ostr << "0";
 }
