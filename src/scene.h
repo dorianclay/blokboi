@@ -11,11 +11,6 @@ typedef std::vector<Block *> Blocks;
 typedef std::vector<GameObject *> ObjectList;
 typedef std::vector<std::vector<GameObject *>> Objects;
 
-typedef union location {
-    int x;
-    int y;
-} LOCATION;
-
 class Scene
 {
     typedef std::string string;

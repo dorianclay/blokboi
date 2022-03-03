@@ -12,7 +12,11 @@ int main(int argc, char *argv[])
     loguru::g_stderr_verbosity = 1;
 
     LOG_F(INFO, "Hello log!");
+    DLOG_F(INFO, "Making a scene...");
 
-    cout << "Hello World!" << endl << "I'm making a scene..." << endl;
     Scene earth = Scene(20, 30);
+    earth.generate();
+    string repr = earth.representation();
+    cout << repr << endl;
+    // LOG_F(INFO, earth.representation());
 }

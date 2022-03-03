@@ -11,8 +11,8 @@ Block::Block()
 
 Block::Block(int x, int y)
 {
-    _location[0] = x;
-    _location[1] = y;
+    _location.x = x;
+    _location.y = y;
     _color = static_cast<Color>(rand() % COUNT);
     srand(time(0));
     _number = 1 + (rand() % (MAX_NUMBER - 1));
@@ -21,14 +21,14 @@ Block::Block(int x, int y)
 
 Block::Block(int x, int y, Color color, int number, bool movable) : _color(color), _number(number), _movable(movable)
 {
-    _location[0] = x;
-    _location[1] = y;
+    _location.x = x;
+    _location.y = y;
 }
 
 Ground::Ground(int x, int y)
 {
-    _location[0] = x;
-    _location[1] = y;
+    _location.x = x;
+    _location.y = y;
     _number = -1;
     _color = GREY;
     _movable = false;

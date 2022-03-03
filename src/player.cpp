@@ -7,6 +7,8 @@ Player::Player()
 
 Player::Player(int x, int y)
 {
+    _location.x = x;
+    _location.y = y;
     _held = nullptr;
     _facing = RIGHT;
 }

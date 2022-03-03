@@ -1,10 +1,15 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
+typedef union location {
+    int x;
+    int y;
+} LOCATION;
+
 class GameObject
 {
   protected:
-    int _location[2];
+    LOCATION _location;
 
     GameObject()
     {
@@ -13,10 +18,10 @@ class GameObject
   public:
     void update(int x, int y)
     {
-        _location[0] = x;
-        _location[1] = y;
+        _location.x = x;
+        _location.x = y;
     }
-    const int *location() const
+    const LOCATION location() const
     {
         return _location;
     }
