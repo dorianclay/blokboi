@@ -35,9 +35,7 @@ void Player::pick_up()
         return;
 }
 
-std::ostream &operator<<(std::ostream &ostr, const Player &player)
+void Player::repr(std::ostream &ostr) const
 {
     ostr << "P";
-
-    return ostr;
 }

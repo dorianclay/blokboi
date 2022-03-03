@@ -17,19 +17,25 @@ uniform_int_distribution<int> dist_heightdiff(-2, 2);
 uniform_int_distribution<int> dist_nums(MIN_NUMBER, MAX_NUMBER);
 uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
+std::ostream &operator<<(std::ostream &ostr, const GameObject &gameobject)
+{
+  gameobject.repr(ostr);
+  return ostr;
+}
+
 Scene::Scene()
 {
     rng.seed(seed_val);
     _space = Objects(_width, std::vector<GameObject *>(_height));
     LOG_F(INFO, "Making a Scene now... flushing.");
-    flush();
 }
 
 Scene::Scene(int x, int y)
 {
     _width = x;
     _height = y;
-    Scene();
+    rng.seed(seed_val);
+    _space = Objects(_width, std::vector<GameObject *>(_height));
 }
 
 LOCATION *Scene::findObject(GameObject *object)
@@ -185,7 +191,7 @@ string Scene::representation()
             }
             else
             {
-                ss << (*iter_y);
+                ss << (**iter_y);
             }
         }
         ss << endl;

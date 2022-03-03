@@ -24,8 +24,7 @@ class Player : public GameObject
     void jump();
     void pick_up();
     void put_down();
+    void repr(std::ostream &ostr) const;
 };
-
-std::ostream &operator<<(std::ostream &ostr, const Player &player);
 
 #endif /* PLAYER_H */

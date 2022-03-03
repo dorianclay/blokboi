@@ -25,6 +25,22 @@ Block::Block(int x, int y, Color color, int number, bool movable) : _color(color
     _location.y = y;
 }
 
+void Block::repr(ostream &ostr) const
+{
+    if (_color == RED)
+        ostr << "r";
+    else if (_color == ORANGE)
+        ostr << "o";
+    else if (_color == YELLOW)
+        ostr << "y";
+    else if (_color == GREEN)
+        ostr << "g";
+    else if (_color == BLUE)
+        ostr << "b";
+    else if (_color == PURPLE)
+        ostr << "p";
+}
+
 Ground::Ground(int x, int y)
 {
     _location.x = x;
@@ -34,25 +50,7 @@ Ground::Ground(int x, int y)
     _movable = false;
 }
 
-std::ostream &operator<<(std::ostream &ostr, const Block &block)
-{
-    if (block.color() == RED)
-        ostr << "r";
-    else if (block.color() == ORANGE)
-        ostr << "o";
-    else if (block.color() == YELLOW)
-        ostr << "y";
-    else if (block.color() == GREEN)
-        ostr << "g";
-    else if (block.color() == BLUE)
-        ostr << "b";
-    else if (block.color() == PURPLE)
-        ostr << "p";
-    return ostr;
-}
-
-std::ostream &operator<<(std::ostream &ostr, const Ground &ground)
+void Ground::repr(ostream &ostr) const 
 {
     ostr << "0";
-    return ostr;
 }

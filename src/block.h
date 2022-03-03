@@ -43,6 +43,7 @@ class Block : public GameObject
     {
         return _movable;
     }
+    void repr(std::ostream &ostr) const;
 };
 
 class Ground : public Block
@@ -50,9 +51,7 @@ class Ground : public Block
   protected:
   public:
     Ground(int x, int y);
+    void repr(std::ostream &ostr) const;
 };
-
-std::ostream &operator<<(std::ostream &ostr, const Block &block);
-std::ostream &operator<<(std::ostream &ostr, const Ground &ground);
 
 #endif /* BLOCK_H */

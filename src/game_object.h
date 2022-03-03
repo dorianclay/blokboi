@@ -1,6 +1,8 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
+#include <ostream>
+
 typedef union location {
     int x;
     int y;
@@ -25,6 +27,7 @@ class GameObject
     {
         return _location;
     }
+    virtual void repr(std::ostream &ostr) const;
 };
 
 #endif /* GAME_OBJECT_H */

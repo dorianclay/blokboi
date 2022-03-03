@@ -1,8 +1,8 @@
-arguments: ./blokboi
+arguments: /home/dorian/code/blokboi/build/blokboi
 Current dir: /home/dorian/code/blokboi
 File verbosity level: 1
 date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
-2022-03-02 02:10:21.965 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
-2022-03-02 02:10:21.965 (   0.000s) [main thread     ]               game.cpp:14    INFO| Hello log!
-2022-03-02 02:10:21.965 (   0.000s) [main thread     ]              scene.cpp:24    INFO| Making a Scene now... flushing.
-2022-03-02 02:10:21.965 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+2022-03-02 20:30:02.998 (   0.158s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
+2022-03-02 20:30:02.999 (   0.158s) [main thread     ]               game.cpp:14    INFO| Hello log!
+2022-03-02 20:30:02.999 (   0.158s) [main thread     ]               game.cpp:15    INFO| Making a scene...
+2022-03-02 20:35:44.187 ( 341.346s) [main thread     ]             loguru.cpp:523   INFO| atexit
