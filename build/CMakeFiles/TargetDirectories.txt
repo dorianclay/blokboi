@@ -1,8 +1,0 @@
-/home/dorian/code/blokboi/build/CMakeFiles/install/strip.dir
-/home/dorian/code/blokboi/build/CMakeFiles/install/local.dir
-/home/dorian/code/blokboi/build/CMakeFiles/install.dir
-/home/dorian/code/blokboi/build/CMakeFiles/list_install_components.dir
-/home/dorian/code/blokboi/build/CMakeFiles/rebuild_cache.dir
-/home/dorian/code/blokboi/build/CMakeFiles/edit_cache.dir
-/home/dorian/code/blokboi/build/CMakeFiles/Loguru.dir
-/home/dorian/code/blokboi/build/CMakeFiles/blokboi.dir
