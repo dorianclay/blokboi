@@ -4,6 +4,7 @@
 #include "block.h"
 // #include "game_object.h"
 #include "player.h"
+#include <random>
 #include <string>
 #include <vector>
 
@@ -20,9 +21,11 @@ class Scene
     unsigned _height = 10;
     unsigned _width = 10;
     Objects _space;
+    std::uniform_int_distribution<int> _dist_width;
+    std::uniform_int_distribution<int> _dist_height;
     LOCATION *findObject(GameObject *object);
     void fill_ground(int col, int *lastheight, int *priorheight, int *maxheight);
-    int count_ground(int col);
+    int count_blocks(int col);
 
   public:
     Scene();

@@ -10,7 +10,8 @@
 using namespace std;
 
 typedef std::mt19937 RNG_ENGINE;
-uint32_t seed_val = 0;
+random_device randdev;
+uint32_t seed_val = randdev();
 
 RNG_ENGINE rng;
 
@@ -27,17 +28,20 @@ std::ostream &operator<<(std::ostream &ostr, const GameObject *gameobject)
 
 Scene::Scene()
 {
-    rng.seed(seed_val);
+    // rng.seed(seed_val);
     _space = Objects(_width, std::vector<GameObject *>(_height));
-    LOG_F(INFO, "Making a Scene now... flushing.");
+    _dist_width = uniform_int_distribution<int>(0, _width - 1);
+    _dist_height = uniform_int_distribution<int>(0, _height - 1);
 }
 
 Scene::Scene(int x, int y)
 {
     _width = x;
     _height = y;
-    rng.seed(seed_val);
+    // rng.seed(seed_val);
     _space = Objects(_width, std::vector<GameObject *>(_height));
+    _dist_width = uniform_int_distribution<int>(0, _width - 1);
+    _dist_height = uniform_int_distribution<int>(0, _height - 1);
 }
 
 LOCATION *Scene::findObject(GameObject *object)
@@ -77,12 +81,12 @@ void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheig
         *lastheight = thisheight;
 }
 
-int Scene::count_ground(int col)
+int Scene::count_blocks(int col)
 {
-    // Find the height of the ground at x=col
+    // Find the height of the blocks at x=col
     int height = 0;
     for (int i=0; i < _height - 1; i++) {
-        if (_space[col][i] != nullptr && _space[col][i]->kind() == GROUND) {
+        if (_space[col][i] != nullptr) {
             height += 1;
         } else {
             break;
@@ -94,12 +98,13 @@ int Scene::count_ground(int col)
 void Scene::generate_easy()
 {
     flush();
-    srand(time(0));
+    srand(time(NULL));
 
     int maxheight = rand() % (_height * 3 / 4);
-    int startcol = rand() % _width;
+    int startcol = _dist_width(rng);
     int lastheight = maxheight;
     int priorheight = maxheight;
+    DLOG_F(INFO, "Start column: %d", startcol);
 
     // Generate ground right
     for (int i = (int)startcol; i < _width; i++)
@@ -118,17 +123,32 @@ void Scene::generate_easy()
 
     // Count the 2-steps
     int twosteps = 0;
-    int prior = count_ground(0);
+    int prior = count_blocks(0);
     for (int i=0; i < _width; i++) {
-        int current = count_ground(i);
+        int current = count_blocks(i);
         if (abs(prior - current) == 2)
             twosteps++;
         prior = current;
     }
+    twosteps--;
+    DLOG_F(INFO, "Number of 'two-steps': %d", twosteps);
+
+    // For now, put blocks anywhere randomly
+    for (int i=0; i<twosteps; i++)
+    {
+        int block_col, block_row;
+        while (true) {
+            block_col = _dist_width(rng);
+            block_row = count_blocks(block_col);
+            if (block_row < _height)
+                break;
+        }
+        _space[block_col][block_row] = new Block(block_col, block_row);
+    }
 
     // Put a player anywhere above a block.
-    int player_col = rand() % _width;
-    int player_height = count_ground(player_col);
+    int player_col = _dist_width(rng);
+    int player_height = count_blocks(player_col);
     _player = new Player(player_col, player_height);
     _space[player_col][player_height] = _player;
 }

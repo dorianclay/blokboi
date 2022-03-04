@@ -1,8 +1,18 @@
 #include "block.h"
 #include <cstdlib>
 #include <ctime>
+#include <random>
 
 using namespace std;
+
+typedef std::mt19937 RNG_ENGINE;
+random_device randdev;
+uint32_t seed_val = randdev();
+
+RNG_ENGINE rng;
+
+uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
+uniform_int_distribution<int> dist_blocknum(MIN_NUMBER, MAX_NUMBER);
 
 Block::Block()
 {
@@ -11,11 +21,11 @@ Block::Block()
 
 Block::Block(int x, int y)
 {
+    // rng.seed(seed_val);
     _location.x = x;
     _location.y = y;
-    _color = static_cast<Color>(rand() % COUNT);
-    srand(time(0));
-    _number = 1 + (rand() % (MAX_NUMBER - 1));
+    _color = static_cast<Color>(dist_colors(rng));
+    _number = dist_blocknum(rng);
     _movable = true;
     _kind = BLOCK;
 }
@@ -24,6 +34,7 @@ Block::Block(int x, int y, Color color, int number, bool movable) : _color(color
 {
     _location.x = x;
     _location.y = y;
+    _kind = BLOCK;
 }
 
 void Block::repr(ostream &ostr) const
