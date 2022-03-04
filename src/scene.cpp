@@ -77,8 +77,12 @@ void Scene::generate()
         else if (thisheight >= _height)
             thisheight = _height - 1;
 
-        // put a block here...
-        _space[i][thisheight] = new Ground(i, thisheight);
+
+        // Fill up to this height with ground:
+        for (int y = 0; y <= thisheight; y++) {
+            // put a block here...
+            _space[i][y] = new Ground(i, y);
+        }
 
         lastheight = thisheight;
     }
@@ -97,8 +101,11 @@ void Scene::generate()
         else if (thisheight >= _height)
             thisheight = _height - 1;
 
-        // put a block here...
-        _space[i][thisheight] = new Ground(i, thisheight);
+        // Fill up to this height with ground:
+        for (int y = 0; y <= thisheight; y++) {
+            // put a block here...
+            _space[i][y] = new Ground(i, y);
+        }
 
         lastheight = thisheight;
     }
@@ -180,7 +187,7 @@ string Scene::representation()
     stringstream ss;
     ss.str("");
 
-    for (int y=0; y < _height; y++)
+    for (int y = _height-1; y >= 0; y--)
     {
         for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
         {

@@ -230,3 +230,90 @@ date       time         ( uptime  ) [ thread name/id ]                   file:li
 2022-03-03 22:01:27.078 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
 2022-03-03 22:01:27.078 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
 2022-03-03 22:01:27.078 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-03 22:04:38.601 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-03 22:04:38.601 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-03 22:04:38.601 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-03 23:54:14.161 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-03 23:54:14.161 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-03 23:54:14.161 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-03 23:55:21.099 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-03 23:55:21.099 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-03 23:55:21.099 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-03 23:55:47.983 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-03 23:55:47.983 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-03 23:55:47.984 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-03 23:57:07.987 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-03 23:57:07.987 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+Stack trace:
+13      0x5564341714be ./blokboi(+0x74be) [0x5564341714be]
+12      0x7fee333ad0b3 __libc_start_main + 243
+11      0x5564341716b8 ./blokboi(+0x76b8) [0x5564341716b8]
+10      0x556434172aa3 ./blokboi(+0x8aa3) [0x556434172aa3]
+9       0x556434173247 ./blokboi(+0x9247) [0x556434173247]
+8       0x5564341738f2 ./blokboi(+0x98f2) [0x5564341738f2]
+7       0x7fee336343ab /lib/x86_64-linux-gnu/libstdc++.so.6(+0xa13ab) [0x7fee336343ab]
+6       0x7fee3363d6a9 /lib/x86_64-linux-gnu/libstdc++.so.6(+0xaa6a9) [0x7fee3363d6a9]
+5       0x7fee3363d3f7 /lib/x86_64-linux-gnu/libstdc++.so.6(+0xaa3f7) [0x7fee3363d3f7]
+4       0x7fee3363d38c /lib/x86_64-linux-gnu/libstdc++.so.6(+0xaa38c) [0x7fee3363d38c]
+3       0x7fee33631911 /lib/x86_64-linux-gnu/libstdc++.so.6(+0x9e911) [0x7fee33631911]
+2       0x7fee333ab859 abort + 299
+1       0x7fee333cc18b gsignal + 203
+0       0x7fee337903c0 /lib/x86_64-linux-gnu/libpthread.so.0(+0x153c0) [0x7fee337903c0]
+2022-03-03 23:57:07.990 (   0.003s) [main thread     ]                       :0     FATL| Signal: SIGABRT
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-03 23:57:27.095 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-03 23:57:27.095 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-03 23:57:27.095 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
