@@ -77,9 +77,9 @@ void Scene::generate()
         else if (thisheight >= _height)
             thisheight = _height - 1;
 
-
         // Fill up to this height with ground:
-        for (int y = 0; y <= thisheight; y++) {
+        for (int y = 0; y <= thisheight; y++)
+        {
             // put a block here...
             _space[i][y] = new Ground(i, y);
         }
@@ -102,7 +102,8 @@ void Scene::generate()
             thisheight = _height - 1;
 
         // Fill up to this height with ground:
-        for (int y = 0; y <= thisheight; y++) {
+        for (int y = 0; y <= thisheight; y++)
+        {
             // put a block here...
             _space[i][y] = new Ground(i, y);
         }
