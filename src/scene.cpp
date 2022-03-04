@@ -180,7 +180,7 @@ string Scene::representation()
     stringstream ss;
     ss.str("");
 
-    for (int y=0; y < _height; y++)
+    for (int y = 0; y < _height; y++)
     {
         for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
         {
