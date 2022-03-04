@@ -16,17 +16,18 @@ class Scene
   protected:
     Blocks _blocks;
     Blocks _ground;
-    Player _player;
+    Player *_player;
     unsigned _height = 10;
     unsigned _width = 10;
     Objects _space;
     LOCATION *findObject(GameObject *object);
+    void fill_ground(int col, int *lastheight, int *priorheight, int *maxheight);
 
   public:
     Scene();
     Scene(int x, int y);
 
-    void generate();
+    void generate_easy();
     void generate(const std::string &str);
     void refresh();
     void flush();

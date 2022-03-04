@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     DLOG_F(INFO, "Making a scene...");
 
     Scene earth = Scene(20, 10);
-    earth.generate();
+    earth.generate_easy();
     string repr = earth.representation();
     cout << repr << endl;
 }

@@ -52,5 +52,5 @@ Ground::Ground(int x, int y)
 
 void Ground::repr(ostream &ostr) const
 {
-    ostr << "0";
+    ostr << "@";
 }

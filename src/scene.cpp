@@ -14,6 +14,7 @@ uint32_t seed_val = 0;
 RNG_ENGINE rng;
 
 uniform_int_distribution<int> dist_heightdiff(-2, 2);
+uniform_int_distribution<int> dist_heightdiff_restrict(-1, 1);
 uniform_int_distribution<int> dist_nums(MIN_NUMBER, MAX_NUMBER);
 uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
@@ -56,60 +57,63 @@ LOCATION *Scene::findObject(GameObject *object)
     return nullptr;
 }
 
-void Scene::generate()
+void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheight) {
+        // Get a new height that is the prev. height +/- [-2,2]
+        int thisheight = *lastheight + dist_heightdiff(rng);
+        // Make sure the height is no less than 1
+        if (thisheight < 1)
+            thisheight = 1;
+        // Make sure the height is no more than our window
+        else if (thisheight >= (_height * 4 / 5))
+            thisheight = (_height * 4 / 5) - 1;
+
+        // Fill up to this height with ground:
+        for (int y = 0; y <= thisheight; y++) {
+            // put a block here...
+            _space[col][y] = new Ground(col, y);
+        }
+
+        *lastheight = thisheight;
+}
+
+void Scene::generate_easy()
 {
     flush();
     srand(time(0));
 
-    unsigned maxheight = rand() % (_height * 2 / 3);
-    unsigned startcol = rand() % _width;
-    unsigned lastheight = maxheight;
+    int maxheight = rand() % (_height * 3 / 4);
+    int startcol = rand() % _width;
+    int lastheight = maxheight;
+    int priorheight = maxheight;
 
     // Generate ground right
     for (int i = (int)startcol; i < _width; i++)
     {
-        // Get a new height that is the prev. height +/- [-2,2]
-        int thisheight = lastheight + dist_heightdiff(rng);
-        // Make sure the height is no less than 1
-        if (thisheight < 1)
-            thisheight = 1;
-        // Make sure the height is no more than our window
-        else if (thisheight >= _height)
-            thisheight = _height - 1;
-
-        // Fill up to this height with ground:
-        for (int y = 0; y <= thisheight; y++)
-        {
-            // put a block here...
-            _space[i][y] = new Ground(i, y);
-        }
-
-        lastheight = thisheight;
+        fill_ground(i, &lastheight, &priorheight, &maxheight);
     }
 
     lastheight = maxheight;
+    priorheight = lastheight;
 
     // Generate ground  left
     for (int i = (int)startcol - 1; i >= 0; i--)
     {
-        // Get a new height that is the prev. height +/- [-2,2]
-        int thisheight = lastheight + dist_heightdiff(rng);
-        // Make sure the height is no less than 1
-        if (thisheight < 1)
-            thisheight = 1;
-        // Make sure the height is no more than our window
-        else if (thisheight >= _height)
-            thisheight = _height - 1;
-
-        // Fill up to this height with ground:
-        for (int y = 0; y <= thisheight; y++)
-        {
-            // put a block here...
-            _space[i][y] = new Ground(i, y);
-        }
-
-        lastheight = thisheight;
+        fill_ground(i, &lastheight, &priorheight, &maxheight);
     }
+
+    // Put a player anywhere above a block.
+    int player_col = rand() % _width;
+    // Find the height to put the player at
+    int player_height = 0;
+    for (int i=0; i < _height; i++) {
+        if (_space[player_col][i] != nullptr) {
+            player_height += 1;
+        } else {
+            break;
+        }
+    }
+    _player = new Player(player_col, player_height);
+    _space[player_col][player_height] = _player;
 }
 
 void Scene::generate(const string &str)
@@ -188,7 +192,7 @@ string Scene::representation()
     stringstream ss;
     ss.str("");
 
-    for (int y = 0; y < _height; y++)
+    for (int y = _height - 1; y >= 0; y--)
     {
         for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
         {
@@ -201,7 +205,8 @@ string Scene::representation()
                 ss << (iter_x->at(y));
             }
         }
-        ss << endl;
+        if (y != 0)
+            ss << endl;
     }
     return ss.str();
 }
