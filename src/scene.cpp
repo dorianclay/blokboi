@@ -187,7 +187,7 @@ string Scene::representation()
     stringstream ss;
     ss.str("");
 
-    for (int y = _height-1; y >= 0; y--)
+    for (int y = 0; y < _height; y++)
     {
         for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
         {
