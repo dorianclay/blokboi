@@ -17,9 +17,9 @@ uniform_int_distribution<int> dist_heightdiff(-2, 2);
 uniform_int_distribution<int> dist_nums(MIN_NUMBER, MAX_NUMBER);
 uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
-std::ostream &operator<<(std::ostream &ostr, const GameObject &gameobject)
+std::ostream &operator<<(std::ostream &ostr, const GameObject *gameobject)
 {
-    gameobject.repr(ostr);
+    gameobject->repr(ostr);
     return ostr;
 }
 
@@ -86,7 +86,7 @@ void Scene::generate()
     lastheight = maxheight;
 
     // Generate ground  left
-    for (int i = 0; i < _width; i++)
+    for (int i = (int)startcol - 1; i >= 0; i--)
     {
         // Get a new height that is the prev. height +/- [-2,2]
         int thisheight = lastheight + dist_heightdiff(rng);
@@ -177,21 +177,20 @@ void Scene::move(int x, int y, int dx, int dy)
 string Scene::representation()
 {
     Objects::iterator iter_x;
-    ObjectList::iterator iter_y;
     stringstream ss;
     ss.str("");
 
-    for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
+    for (int y=0; y < _height; y++)
     {
-        for (iter_y = iter_x->begin(); iter_y != iter_x->end(); iter_y++)
+        for (iter_x = _space.begin(); iter_x != _space.end(); iter_x++)
         {
-            if (*iter_y == nullptr)
+            if (iter_x->at(y) == nullptr)
             {
                 ss << ".";
             }
             else
             {
-                ss << (**iter_y);
+                ss << (iter_x->at(y));
             }
         }
         ss << endl;

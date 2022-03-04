@@ -13,8 +13,6 @@ typedef std::vector<std::vector<GameObject *>> Objects;
 
 class Scene
 {
-    typedef std::string string;
-
   protected:
     Blocks _blocks;
     Blocks _ground;
@@ -29,13 +27,13 @@ class Scene
     Scene(int x, int y);
 
     void generate();
-    void generate(const string &str);
+    void generate(const std::string &str);
     void refresh();
     void flush();
     GameObject *get_object(int x, int y);
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);
-    string representation();
+    std::string representation();
 };
 
 #endif /* SCENE_H */

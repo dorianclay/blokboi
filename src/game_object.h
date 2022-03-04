@@ -27,7 +27,7 @@ class GameObject
     {
         return _location;
     }
-    virtual void repr(std::ostream &ostr) const;
+    virtual void repr(std::ostream &ostr) const {}
 };
 
 #endif /* GAME_OBJECT_H */
