@@ -17,6 +17,7 @@ Block::Block(int x, int y)
     srand(time(0));
     _number = 1 + (rand() % (MAX_NUMBER - 1));
     _movable = true;
+    _kind = BLOCK;
 }
 
 Block::Block(int x, int y, Color color, int number, bool movable) : _color(color), _number(number), _movable(movable)
@@ -48,6 +49,7 @@ Ground::Ground(int x, int y)
     _number = -1;
     _color = GREY;
     _movable = false;
+    _kind = GROUND;
 }
 
 void Ground::repr(ostream &ostr) const

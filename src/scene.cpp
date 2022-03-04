@@ -1,6 +1,7 @@
 #include "scene.h"
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 #include <loguru.hpp>
 #include <random>
 #include <sstream>
@@ -76,6 +77,20 @@ void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheig
         *lastheight = thisheight;
 }
 
+int Scene::count_ground(int col)
+{
+    // Find the height of the ground at x=col
+    int height = 0;
+    for (int i=0; i < _height - 1; i++) {
+        if (_space[col][i] != nullptr && _space[col][i]->kind() == GROUND) {
+            height += 1;
+        } else {
+            break;
+        }
+    }
+    return height;
+}
+
 void Scene::generate_easy()
 {
     flush();
@@ -101,17 +116,19 @@ void Scene::generate_easy()
         fill_ground(i, &lastheight, &priorheight, &maxheight);
     }
 
+    // Count the 2-steps
+    int twosteps = 0;
+    int prior = count_ground(0);
+    for (int i=0; i < _width; i++) {
+        int current = count_ground(i);
+        if (abs(prior - current) == 2)
+            twosteps++;
+        prior = current;
+    }
+
     // Put a player anywhere above a block.
     int player_col = rand() % _width;
-    // Find the height to put the player at
-    int player_height = 0;
-    for (int i=0; i < _height; i++) {
-        if (_space[player_col][i] != nullptr) {
-            player_height += 1;
-        } else {
-            break;
-        }
-    }
+    int player_height = count_ground(player_col);
     _player = new Player(player_col, player_height);
     _space[player_col][player_height] = _player;
 }

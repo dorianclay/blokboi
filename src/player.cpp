@@ -11,6 +11,7 @@ Player::Player(int x, int y)
     _location.y = y;
     _held = nullptr;
     _facing = RIGHT;
+    _kind = PLAYER;
 }
 
 void Player::move(int x, int y)
