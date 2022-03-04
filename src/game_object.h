@@ -3,11 +3,11 @@
 
 #include <ostream>
 
-enum Kind 
+enum Kind
 {
-  BLOCK,
-  GROUND,
-  PLAYER
+    BLOCK,
+    GROUND,
+    PLAYER
 };
 
 typedef union location {
@@ -26,7 +26,10 @@ class GameObject
     }
 
   public:
-    Kind kind() { return _kind; }
+    Kind kind()
+    {
+        return _kind;
+    }
     void update(int x, int y)
     {
         _location.x = x;

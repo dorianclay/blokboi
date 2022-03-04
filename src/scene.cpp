@@ -62,33 +62,39 @@ LOCATION *Scene::findObject(GameObject *object)
     return nullptr;
 }
 
-void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheight) {
-        // Get a new height that is the prev. height +/- [-2,2]
-        int thisheight = *lastheight + dist_heightdiff(rng);
-        // Make sure the height is no less than 1
-        if (thisheight < 1)
-            thisheight = 1;
-        // Make sure the height is no more than our window
-        else if (thisheight >= (_height * 4 / 5))
-            thisheight = (_height * 4 / 5) - 1;
+void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheight)
+{
+    // Get a new height that is the prev. height +/- [-2,2]
+    int thisheight = *lastheight + dist_heightdiff(rng);
+    // Make sure the height is no less than 1
+    if (thisheight < 1)
+        thisheight = 1;
+    // Make sure the height is no more than our window
+    else if (thisheight >= (_height * 4 / 5))
+        thisheight = (_height * 4 / 5) - 1;
 
-        // Fill up to this height with ground:
-        for (int y = 0; y <= thisheight; y++) {
-            // put a block here...
-            _space[col][y] = new Ground(col, y);
-        }
+    // Fill up to this height with ground:
+    for (int y = 0; y <= thisheight; y++)
+    {
+        // put a block here...
+        _space[col][y] = new Ground(col, y);
+    }
 
-        *lastheight = thisheight;
+    *lastheight = thisheight;
 }
 
 int Scene::count_blocks(int col)
 {
     // Find the height of the blocks at x=col
     int height = 0;
-    for (int i=0; i < _height - 1; i++) {
-        if (_space[col][i] != nullptr) {
+    for (int i = 0; i < _height - 1; i++)
+    {
+        if (_space[col][i] != nullptr)
+        {
             height += 1;
-        } else {
+        }
+        else
+        {
             break;
         }
     }
@@ -124,7 +130,8 @@ void Scene::generate_easy()
     // Count the 2-steps
     int twosteps = 0;
     int prior = count_blocks(0);
-    for (int i=0; i < _width; i++) {
+    for (int i = 0; i < _width; i++)
+    {
         int current = count_blocks(i);
         if (abs(prior - current) == 2)
             twosteps++;
@@ -134,10 +141,11 @@ void Scene::generate_easy()
     DLOG_F(INFO, "Number of 'two-steps': %d", twosteps);
 
     // For now, put blocks anywhere randomly
-    for (int i=0; i<twosteps; i++)
+    for (int i = 0; i < twosteps; i++)
     {
         int block_col, block_row;
-        while (true) {
+        while (true)
+        {
             block_col = _dist_width(rng);
             block_row = count_blocks(block_col);
             if (block_row < _height)
