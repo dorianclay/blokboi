@@ -15,7 +15,9 @@ blokboi is mostly intended as just a sandbox. This is useful for testing the str
 
 > in a scene with limited rules, your only purpose in life is to move blocks around as you're told.
 
-![blokboi sketch](img/blokboi.png)
+Here's an example of how the game would look, *animated by hand* (instruction heading added).
+
+![blokboi sketch](img/Animated_Demo.gif)
 
 # Installation
 This repository uses the lightweight [Loguru][logurugit] logging package as a submodule. To clone *Blokboi* and *Loguru*, run the following:
