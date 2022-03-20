@@ -1,15 +1,16 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "scene.h"
 #include "player_controller.h"
+#include "scene.h"
 
 class Game
 {
-private:
+  private:
     Scene *_scene;
     PlayerController *_player_controller;
-public:
+
+  public:
     Game();
     void newGame();
     void resetGame();

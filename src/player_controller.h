@@ -7,11 +7,12 @@
 
 class PlayerController
 {
-private:
+  private:
     Scene *_scene;
     Player *_player;
     Block *_held;
-public:
+
+  public:
     PlayerController(Scene *scene, Player *player);
     void move(int direction);
     void jump();
