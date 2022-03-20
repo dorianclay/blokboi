@@ -1,15 +1,11 @@
 #include "block.h"
 #include <cstdlib>
 #include <ctime>
-#include <random>
+#include "effolkronium/random.hpp"
+
+using Random = effolkronium::random_static;
 
 using namespace std;
-
-typedef std::mt19937 RNG_ENGINE;
-random_device randdev;
-uint32_t seed_val = randdev();
-
-RNG_ENGINE rng;
 
 uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 uniform_int_distribution<int> dist_blocknum(MIN_NUMBER, MAX_NUMBER);
@@ -21,11 +17,10 @@ Block::Block()
 
 Block::Block(int x, int y)
 {
-    // rng.seed(seed_val);
     _location.x = x;
     _location.y = y;
-    _color = static_cast<Color>(dist_colors(rng));
-    _number = dist_blocknum(rng);
+    _color = static_cast<Color>(Random::get(dist_colors));
+    _number = Random::get(dist_blocknum);
     _movable = true;
     _kind = BLOCK;
 }

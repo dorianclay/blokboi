@@ -2047,3 +2047,101 @@ date       time         ( uptime  ) [ thread name/id ]                   file:li
 2022-03-04 02:06:25.669 (   0.002s) [main thread     ]              scene.cpp:107   INFO| Start column: 24
 2022-03-04 02:06:25.671 (   0.003s) [main thread     ]              scene.cpp:134   INFO| Number of 'two-steps': 3
 2022-03-04 02:06:25.671 (   0.003s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:33:02.444 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:33:02.444 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:33:02.444 (   0.001s) [main thread     ]              scene.cpp:119   INFO| Start column: 26
+2022-03-19 17:33:02.444 (   0.001s) [main thread     ]              scene.cpp:147   INFO| Number of 'two-steps': 6
+2022-03-19 17:33:02.444 (   0.001s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:33:05.005 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:33:05.005 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:33:05.005 (   0.000s) [main thread     ]              scene.cpp:119   INFO| Start column: 17
+2022-03-19 17:33:05.005 (   0.000s) [main thread     ]              scene.cpp:147   INFO| Number of 'two-steps': 7
+2022-03-19 17:33:05.006 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:33:08.377 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:33:08.377 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:33:08.377 (   0.000s) [main thread     ]              scene.cpp:119   INFO| Start column: 19
+2022-03-19 17:33:08.378 (   0.000s) [main thread     ]              scene.cpp:147   INFO| Number of 'two-steps': 3
+2022-03-19 17:33:08.378 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:33:12.061 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:33:12.061 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:33:12.061 (   0.000s) [main thread     ]              scene.cpp:119   INFO| Start column: 7
+2022-03-19 17:33:12.061 (   0.000s) [main thread     ]              scene.cpp:147   INFO| Number of 'two-steps': 11
+2022-03-19 17:33:12.061 (   0.001s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:35:42.915 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:35:42.915 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:35:42.915 (   0.000s) [main thread     ]              scene.cpp:107   INFO| Start column: 5
+2022-03-19 17:35:42.915 (   0.000s) [main thread     ]              scene.cpp:135   INFO| Number of 'two-steps': 4
+2022-03-19 17:35:42.915 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:35:47.911 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:35:47.911 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:35:47.911 (   0.000s) [main thread     ]              scene.cpp:107   INFO| Start column: 10
+2022-03-19 17:35:47.911 (   0.000s) [main thread     ]              scene.cpp:135   INFO| Number of 'two-steps': 1
+2022-03-19 17:35:47.912 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+arguments: ./blokboi
+Current dir: /home/dorian/code/blokboi
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-19 17:35:49.909 (   0.000s) [main thread     ]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-19 17:35:49.910 (   0.000s) [main thread     ]               game.cpp:14    INFO| Making a scene...
+2022-03-19 17:35:49.910 (   0.000s) [main thread     ]              scene.cpp:107   INFO| Start column: 11
+2022-03-19 17:35:49.910 (   0.000s) [main thread     ]              scene.cpp:135   INFO| Number of 'two-steps': 10
+2022-03-19 17:35:49.910 (   0.001s) [main thread     ]             loguru.cpp:523   INFO| atexit
