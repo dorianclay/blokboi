@@ -1,9 +1,11 @@
-workflow "Black Python Formatter" {
-  on = "push"
-  resolves = ["Lint"]
-}
-
-action "Lint" {
-  uses = "lgeiger/black-action@master"
-  args = "."
-}
+on: push
+name: Black Python Formatter
+jobs:
+  lint:
+    name: Black Python Formatter
+    runs-on: ubuntu-latest
+    steps:
+    - name: Black Formatter
+      uses: lgeiger/black-action@master
+      with:
+        args: .
