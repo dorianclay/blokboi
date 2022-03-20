@@ -3,7 +3,6 @@
 
 class GameManager
 {
-
 };
 
 #endif /* GAME_MANAGER_H */
