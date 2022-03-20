@@ -1,11 +1,11 @@
 #include "scene.h"
+#include "effolkronium/random.hpp"
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
 #include <loguru.hpp>
 #include <sstream>
 #include <vector>
-#include "effolkronium/random.hpp"
 
 using Random = effolkronium::random_static;
 

@@ -1,7 +1,7 @@
 #include "block.h"
+#include "effolkronium/random.hpp"
 #include <cstdlib>
 #include <ctime>
-#include "effolkronium/random.hpp"
 
 using Random = effolkronium::random_static;
 
