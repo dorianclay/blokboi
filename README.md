@@ -20,7 +20,7 @@ Here's an example of how the game would look, *animated by hand* (instruction he
 ![blokboi sketch](img/Animated_Demo.gif)
 
 # Installation
-This repository uses the lightweight [Loguru][logurugit] logging package as a submodule. To clone *Blokboi* and *Loguru*, run the following:
+This repository uses the several C++ packages as submodules. To clone *Blokboi* and the submodules such as *Loguru*, run the following:
 ```bash
 git clone --recurse-submodules -j8 git@github.com:glxiia/blokboi
 ```
