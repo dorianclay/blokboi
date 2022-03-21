@@ -37,21 +37,15 @@ target_include_directories(blokboi PRIVATE ${DIRECTORIES})
 # External Libraries - 3rd party libs
 find_package(Threads)
 
-add_library(Loguru lib/loguru/loguru.cpp)
-target_include_directories(Loguru INTERFACE lib/loguru)
-install(TARGETS Loguru DESTINATION lib)
-install(FILES lib/loguru.hpp DESTINATION include)
-# add_subdirectory(lib/loguru)
-add_subdirectory(lib/random)
+add_library(Loguru include/loguru/loguru.cpp)
+target_include_directories(Loguru INTERFACE include/loguru)
+install(TARGETS Loguru DESTINATION include)
+install(FILES include/loguru.hpp DESTINATION include)
+add_subdirectory(include/random)
 target_link_libraries(blokboi PUBLIC 
                       Loguru
                       effolkronium_random
                       ${CMAKE_THREAD_LIBS_INIT}
                       ${CMAKE_DL_LIBS})
-# target_include_directories(blokboi PUBLIC
-#                           "${PROJECT_BIN_DIR}"
-#                           "./lib/loguru"
-#                           )
 
 install(TARGETS blokboi DESTINATION bin)
-# install(FILES "${PROJECT_BINARY_DIR}/game.h" DESTINATION include)

@@ -1,6 +1,6 @@
 [submodule "lib/loguru"]
-	path = lib/loguru
+	path = include/loguru
 	url = git@github.com:emilk/loguru.git
 [submodule "lib/random"]
-	path = lib/random
+	path = include/random
 	url = git@github.com:effolkronium/random.git
