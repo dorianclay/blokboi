@@ -5,13 +5,13 @@ project(Blokboi)
 
 # Source Files
 set(SOURCE_FILES
-    src/scene.cpp
-    src/block.cpp
-    src/player.cpp
+    lib/scene.cpp
+    lib/block.cpp
+    lib/player.cpp
 )
 
 # Executable
-add_executable(blokboi src/game.cpp ${SOURCE_FILES})
+add_executable(blokboi lib/game.cpp ${SOURCE_FILES})
 
 # Flags
 set(CMAKE_CXX_STANDARD 11)
@@ -27,7 +27,7 @@ if(VERBOSE_WARN)
 endif()
 
 # Include directories
-set(DIRECTORIES src)
+set(DIRECTORIES lib)
 target_include_directories(blokboi PRIVATE ${DIRECTORIES})
 
 # Includes
