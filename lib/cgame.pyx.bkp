@@ -1,6 +1,6 @@
 # distutils: language = c++
 
-from Game cimport Game
+from cgame cimport Game
 
 def main():
     test_game = new Game()
