@@ -20,10 +20,16 @@ class Player : public GameObject
     Player();
     Player(int x, int y);
 
-    void move(int x, int y);
-    void jump();
-    void pick_up();
-    void put_down();
+    int facing()
+    {
+      return (int) _facing;
+    }
+    void face(int direction);
+    GameObject *held()
+    {
+      return _held;
+    }
+    void hold(GameObject *block);
     void repr(std::ostream &ostr) const;
 };
 

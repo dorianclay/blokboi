@@ -25,10 +25,11 @@ Block::Block(int x, int y)
     _kind = BLOCK;
 }
 
-Block::Block(int x, int y, Color color, int number, bool movable) : _color(color), _number(number), _movable(movable)
+Block::Block(int x, int y, Color color, int number, bool movable) : _color(color), _number(number)
 {
     _location.x = x;
     _location.y = y;
+    _movable = movable;
     _kind = BLOCK;
 }
 

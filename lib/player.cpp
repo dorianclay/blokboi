@@ -1,4 +1,5 @@
 #include "player.h"
+#include <cassert>
 
 Player::Player()
 {
@@ -14,26 +15,18 @@ Player::Player(int x, int y)
     _kind = PLAYER;
 }
 
-void Player::move(int x, int y)
+void Player::face(int direction)
 {
-    if (_facing == LEFT && x > 0)
-        _facing = RIGHT;
-    if (_facing == RIGHT && x < 0)
-        _facing = LEFT;
+    assert(direction == LEFT || direction == RIGHT);
 
-    // TODO: complete implementation
+    _facing = (Direction) direction;
 }
 
-void Player::jump()
+void Player::hold(GameObject *block)
 {
-    move(0, 1);
-}
+    assert(block->movable());
 
-void Player::pick_up()
-{
-    // If there's already a block held... (nullptr is true)
-    if (_held)
-        return;
+    _held = block;
 }
 
 void Player::repr(std::ostream &ostr) const

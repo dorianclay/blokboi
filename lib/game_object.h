@@ -20,6 +20,7 @@ class GameObject
   protected:
     LOCATION _location;
     Kind _kind;
+    bool _movable = false;
 
     GameObject()
     {
@@ -41,6 +42,10 @@ class GameObject
     }
     virtual void repr(std::ostream &ostr) const
     {
+    }
+    bool movable() const
+    {
+        return _movable;
     }
 };
 
