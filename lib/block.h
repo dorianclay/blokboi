@@ -24,7 +24,6 @@ class Block : public GameObject
   protected:
     Color _color;
     int _number;
-    bool _movable;
 
   public:
     Block();
@@ -38,10 +37,6 @@ class Block : public GameObject
     int number() const
     {
         return _number;
-    }
-    bool movable() const
-    {
-        return _movable;
     }
     void repr(std::ostream &ostr) const;
 };

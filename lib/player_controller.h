@@ -10,7 +10,6 @@ class PlayerController
   private:
     Scene *_scene;
     Player *_player;
-    Block *_held;
 
   public:
     PlayerController(Scene *scene, Player *player);

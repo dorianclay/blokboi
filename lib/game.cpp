@@ -1,7 +1,9 @@
 #include "scene.h"
 #include "game.h"
+#include "player.h"
 #include <iostream>
 #include <loguru.hpp>
+#include <stdexcept>
 
 using namespace std;
 
@@ -34,14 +36,40 @@ void Game::resetGame()
     _scene->refresh();
 }
 
-PlayerController *Game::player_controller()
+void Game::move(int direction)
 {
-    return _player_controller;
+    if (direction != LEFT && direction != RIGHT)
+    {
+        DLOG_F(ERROR, "Direction provided incorrectly to C++ Game API: %d", direction);
+        throw invalid_argument("Direction must be -1 (left) or 1 (right).");
+    }
+
+    _player_controller->move(direction);
 }
 
-string Game::strprint()
+void Game::jump()
+{
+    _player_controller->jump();
+}
+
+void Game::pick_up()
+{
+    _player_controller->pick_up();
+}
+
+void Game::put_down()
+{
+    _player_controller->put_down();
+}
+
+string Game::representation()
 {
     return _scene->representation();
+}
+
+string Game::objective()
+{
+    return _objective;
 }
 
 

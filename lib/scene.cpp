@@ -1,11 +1,10 @@
 #include "scene.h"
 #include "effolkronium/random.hpp"
-#include <cassert>
-#include <cstdio>
 #include <cstdlib>
 #include <loguru.hpp>
 #include <sstream>
 #include <vector>
+#include <stdexcept>
 
 using Random = effolkronium::random_static;
 
@@ -16,7 +15,7 @@ uniform_int_distribution<int> dist_heightdiff_restrict(-1, 1);
 // uniform_int_distribution<int> dist_nums(MIN_NUMBER, MAX_NUMBER);
 // uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
-std::ostream &operator<<(std::ostream &ostr, const GameObject *gameobject)
+ostream &operator<<(ostream &ostr, const GameObject *gameobject)
 {
     gameobject->repr(ostr);
     return ostr;
@@ -24,7 +23,7 @@ std::ostream &operator<<(std::ostream &ostr, const GameObject *gameobject)
 
 Scene::Scene()
 {
-    _space = Objects(_width, std::vector<GameObject *>(_height));
+    _space = Objects(_width, vector<GameObject *>(_height));
     _dist_width = uniform_int_distribution<int>(0, _width - 1);
     _dist_height = uniform_int_distribution<int>(0, _height - 1);
 }
@@ -33,7 +32,7 @@ Scene::Scene(int x, int y)
 {
     _width = x;
     _height = y;
-    _space = Objects(_width, std::vector<GameObject *>(_height));
+    _space = Objects(_width, vector<GameObject *>(_height));
     _dist_width = uniform_int_distribution<int>(0, _width - 1);
     _dist_height = uniform_int_distribution<int>(0, _height - 1);
 }
@@ -184,7 +183,25 @@ void Scene::flush()
 
 GameObject *Scene::get_object(int x, int y)
 {
+    if (x < 0 || x > _width || y < 0 || y > _height)
+        return nullptr;
     return _space[x][y];
+}
+
+int Scene::get_highest_obj_height(int col)
+{
+    for (int y = _height-1; y >= 0; y--)
+    {
+        if (_space[col][y] != nullptr)
+            return y;
+    }
+    return -1;
+}
+
+
+Player *Scene::get_player()
+{
+    return _player;
 }
 
 void Scene::move(GameObject *object, int dx, int dy)
@@ -202,6 +219,11 @@ void Scene::move(GameObject *object, int dx, int dy)
 
 void Scene::move(int x, int y, int dx, int dy)
 {
+    if (dx > 1 || dx < -1 || dy > 1 || dx < -1)
+    {
+        throw invalid_argument("Only allowed to move +/- 1 block at a time.");
+    }
+
     if (_space[x][y] == nullptr)
     {
         LOG_F(ERROR, "No object found at location.");
@@ -211,14 +233,19 @@ void Scene::move(int x, int y, int dx, int dy)
     int newx = x + dx;
     int newy = y + dy;
 
-    if (newx < 0)
-        newx = 0;
-    else if (newx > _width)
-        newx = _width;
+    if (newx < 0 || newx > _width)
+    {
+        DLOG_F(1, "Attempting to move out of map.");
+        return;
+    }
     if (newy < 0)
-        newy = 0;
-    else if (newy > _height)
-        newy = _height;
+    {
+        DLOG_F(1, "Attempting to move below map.");
+        return;
+    } else if (newy > _height) {
+        DLOG_F(1, "Attempting to move above map.");
+        return;
+    }
 
     _space[newx][newy] = _space[x][y];
     _space[newx][newy]->update(newx, newy);
@@ -250,7 +277,3 @@ string Scene::representation()
     return ss.str();
 }
 
-Player *Scene::get_player()
-{
-    return _player;
-}
