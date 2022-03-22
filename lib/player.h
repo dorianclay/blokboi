@@ -22,12 +22,12 @@ class Player : public GameObject
 
     int facing()
     {
-      return (int) _facing;
+        return (int)_facing;
     }
     void face(int direction);
     GameObject *held()
     {
-      return _held;
+        return _held;
     }
     void hold(GameObject *block);
     void repr(std::ostream &ostr) const;

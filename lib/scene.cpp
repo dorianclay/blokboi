@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <loguru.hpp>
 #include <sstream>
-#include <vector>
 #include <stdexcept>
+#include <vector>
 
 using Random = effolkronium::random_static;
 
@@ -190,14 +190,13 @@ GameObject *Scene::get_object(int x, int y)
 
 int Scene::get_highest_obj_height(int col)
 {
-    for (int y = _height-1; y >= 0; y--)
+    for (int y = _height - 1; y >= 0; y--)
     {
         if (_space[col][y] != nullptr)
             return y;
     }
     return -1;
 }
-
 
 Player *Scene::get_player()
 {
@@ -242,7 +241,9 @@ void Scene::move(int x, int y, int dx, int dy)
     {
         DLOG_F(1, "Attempting to move below map.");
         return;
-    } else if (newy > _height) {
+    }
+    else if (newy > _height)
+    {
         DLOG_F(1, "Attempting to move above map.");
         return;
     }
@@ -276,4 +277,3 @@ string Scene::representation()
     }
     return ss.str();
 }
-

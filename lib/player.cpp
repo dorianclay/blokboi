@@ -19,7 +19,7 @@ void Player::face(int direction)
 {
     assert(direction == LEFT || direction == RIGHT);
 
-    _facing = (Direction) direction;
+    _facing = (Direction)direction;
 }
 
 void Player::hold(GameObject *block)

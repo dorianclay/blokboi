@@ -4,8 +4,7 @@
 
 using namespace std;
 
-PlayerController::PlayerController(Scene *scene, Player *player)
-    : _scene(scene), _player(player)
+PlayerController::PlayerController(Scene *scene, Player *player) : _scene(scene), _player(player)
 {
 }
 
@@ -25,46 +24,50 @@ void PlayerController::move(int direction)
     }
 
     // Otherwise, we're facing the right way, so try to move one block over
-    else 
+    else
     {
         LOCATION current = _player->location();
 
-        
         // See if the spot at same height is occupied.
         GameObject *spot = _scene->get_object(current.x + direction, current.y);
-        if (spot != nullptr) {
+        if (spot != nullptr)
+        {
             DLOG_F(1, "Attempted to move to occupied location.");
             return;
         }
 
         // See if the spot one block down is occupied (the "ground")
         spot = _scene->get_object(current.x + direction, current.y - 1);
-        if (spot != nullptr) {
+        if (spot != nullptr)
+        {
             // If there is a ground, then we can move normally.
             // (move the block first if held)
             if (_player->held() != nullptr)
-                _scene->move(current.x, current.y+1, 1, 1);
+                _scene->move(current.x, current.y + 1, 1, 1);
             _scene->move(current.x, current.y, direction, 0);
             return;
-        } else {
+        }
+        else
+        {
             // Otherwise, we need to see if we'll fall off a cliff.
             spot = _scene->get_object(current.x + direction, current.y - 2);
-            if (spot != nullptr) {
+            if (spot != nullptr)
+            {
                 // If the ground below exists, we'll move and drop down a block
                 // (move the block first if held)
                 if (_player->held() != nullptr)
-                    _scene->move(current.x, current.y+1, 1, 1);
+                    _scene->move(current.x, current.y + 1, 1, 1);
                 _scene->move(current.x, current.y, direction, -1);
                 return;
-            } else {
+            }
+            else
+            {
                 // Otherwise, don't move anywhere or we'll die
                 DLOG_F(1, "Attempted to jump off a cliff.");
                 return;
             }
         }
-
     }
-
 }
 
 void PlayerController::jump()
@@ -75,14 +78,16 @@ void PlayerController::jump()
     GameObject *spot = _scene->get_object(current.x + facing, current.y);
 
     // See if there's even an object to jump onto
-    if (spot == nullptr) {
+    if (spot == nullptr)
+    {
         DLOG_F(1, "Can't jump onto thin air.");
         return;
     }
 
     // There's a block, so see if there's more block we can't jump over
     spot = _scene->get_object(current.x + facing, current.y + 1);
-    if (spot != nullptr) {
+    if (spot != nullptr)
+    {
         DLOG_F(1, "Can't jump up more than one block.");
         return;
     }
@@ -90,7 +95,7 @@ void PlayerController::jump()
     // We're all good to jump
     // (move the block first if held)
     if (_player->held() != nullptr)
-        _scene->move(current.x, current.y+1, 1, 1);
+        _scene->move(current.x, current.y + 1, 1, 1);
     _scene->move(current.x, current.y, 1, 1);
 }
 
@@ -102,20 +107,22 @@ void PlayerController::pick_up()
     GameObject *spot = _scene->get_object(current.x + facing, current.y);
 
     // See if there's a block that we're facing
-    if (spot == nullptr) {
+    if (spot == nullptr)
+    {
         DLOG_F(1, "Can't pick up air.");
         return;
     }
 
     // If the block we're facing isn't movable, don't try to pick it up
-    if (!spot->movable()) {
+    if (!spot->movable())
+    {
         DLOG_F(1, "Block on isn't movable.");
         return;
     }
 
     if (facing == LEFT)
         _scene->move(spot, 1, 1);
-    else 
+    else
         _scene->move(spot, -1, 1);
 
     // Pick up the block
@@ -141,7 +148,7 @@ void PlayerController::put_down()
     if (col_max = -1)
     {
         DLOG_F(1, "Placing block on the bottom.");
-        _scene->move(current.x, current.y+1, facing, - current.y-1);
+        _scene->move(current.x, current.y + 1, facing, -current.y - 1);
         _player->hold(nullptr);
         return;
     }
@@ -155,6 +162,6 @@ void PlayerController::put_down()
 
     // Place the block above the object at the current max height
     DLOG_F(1, "Placing block on top of object at height %d", col_max);
-    _scene->move(current.x, current.y+1, facing, - current.y + col_max);
+    _scene->move(current.x, current.y + 1, facing, -current.y + col_max);
     _player->hold(nullptr);
 }
