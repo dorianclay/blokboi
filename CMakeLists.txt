@@ -5,13 +5,15 @@ project(Blokboi)
 
 # Source Files
 set(SOURCE_FILES
+    lib/game.cpp
     lib/scene.cpp
     lib/block.cpp
     lib/player.cpp
+    lib/player_controller.cpp
 )
 
 # Executable
-add_executable(blokboi lib/game.cpp ${SOURCE_FILES})
+add_executable(blokboi lib/game_manager.cpp ${SOURCE_FILES})
 
 # Flags
 set(CMAKE_CXX_STANDARD 11)

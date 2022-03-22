@@ -249,3 +249,8 @@ string Scene::representation()
     }
     return ss.str();
 }
+
+Player *Scene::get_player()
+{
+    return _player;
+}

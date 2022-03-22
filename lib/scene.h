@@ -39,6 +39,7 @@ class Scene
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);
     std::string representation();
+    Player *get_player();
 };
 
 #endif /* SCENE_H */
