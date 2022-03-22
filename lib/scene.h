@@ -43,11 +43,11 @@ class Scene
     std::string representation();
     int height()
     {
-      return _height;
+        return _height;
     }
     int width()
     {
-      return _width;
+        return _width;
     }
 };
 

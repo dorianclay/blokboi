@@ -1,6 +1,6 @@
-#include "scene.h"
 #include "game.h"
 #include "player.h"
+#include "scene.h"
 #include <iostream>
 #include <loguru.hpp>
 #include <stdexcept>
@@ -71,9 +71,6 @@ string Game::objective()
 {
     return _objective;
 }
-
-
-
 
 // int main(int argc, char *argv[])
 // {
