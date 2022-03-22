@@ -2243,3 +2243,111 @@ date       time         ( uptime  ) [ thread name/id ]                   file:li
 2022-03-20 17:08:23.363 (   0.000s) [main thread     ]              scene.cpp:107   INFO| Start column: 17
 2022-03-20 17:08:23.363 (   0.000s) [main thread     ]              scene.cpp:135   INFO| Number of 'two-steps': 8
 2022-03-20 17:08:23.364 (   0.000s) [main thread     ]             loguru.cpp:523   INFO| atexit
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-22 01:07:23.462 (   0.000s) [        A42BE740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-22 01:07:23.462 (   0.000s) [        A42BE740]               game.cpp:13    INFO| Beginning a new game.
+2022-03-22 01:07:23.462 (   0.000s) [        A42BE740]              scene.cpp:107   INFO| Start column: 12
+2022-03-22 01:07:23.463 (   0.000s) [        A42BE740]              scene.cpp:135   INFO| Number of 'two-steps': 6
+2022-03-22 01:07:23.463 (   0.000s) [        A42BE740]               game.cpp:18    INFO| Map generated:
+Ðº4V
+2022-03-22 01:07:23.463 (   0.000s) [        A42BE740]               game.cpp:23    INFO| Making new game.
+2022-03-22 01:07:23.463 (   0.000s) [        A42BE740]              scene.cpp:107   INFO| Start column: 10
+2022-03-22 01:07:23.463 (   0.000s) [        A42BE740]              scene.cpp:135   INFO| Number of 'two-steps': 4
+2022-03-22 01:07:23.463 (   0.001s) [        A42BE740]               game.cpp:29    INFO| New map generated:
+Ðº4V
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-22 01:07:26.240 (   0.001s) [        AFAFC740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-22 01:07:26.240 (   0.001s) [        AFAFC740]               game.cpp:13    INFO| Beginning a new game.
+2022-03-22 01:07:26.241 (   0.002s) [        AFAFC740]              scene.cpp:107   INFO| Start column: 2
+2022-03-22 01:07:26.241 (   0.002s) [        AFAFC740]              scene.cpp:135   INFO| Number of 'two-steps': 4
+2022-03-22 01:07:26.242 (   0.003s) [        AFAFC740]               game.cpp:18    INFO| Map generated:
+°ÈR÷ÄU
+2022-03-22 01:07:26.242 (   0.003s) [        AFAFC740]               game.cpp:23    INFO| Making new game.
+2022-03-22 01:07:26.242 (   0.003s) [        AFAFC740]              scene.cpp:107   INFO| Start column: 2
+2022-03-22 01:07:26.243 (   0.003s) [        AFAFC740]              scene.cpp:135   INFO| Number of 'two-steps': 3
+2022-03-22 01:07:26.243 (   0.003s) [        AFAFC740]               game.cpp:29    INFO| New map generated:
+°ÈR÷ÄU
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-22 01:07:28.319 (   0.000s) [        EDBC2740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-22 01:07:28.319 (   0.000s) [        EDBC2740]               game.cpp:13    INFO| Beginning a new game.
+2022-03-22 01:07:28.320 (   0.000s) [        EDBC2740]              scene.cpp:107   INFO| Start column: 6
+2022-03-22 01:07:28.320 (   0.000s) [        EDBC2740]              scene.cpp:135   INFO| Number of 'two-steps': 8
+2022-03-22 01:07:28.320 (   0.000s) [        EDBC2740]               game.cpp:18    INFO| Map generated:
+ÐÑº„U
+2022-03-22 01:07:28.320 (   0.000s) [        EDBC2740]               game.cpp:23    INFO| Making new game.
+2022-03-22 01:07:28.320 (   0.000s) [        EDBC2740]              scene.cpp:107   INFO| Start column: 13
+2022-03-22 01:07:28.320 (   0.001s) [        EDBC2740]              scene.cpp:135   INFO| Number of 'two-steps': 4
+2022-03-22 01:07:28.320 (   0.001s) [        EDBC2740]               game.cpp:29    INFO| New map generated:
+ÐÑº„U
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-22 03:21:42.258 (   0.000s) [        CCCD8740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-22 03:21:42.258 (   0.000s) [        CCCD8740]               game.cpp:15    INFO| Beginning a new game.
+2022-03-22 03:21:42.258 (   0.001s) [        CCCD8740]              scene.cpp:106   INFO| Start column: 17
+2022-03-22 03:21:42.258 (   0.001s) [        CCCD8740]              scene.cpp:134   INFO| Number of 'two-steps': 8
+2022-03-22 03:21:42.259 (   0.001s) [        CCCD8740]               game.cpp:20    INFO| Map generated:
+à(^kîU
+2022-03-22 03:21:42.259 (   0.001s) [        CCCD8740]               game.cpp:25    INFO| Making new game.
+2022-03-22 03:21:42.259 (   0.001s) [        CCCD8740]              scene.cpp:106   INFO| Start column: 5
+2022-03-22 03:21:42.259 (   0.001s) [        CCCD8740]              scene.cpp:134   INFO| Number of 'two-steps': 7
+2022-03-22 03:21:42.259 (   0.001s) [        CCCD8740]               game.cpp:31    INFO| New map generated:
+à(^kîU
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]               game.cpp:15    INFO| Beginning a new game.
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]              scene.cpp:106   INFO| Start column: 0
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]              scene.cpp:134   INFO| Number of 'two-steps': 1
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]               game.cpp:20    INFO| Map generated:
+ š_R?V
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]               game.cpp:25    INFO| Making new game.
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]              scene.cpp:106   INFO| Start column: 6
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]              scene.cpp:134   INFO| Number of 'two-steps': 7
+2022-03-22 03:21:44.987 (   0.000s) [        C8EB0740]               game.cpp:31    INFO| New map generated:
+ š_R?V
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-22 03:21:47.923 (   0.000s) [        18B8E740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-22 03:21:47.923 (   0.000s) [        18B8E740]               game.cpp:15    INFO| Beginning a new game.
+2022-03-22 03:21:47.924 (   0.001s) [        18B8E740]              scene.cpp:106   INFO| Start column: 13
+2022-03-22 03:21:47.924 (   0.001s) [        18B8E740]              scene.cpp:134   INFO| Number of 'two-steps': 5
+2022-03-22 03:21:47.924 (   0.001s) [        18B8E740]               game.cpp:20    INFO| Map generated:
+pÁ®ÿ”U
+2022-03-22 03:21:47.924 (   0.002s) [        18B8E740]               game.cpp:25    INFO| Making new game.
+2022-03-22 03:21:47.925 (   0.002s) [        18B8E740]              scene.cpp:106   INFO| Start column: 8
+2022-03-22 03:21:47.925 (   0.002s) [        18B8E740]              scene.cpp:134   INFO| Number of 'two-steps': 5
+2022-03-22 03:21:47.925 (   0.002s) [        18B8E740]               game.cpp:31    INFO| New map generated:
+pÁ®ÿ”U
