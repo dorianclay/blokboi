@@ -1,11 +1,29 @@
-from numpy import True_
 from setuptools import Extension, setup
 
 USE_CYTHON = True
 
-ext = ".pyx" if USE_CYTHON else ".c"
+ext = ".pyx" if USE_CYTHON else ".cpp"
 
-extensions = [Extension("cgame", ["lib/cgame"+ext])]
+source_files = [
+    "lib/cgame"+ext,
+    "lib/block.cpp",
+    "lib/game_manager.cpp",
+    "lib/game.cpp",
+    "lib/player_controller.cpp",
+    "lib/player.cpp",
+    "lib/scene.cpp"
+]
+
+
+extensions = [
+    Extension("cgame", source_files,
+            #   include_dirs=["include/random",
+            #                 "include/loguru"],
+              libraries=["effolkronium/random", "loguru"],
+              library_dirs=["include/random",
+                            "include/loguru"],
+             )
+]
 
 if USE_CYTHON:
     from Cython.Build import cythonize
