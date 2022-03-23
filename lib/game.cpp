@@ -3,9 +3,9 @@
 #include "scene.h"
 #include <iostream>
 #ifdef CYTHON_COMP
-    #include <include/loguru/loguru.hpp>
+#include <include/loguru/loguru.hpp>
 #else
-    #include <loguru.hpp>
+#include <loguru.hpp>
 #endif /* CYTHON_COMP */
 #include <stdexcept>
 
