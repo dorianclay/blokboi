@@ -6,6 +6,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     Game test_game = Game();
-    test_game.newGame();
+    // test_game.newGame();
     cout << test_game.representation() << endl;
 }
