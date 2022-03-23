@@ -6,7 +6,11 @@ setup(
     ext_modules=cythonize('lib/*.pyx',
                           compiler_directives={
                               'language_level': 3,
-                          }),
+                          },
+                        #   include_path=['include/loguru',
+                        #                 'include/random'
+                        #   ]
+    ),
 )
 
 # 'src/*.pyx', 

@@ -1,6 +1,7 @@
 # distutils: language = c++
+# distutils: include_dirs = include/loguru
 
-from lib.cgame cimport Game
+from lib.game cimport Game
 
 def main():
     test_game = new Game()
