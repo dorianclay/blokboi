@@ -9,11 +9,11 @@ cdef extern from "game.h":
     """
     cdef cppclass Game:
         Game() except +
-        void newGame()
-        void resetGame()
-        void move(int direction)
-        void jump()
-        void pick_up()
-        void put_down()
-        string representation()
-        string objective()
+        void newGame() except +
+        void resetGame() except +
+        void move(int direction) except +
+        void jump() except +
+        void pick_up() except +
+        void put_down() except +
+        string representation() except +
+        string objective() except +
