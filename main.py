@@ -2,7 +2,7 @@
 
 from src.logger import Logger
 from src.pycolors import Colors
-from lib.cgame import PyGame
+from cgame import PyGame
 
 def main():
     logger = Logger.log_setup('blokboi', detail='debug', suppress_datetime=False, console=False)

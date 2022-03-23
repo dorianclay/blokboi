@@ -1,14 +1,8 @@
 File verbosity level: 1
 date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
-2022-03-22 13:58:28.099 (   0.000s) [        F8137740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
-2022-03-22 13:58:28.099 (   0.000s) [        F8137740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
-2022-03-22 13:58:28.099 (   0.000s) [        F8137740]               game.cpp:15    INFO| Beginning a new game.
-2022-03-22 13:58:28.099 (   0.000s) [        F8137740]              scene.cpp:106   INFO| Start column: 15
-2022-03-22 13:58:28.100 (   0.000s) [        F8137740]              scene.cpp:134   INFO| Number of 'two-steps': 6
-2022-03-22 13:58:28.100 (   0.000s) [        F8137740]               game.cpp:20    INFO| Map generated:
-¡◊§ÌU
-2022-03-22 13:58:28.100 (   0.000s) [        F8137740]               game.cpp:25    INFO| Making new game.
-2022-03-22 13:58:28.100 (   0.000s) [        F8137740]              scene.cpp:106   INFO| Start column: 17
-2022-03-22 13:58:28.100 (   0.000s) [        F8137740]              scene.cpp:134   INFO| Number of 'two-steps': 5
-2022-03-22 13:58:28.100 (   0.000s) [        F8137740]               game.cpp:31    INFO| New map generated:
-¡◊§ÌU
+2022-03-23 15:26:15.079 (   0.001s) [        D577E740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
+2022-03-23 15:26:15.079 (   0.001s) [        D577E740]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-23 15:26:15.079 (   0.001s) [        D577E740]               game.cpp:15    INFO| Beginning a new game.
+2022-03-23 15:26:15.079 (   0.001s) [        D577E740]              scene.cpp:106   INFO| Start column: 11
+2022-03-23 15:26:15.079 (   0.001s) [        D577E740]              scene.cpp:134   INFO| Number of 'two-steps': 1
+2022-03-23 15:26:15.079 (   0.002s) [        D577E740]               game.cpp:20    INFO| Map generated:ê»ÔéU
