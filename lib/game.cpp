@@ -2,7 +2,11 @@
 #include "player.h"
 #include "scene.h"
 #include <iostream>
-#include <loguru.hpp>
+#ifdef CYTHON_COMP
+    #include <include/loguru/loguru.hpp>
+#else
+    #include <loguru.hpp>
+#endif /* CYTHON_COMP */
 #include <stdexcept>
 
 using namespace std;

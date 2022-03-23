@@ -1,8 +1,8 @@
 # distutils: language = c++
 
-from cgame cimport Game
+from lib.cgame cimport Game
 
 def main():
     test_game = new Game()
     test_game.newGame()
-    test_game.strprint()
+    test_game.representation()
