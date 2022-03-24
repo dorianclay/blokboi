@@ -1,4 +1,8 @@
-on: push
+on: 
+  push:
+    paths:
+      - '**.py'
+      - '**.pyx'
 name: Black Python Formatter
 jobs:
   lint:
