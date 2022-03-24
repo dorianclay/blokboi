@@ -2412,3 +2412,16 @@ date       time         ( uptime  ) [ thread name/id ]                   file:li
 2022-03-23 15:26:15.079 (   0.001s) [        D577E740]              scene.cpp:106   INFO| Start column: 11
 2022-03-23 15:26:15.079 (   0.001s) [        D577E740]              scene.cpp:134   INFO| Number of 'two-steps': 1
 2022-03-23 15:26:15.079 (   0.002s) [        D577E740]               game.cpp:20    INFO| Map generated:ê»ÔéU
+
+
+
+
+
+File verbosity level: 0
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+2022-03-24 01:55:29.669 (  11.983s) [        EDAD6180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-03-24 01:55:29.669 (  11.983s) [        EDAD6180]               game.cpp:15    INFO| Beginning a new game.
+2022-03-24 01:55:29.669 (  11.983s) [        EDAD6180]              scene.cpp:106   INFO| Start column: 2
+2022-03-24 01:55:29.670 (  11.983s) [        EDAD6180]              scene.cpp:134   INFO| Number of 'two-steps': 4
+2022-03-24 01:55:29.670 (  11.984s) [        EDAD6180]               game.cpp:20    INFO| Map generated:
+0äCôàU
