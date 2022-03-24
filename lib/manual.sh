@@ -1,1 +1,0 @@
-g++ -std=c++11 game.cpp scene.cpp block.cpp player.cpp -o blokboi -Wall
