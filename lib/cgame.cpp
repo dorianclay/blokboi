@@ -3,7 +3,8 @@ namespace py = pybind11;
 
 #include "game.h"
 
-PYBIND11_MODULE(blokboi, m) {
+PYBIND11_MODULE(blokboi, m)
+{
     m.doc() = "Blokboi game";
 
     py::class_<Game>(m, "Game")
@@ -16,9 +17,5 @@ PYBIND11_MODULE(blokboi, m) {
         .def("put_down", &Game::put_down)
         .def("representation", &Game::representation)
         .def("objective", &Game::objective)
-        .def("__repr__",
-            [](Game &a) {
-                return a.representation();
-            }
-        );
+        .def("__repr__", [](Game &a) { return a.representation(); });
 }
