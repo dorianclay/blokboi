@@ -17,7 +17,7 @@ PYBIND11_MODULE(blokboi, m) {
         .def("representation", &Game::representation)
         .def("objective", &Game::objective)
         .def("__repr__",
-            [](const Game &a) {
+            [](Game &a) {
                 return a.representation();
             }
         );
