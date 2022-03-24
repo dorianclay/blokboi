@@ -11,13 +11,13 @@ Game::Game()
 {
     loguru::add_file("logs/blokboi_latest.log", loguru::Truncate, loguru::Verbosity_1);
     loguru::add_file("logs/blokboi_all.log", loguru::Append, loguru::Verbosity_INFO);
-    loguru::g_stderr_verbosity = 1;
+    loguru::g_stderr_verbosity = -2;
     LOG_F(INFO, "Beginning a new game.");
 
     _scene = new Scene(20, 15);
     _player_controller = new PlayerController(_scene, _scene->get_player());
     _scene->generate_easy();
-    DLOG_F(INFO, "Map generated:\n%s", _scene->representation());
+    DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
 void Game::newGame()
@@ -28,7 +28,7 @@ void Game::newGame()
     _scene = new Scene(20, 15);
     _player_controller = new PlayerController(_scene, _scene->get_player());
     _scene->generate_easy();
-    DLOG_F(INFO, "New map generated:\n%s", _scene->representation());
+    DLOG_F(INFO, "New map generated:\n%s", _scene->representation().c_str());
 }
 
 void Game::resetGame()
