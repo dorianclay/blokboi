@@ -1,4 +1,9 @@
-on: push
+on: 
+  push: 
+    paths:
+      - '**.cpp'
+      - '**.cxx'
+      - '**.c'
 name: clang-format Code Formatter
 jobs:
   lint:
