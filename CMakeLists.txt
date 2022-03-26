@@ -25,6 +25,7 @@ option(PYTHON_EXT "Use Pybind11 to generate Python extension module" ON)
 if(PYTHON_EXT)
   find_package(pybind11 CONFIG)
   pybind11_add_module(blokboi lib/cgame.cpp ${SOURCE_FILES})
+  pybind11_add_module(game_object lib/cgame_object.cpp ${SOURCE_FILES})
 else()
   add_executable(blokboi lib/game_manager.cpp ${SOURCE_FILES})
   install(TARGETS blokboi DESTINATION bin)
@@ -51,6 +52,11 @@ install(FILES include/loguru/loguru.hpp DESTINATION include)
 # Link libraries
 add_subdirectory(include/random)
 target_link_libraries(blokboi PUBLIC 
+                      Loguru
+                      effolkronium_random
+                      ${CMAKE_THREAD_LIBS_INIT}
+                      ${CMAKE_DL_LIBS})
+target_link_libraries(game_object PUBLIC 
                       Loguru
                       effolkronium_random
                       ${CMAKE_THREAD_LIBS_INIT}
