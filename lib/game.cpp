@@ -62,6 +62,11 @@ void Game::put_down()
     _player_controller->put_down();
 }
 
+const Objects Game::scene_space() const
+{
+    return _scene->get_space();
+}
+
 string Game::representation()
 {
     return _scene->representation();

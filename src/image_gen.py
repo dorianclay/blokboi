@@ -24,7 +24,16 @@ class ImageGen:
 
     _skycolor = (90,192,236)
 
-    def make_image_from(mapstring: str, path: Path) -> None:
+    def make_image_from_str(mapstring: str, path: Path) -> None:
+        """
+        Generates an image from a string representation
+
+        ### Parameters
+        `mapstring : str`:
+            The string representation of a Blokboi map.
+        `path : Path`:
+            The path to save the image to.        
+        """
         logger = logging.getLogger('image_gen')
         lines = mapstring.split('\n')
         width = len(lines[0]) * 16

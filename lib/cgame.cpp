@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 namespace py = pybind11;
 
 #include "game.h"
@@ -15,6 +16,9 @@ PYBIND11_MODULE(blokboi, m)
         .def("jump", &Game::jump)
         .def("pick_up", &Game::pick_up)
         .def("put_down", &Game::put_down)
+        // TODO: Make the <vector<vector: GameObject>> an opaque type
+        .def("scene_space", &Game::scene_space)
+        // TODO (END)
         .def("representation", &Game::representation)
         .def("objective", &Game::objective)
         .def("__repr__", [](Game &a) { return a.representation(); });
