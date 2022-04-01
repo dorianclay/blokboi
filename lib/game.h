@@ -19,6 +19,7 @@ class Game
     void jump();
     void pick_up();
     void put_down();
+    const Objects scene_space() const;
     std::string representation();
     std::string objective();
 };
