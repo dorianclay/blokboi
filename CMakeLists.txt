@@ -56,8 +56,10 @@ target_link_libraries(blokboi PUBLIC
                       effolkronium_random
                       ${CMAKE_THREAD_LIBS_INIT}
                       ${CMAKE_DL_LIBS})
-target_link_libraries(game_object PUBLIC 
-                      Loguru
-                      effolkronium_random
-                      ${CMAKE_THREAD_LIBS_INIT}
-                      ${CMAKE_DL_LIBS})
+if(PYTHON_EXT)
+  target_link_libraries(game_object PUBLIC 
+                        Loguru
+                        effolkronium_random
+                        ${CMAKE_THREAD_LIBS_INIT}
+                        ${CMAKE_DL_LIBS})
+endif()
