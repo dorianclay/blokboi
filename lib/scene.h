@@ -38,7 +38,10 @@ class Scene
     GameObject *get_object(int x, int y);
     int get_highest_obj_height(int col);
     Player *get_player();
-    const Objects get_space() const { return _space; }
+    const Objects get_space() const
+    {
+        return _space;
+    }
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);
     std::string representation();
