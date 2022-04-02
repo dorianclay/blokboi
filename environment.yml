@@ -5,8 +5,9 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=4.5=1_gnu
+  - bidict=0.21.2=pyhd3eb1b0_0
   - blas=1.0=mkl
-  - ca-certificates=2022.3.18=h06a4308_0
+  - ca-certificates=2022.3.29=h06a4308_0
   - certifi=2021.10.8=py39h06a4308_2
   - cython=0.29.25=py39hdbfa776_0
   - freetype=2.11.0=h70c0345_0
