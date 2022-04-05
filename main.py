@@ -26,19 +26,15 @@ def test(logger):
     game_instance = Game()
     logger.info("Got map:\n" + str(game_instance))
 
-    arr = np.array(game_instance, copy=False)
-    # arr = np.array(game_instance.array())
-    logger.info("Got array:\n" + arr)
+    arr = np.array(game_instance.array())
 
-    # logger.info("Can see the data: " + str(arr))
-
-    # strfull = ''
-    # for row in range(game_instance.width()):
-    #     strrow = ''
-    #     for col in range(game_instance.height()):
-    #         strrow += f"[{(arr[row, col, 0])},{arr[row, col, 1]}] "
-    #     strfull += strrow + '\n'
-    # logger.info("Game array representation:\n" + strfull)
+    strfull = ''
+    for row in range(game_instance.width()):
+        strrow = ''
+        for col in range(game_instance.height()):
+            strrow += f"[{(arr[row, col, 0])},{arr[row, col, 1]}] "
+        strfull += strrow + '\n'
+    logger.info("Game array representation:\n" + strfull)
 
     ImageGen.make_image_from_str(game_instance.__repr__(), Path('test.png'))
 

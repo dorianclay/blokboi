@@ -27,10 +27,6 @@ class Game
     {
         return _scene->height();
     }
-    char *data()
-    {
-        return _scene->data();
-    }
     Char3d array()
     {
         return _scene->array();
