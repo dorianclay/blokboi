@@ -19,20 +19,22 @@ PYBIND11_MODULE(blokboi, m)
         .def("put_down", &Game::put_down)
         .def("width", &Game::width)
         .def("height", &Game::height)
+        .def("data", &Game::data)
+        .def("array", &Game::array)
         // // TODO: Make the <vector<vector: GameObject>> an opaque type
         // .def("scene_space", &Game::scene_space)
         // // TODO (END)
         .def("representation", &Game::representation)
         .def("objective", &Game::objective)
         .def("__repr__", [](Game &a) { return a.representation(); })
-        .def_buffer([](Game &g) -> py::buffer_info {
+        .def_buffer([](Game &m) -> py::buffer_info {
             return py::buffer_info(
-                g.data(),
+                m.data(),
                 sizeof(char),
                 py::format_descriptor<char>::format(),
                 3,
-                { g.width(), g.height() },
-                { sizeof(char) * g.height(), sizeof(char)}
+                { m.width(), m.height(), 2 },
+                { sizeof(char) * m.height() * 2, sizeof(char) * 2, sizeof(char)}
             );
         });
 }

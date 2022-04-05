@@ -2,33 +2,37 @@
 #define BLOCK_H
 
 #include "game_object.h"
+#include "effolkronium/random.hpp"
 #include <ostream>
 
 #define MIN_NUMBER 0
 #define MAX_NUMBER 9
 
-enum Color
-{
-    RED = 'r',
-    ORANGE = 'o',
-    YELLOW = 'y',
-    GREEN = 'g',
-    BLUE = 'b',
-    PURPLE = 'p',
-    GREY = 'q',
-    COUNT
-};
+// enum Color
+// {
+//     RED = 'r',
+//     ORANGE = 'o',
+//     YELLOW = 'y',
+//     GREEN = 'g',
+//     BLUE = 'b',
+//     PURPLE = 'p',
+//     GREY = 'q',
+//     COUNT
+// };
+
+
 
 class Block : public GameObject
 {
   protected:
-    Color _color;
+    char colors[7] = {'r', 'o', 'y', 'g', 'b', 'p', 'G'};
+    char _color;
     int _number;
 
   public:
     Block();
     Block(int x, int y);
-    Block(int x, int y, Color color, int number, bool movable);
+    Block(int x, int y, char color, int number, bool movable);
 
     int color() const
     {

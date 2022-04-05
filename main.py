@@ -3,6 +3,7 @@ import os
 import io
 from pathlib import Path
 from contextlib import redirect_stderr
+import numpy as np
 
 
 from src.logger import Logger
@@ -23,9 +24,21 @@ def test(logger):
 
     logger.info("Running a simple test of Blokboi API.")
     game_instance = Game()
-    logger.info("Got map:\n" + game_instance.__repr__())
+    logger.info("Got map:\n" + str(game_instance))
 
-    # logger.info(game_instance.scene_space())
+    arr = np.array(game_instance, copy=False)
+    # arr = np.array(game_instance.array())
+    logger.info("Got array:\n" + arr)
+
+    # logger.info("Can see the data: " + str(arr))
+
+    # strfull = ''
+    # for row in range(game_instance.width()):
+    #     strrow = ''
+    #     for col in range(game_instance.height()):
+    #         strrow += f"[{(arr[row, col, 0])},{arr[row, col, 1]}] "
+    #     strfull += strrow + '\n'
+    # logger.info("Game array representation:\n" + strfull)
 
     ImageGen.make_image_from_str(game_instance.__repr__(), Path('test.png'))
 
