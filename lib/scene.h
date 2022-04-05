@@ -11,6 +11,13 @@
 typedef std::vector<Block *> Blocks;
 typedef std::vector<GameObject *> ObjectList;
 typedef std::vector<std::vector<GameObject *>> Objects;
+typedef std::vector<std::vector<std::vector<char>>> Char3d;
+
+/* DATA 3D array specification
+    Dim(0) are the rows.
+    Dim(1) are the columns.
+    Dim(2) is a vector of [object type, block number value]
+*/
 
 class Scene
 {
@@ -21,6 +28,7 @@ class Scene
     unsigned _height = 10;
     unsigned _width = 10;
     Objects _space;
+    Char3d _data;
     std::uniform_int_distribution<int> _dist_width;
     std::uniform_int_distribution<int> _dist_height;
     LOCATION *findObject(GameObject *object);
@@ -38,9 +46,13 @@ class Scene
     GameObject *get_object(int x, int y);
     int get_highest_obj_height(int col);
     Player *get_player();
-    const Objects get_space() const
+    // const Objects get_space() const
+    // {
+    //     return _space;
+    // }
+    char *data()
     {
-        return _space;
+        return &_data[0][0][0];
     }
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);

@@ -5,9 +5,10 @@
 
 enum Kind
 {
-    BLOCK,
-    GROUND,
-    PLAYER
+    SKY = '.',
+    BLOCK = 'X',
+    GROUND = '@',
+    PLAYER = 'P'
 };
 
 typedef union location {
@@ -46,6 +47,10 @@ class GameObject
     bool movable() const
     {
         return _movable;
+    }
+    int number()
+    {
+        return -1;
     }
 };
 

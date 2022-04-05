@@ -27,7 +27,14 @@ class Game
     {
         return _scene->height();
     }
-    const Objects scene_space() const;
+    char *data()
+    {
+        return _scene->data();
+    }
+    // const Objects scene_space() const
+    // {
+    //     return _scene->get_space();
+    // }
     std::string representation();
     std::string objective();
 };
