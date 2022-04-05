@@ -1,5 +1,5 @@
 File verbosity level: 1
-date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
+date       time         ( uptime  ) [ thread name/id ]                   file:line     v|
 2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
 2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
 2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]               game.cpp:15    INFO| Beginning a new game.

@@ -1,13 +1,14 @@
 import unittest
 
-class LocalTestRunner:
 
+class LocalTestRunner:
     def run_tests():
         loader = unittest.TestLoader()
-        tests = loader.discover('.', 'test*.py')
+        tests = loader.discover(".", "test*.py")
         testRunner = unittest.runner.TextTestRunner()
         results = testRunner.run(tests)
         return results
+
 
 def main():
     results = LocalTestRunner.run_tests()
@@ -17,5 +18,5 @@ def main():
         exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

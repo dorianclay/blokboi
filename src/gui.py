@@ -5,8 +5,8 @@ import logging
 
 from src.image_gen import ImageGen
 
-class SceneFrame(ttk.Frame):
 
+class SceneFrame(ttk.Frame):
     def __init__(self, game_instance, container, assetpath: Path = Path("assets")):
         super().__init__(container)
         self.logger = logging.getLogger("blokboi.app.sceneframe")
@@ -19,27 +19,30 @@ class SceneFrame(ttk.Frame):
 
         for col in range(width):
             self.columnconfigure(col, weight=1)
-        
+
         for row in range(height):
             self.rowconfigure(row, weight=1)
 
         for row in range(height):
             for col in range(width):
-                image_labelx = ttk.Label(container, image=ImageGen.get_image_path(game_instance.array()[row][col], container._scale, assetpath=assetpath), padding=0)
+                image_labelx = ttk.Label(
+                    container,
+                    image=ImageGen.get_image_path(
+                        game_instance.array()[row][col],
+                        container._scale,
+                        assetpath=assetpath,
+                    ),
+                    padding=0,
+                )
                 image_labelx.grid(column=col, row=row)
 
         self.pack(**options)
 
-        
     def arrow_clicked(self):
-        self.showinfo(title="Success",
-                message="An arrow was clicked!")
-
-        
+        self.showinfo(title="Success", message="An arrow was clicked!")
 
 
 class App(tk.Tk):
-
     def __init__(self, game_instance, scale=2):
         super().__init__()
         self.logger = logging.getLogger("blokboi.app")
@@ -48,5 +51,7 @@ class App(tk.Tk):
         self._scale = scale
 
         self.title("Blokboi")
-        self.geometry(f"{game_instance.width() * scale}x{game_instance.height() * scale}")
+        self.geometry(
+            f"{game_instance.width() * scale}x{game_instance.height() * scale}"
+        )
         self.resizable(False, False)

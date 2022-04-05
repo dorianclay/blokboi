@@ -51,13 +51,13 @@ install(FILES include/loguru/loguru.hpp DESTINATION include)
 
 # Link libraries
 add_subdirectory(include/random)
-target_link_libraries(blokboi PUBLIC 
+target_link_libraries(blokboi PUBLIC
                       Loguru
                       effolkronium_random
                       ${CMAKE_THREAD_LIBS_INIT}
                       ${CMAKE_DL_LIBS})
 if(PYTHON_EXT)
-  target_link_libraries(game_object PUBLIC 
+  target_link_libraries(game_object PUBLIC
                         Loguru
                         effolkronium_random
                         ${CMAKE_THREAD_LIBS_INIT}
