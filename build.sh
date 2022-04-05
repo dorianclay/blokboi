@@ -16,7 +16,7 @@ if [[ $1 ]]; then
         printf "Current options are:\n"
         printf "\tclean\tRemove all build files.\n"
     fi
-else 
+else
     SECTION="CMake configuration"
     cmake . || die
 
