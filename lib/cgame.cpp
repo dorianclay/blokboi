@@ -2,8 +2,8 @@
 #include <pybind11/stl.h>
 namespace py = pybind11;
 
-#include <cstdint>
 #include "game.h"
+#include <cstdint>
 
 PYBIND11_MODULE(blokboi, m)
 {

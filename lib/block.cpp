@@ -1,8 +1,8 @@
 #include "block.h"
 #include "effolkronium/random.hpp"
-#include <loguru.hpp>
 #include <cstdlib>
 #include <ctime>
+#include <loguru.hpp>
 
 using Random = effolkronium::random_static;
 
