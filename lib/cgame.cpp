@@ -16,6 +16,8 @@ PYBIND11_MODULE(blokboi, m)
         .def("jump", &Game::jump)
         .def("pick_up", &Game::pick_up)
         .def("put_down", &Game::put_down)
+        .def("width", &Game::width)
+        .def("height", &Game::height)
         // TODO: Make the <vector<vector: GameObject>> an opaque type
         .def("scene_space", &Game::scene_space)
         // TODO (END)
