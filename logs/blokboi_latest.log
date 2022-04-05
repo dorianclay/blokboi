@@ -1,23 +1,23 @@
 File verbosity level: 1
 date       time         ( uptime  ) [ thread name/id ]                   file:line     v| 
-2022-04-05 14:48:19.875 (   0.018s) [        9B148180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
-2022-04-05 14:48:19.876 (   0.018s) [        9B148180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
-2022-04-05 14:48:19.876 (   0.018s) [        9B148180]               game.cpp:15    INFO| Beginning a new game.
-2022-04-05 14:48:19.876 (   0.019s) [        9B148180]              scene.cpp:127   INFO| Start column: 5
-2022-04-05 14:48:19.876 (   0.019s) [        9B148180]              scene.cpp:155   INFO| Number of 'two-steps': 5
-2022-04-05 14:48:19.876 (   0.019s) [        9B148180]               game.cpp:20    INFO| Map generated:
+2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_latest.log', mode: 'w', verbosity: 1
+2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]             loguru.cpp:827   INFO| Logging to 'logs/blokboi_all.log', mode: 'a', verbosity: 0
+2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]               game.cpp:15    INFO| Beginning a new game.
+2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]              scene.cpp:127   INFO| Start column: 6
+2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]              scene.cpp:155   INFO| Number of 'two-steps': 3
+2022-04-05 15:01:49.107 (   0.011s) [        24E0E180]               game.cpp:20    INFO| Map generated:
 ....................
-....................
-....................
-....................
-....................
-....................
-....................
-....................
-g.........@.........
-@@........@..r......
-@@@......@@@@r.@.@@@
-@@@.@...@@@@@@.@@@@@
-@@@@@oPp@@@@@@@@@@@@
+......b.............
+......y.............
+.....@@@@...@@@..@@@
+.....@@@@.@@@@@@@@@@
+...@@@@@@@@@@@@@@@@@
+..P@@@@@@@@@@@@@@@@@
+..@@@@@@@@@@@@@@@@@@
+.@@@@@@@@@@@@@@@@@@@
+y@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@
