@@ -19,8 +19,14 @@ class Game
     void jump();
     void pick_up();
     void put_down();
-    int width() { return _scene->width(); }
-    int height() { return _scene->height(); }
+    int width()
+    {
+        return _scene->width();
+    }
+    int height()
+    {
+        return _scene->height();
+    }
     const Objects scene_space() const;
     std::string representation();
     std::string objective();
