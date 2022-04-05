@@ -5,6 +5,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <cstdint>
 
 using Random = effolkronium::random_static;
 
@@ -26,6 +27,15 @@ Scene::Scene()
     _space = Objects(_width, vector<GameObject *>(_height));
     _dist_width = uniform_int_distribution<int>(0, _width - 1);
     _dist_height = uniform_int_distribution<int>(0, _height - 1);
+    _data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+    for (int i = 0; i < _width; i++)
+    {
+        for (int j = 0; j < _height; j++)
+        {
+            _data[i][j][0] = '.';
+            _data[i][j][1] = -1;
+        }
+    }
 }
 
 Scene::Scene(int x, int y)
@@ -35,6 +45,15 @@ Scene::Scene(int x, int y)
     _space = Objects(_width, vector<GameObject *>(_height));
     _dist_width = uniform_int_distribution<int>(0, _width - 1);
     _dist_height = uniform_int_distribution<int>(0, _height - 1);
+    _data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+    for (int i = 0; i < _width; i++)
+    {
+        for (int j = 0; j < _height; j++)
+        {
+            _data[i][j][0] = '.';
+            _data[i][j][1] = -1;
+        }
+    }
 }
 
 LOCATION *Scene::findObject(GameObject *object)
@@ -70,7 +89,11 @@ void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheig
     for (int y = 0; y <= thisheight; y++)
     {
         // put a block here...
+        DLOG_F(INFO, "Filling ground at (%d,%d)", col, y);
         _space[col][y] = new Ground(col, y);
+        _data[col][y][0] = _space[col][y]->kind();
+        _data[col][y][1] = -1;
+        DLOG_F(INFO, "Successfully updated data");
     }
 
     *lastheight = thisheight;
@@ -145,6 +168,8 @@ void Scene::generate_easy()
                 break;
         }
         _space[block_col][block_row] = new Block(block_col, block_row);
+        _data[block_col][block_row][0] = _space[block_col][block_row]->kind();
+        _data[block_col][block_row][1] = _space[block_col][block_row]->number();
     }
 
     // Put a player anywhere above a block.
@@ -152,6 +177,8 @@ void Scene::generate_easy()
     int player_height = count_blocks(player_col);
     _player = new Player(player_col, player_height);
     _space[player_col][player_height] = _player;
+    _data[player_col][player_height][0] = _space[player_col][player_height]->kind();
+    _data[player_col][player_height][1] = -1;
 }
 
 void Scene::generate(const string &str)
@@ -177,6 +204,8 @@ void Scene::flush()
         for (int j = 0; j < _height; j++)
         {
             _space[i][j] = nullptr;
+            _data[i][j][0] = '.';
+            _data[i][j][1] = -1;
         }
     }
 }
@@ -250,6 +279,10 @@ void Scene::move(int x, int y, int dx, int dy)
 
     _space[newx][newy] = _space[x][y];
     _space[newx][newy]->update(newx, newy);
+    _data[newx][newy][0] = _space[newx][newy]->kind();
+    _data[newx][newy][1] = _space[newx][newy]->number();
+    _data[x][y][0] = '.';
+    _data[x][y][1] = -1;
     _space[x][y] = nullptr;
 }
 

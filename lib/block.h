@@ -9,13 +9,13 @@
 
 enum Color
 {
-    RED,
-    ORANGE,
-    YELLOW,
-    GREEN,
-    BLUE,
-    PURPLE,
-    GREY,
+    RED = 'r',
+    ORANGE = 'o',
+    YELLOW = 'y',
+    GREEN = 'g',
+    BLUE = 'b',
+    PURPLE = 'p',
+    GREY = 'q',
     COUNT
 };
 
@@ -37,6 +37,10 @@ class Block : public GameObject
     int number() const
     {
         return _number;
+    }
+    int kind() const
+    {
+        return _color;
     }
     void repr(std::ostream &ostr) const;
 };
