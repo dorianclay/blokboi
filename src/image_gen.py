@@ -10,7 +10,7 @@ for path in paths:
 
 class ImageGen:
 
-    _asset_map = {
+    _str_path_map = {
         '.': 'sky',
         '@': 'ground',
         'r': 'block_red_x',
@@ -20,6 +20,18 @@ class ImageGen:
         'b': 'block_blue_x',
         'p': 'block_purple_x',
         'P': 'boi_2'
+    }
+
+    _pathname_map = {
+        '.': 'sky',
+        '@': 'ground',
+        'r': 'block_red',
+        'o': 'block_orange',
+        'y': 'block_yellow',
+        'g': 'block_green',
+        'b': 'block_blue',
+        'p': 'block_purple',
+        'P': 'boi'
     }
 
     _skycolor = (90,192,236)
@@ -43,10 +55,36 @@ class ImageGen:
         for row in lines:
             count_c = 0
             for col in row:
-                region = assets[ImageGen._asset_map[col]].crop((0,0,16,16))
+                region = assets[ImageGen._str_path_map[col]].crop((0,0,16,16))
                 newImage.paste(region, 
                                 (count_c*16, count_r*16, (count_c+1)*16, (count_r+1)*16),
                                 mask=region)
                 count_c += 1
             count_r += 1
         newImage.save(path)
+
+    def get_image_path(obj_arr: list, scale: int = 1, assetpath: Path = Path("assets")) -> Path:
+        """
+        Returns the path to the image that corresponds with an object.
+
+        ### Parameters
+        `obj_arr : list`:
+            The list representation of a Blokboi GameObject.
+        `scale : int`:
+            The scale of the image.
+        `assetpath : Path`:
+            The path to the assets directory.
+
+        ### Returns
+        `Path`
+            The Path of the image.
+        """
+        if obj_arr[0] in ['.', '@']:
+            return assetpath / f"{scale}x" /  f"{ImageGen._asset_map[obj_arr[0]]}.png"
+        elif obj_arr[0] is 'P':
+            # TODO: make boi not static.
+            return assetpath / f"{scale}x" /  f"{ImageGen._asset_map[obj_arr[0]]}_2.png"
+        elif obj_arr[1] is -1:
+            return assetpath / f"{scale}x" /  f"{ImageGen._asset_map[obj_arr[0]]}_x.png"
+        else:
+            return assetpath / f"{scale}x" /  f"{ImageGen._asset_map[obj_arr[0]]}_{obj_arr[1]}.png"
