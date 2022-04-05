@@ -1,8 +1,8 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "game_object.h"
 #include "effolkronium/random.hpp"
+#include "game_object.h"
 #include <ostream>
 
 #define MIN_NUMBER 0
@@ -19,8 +19,6 @@
 //     GREY = 'q',
 //     COUNT
 // };
-
-
 
 class Block : public GameObject
 {
