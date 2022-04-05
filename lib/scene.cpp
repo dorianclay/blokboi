@@ -89,11 +89,9 @@ void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheig
     for (int y = 0; y <= thisheight; y++)
     {
         // put a block here...
-        DLOG_F(INFO, "Filling ground at (%d,%d)", col, y);
         _space[col][y] = new Ground(col, y);
         _data[col][y][0] = _space[col][y]->kind();
         _data[col][y][1] = -1;
-        DLOG_F(INFO, "Successfully updated data");
     }
 
     *lastheight = thisheight;

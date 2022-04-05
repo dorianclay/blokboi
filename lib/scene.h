@@ -54,6 +54,10 @@ class Scene
     {
         return &_data[0][0][0];
     }
+    Char3d array()
+    {
+        return _data;
+    }
     void move(GameObject *object, int dx, int dy);
     void move(int x, int y, int dx, int dy);
     std::string representation();

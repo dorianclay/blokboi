@@ -31,9 +31,17 @@ class Game
     {
         return _scene->data();
     }
+    Char3d array()
+    {
+        return _scene->array();
+    }
     // const Objects scene_space() const
     // {
     //     return _scene->get_space();
+    // }
+    // const Scene *scene() const
+    // {
+    //     return _scene;
     // }
     std::string representation();
     std::string objective();
