@@ -4,9 +4,9 @@ import logging
 
 assets = {}
 
-paths = Path("assets").glob(f"**/*.png")
+paths = Path("assets/1x").glob(f"**/*.png")
 for path in paths:
-    assets[path.stem] = Image.open(path)
+    assets[path] = Image.open(path)
 
 
 class ImageGen:
@@ -14,30 +14,30 @@ class ImageGen:
     _str_path_map = {
         ".": "sky",
         "@": "ground",
-        "r": "block_red_x",
-        "o": "block_orange_x",
-        "y": "block_yellow_x",
-        "g": "block_green_x",
-        "b": "block_blue_x",
-        "p": "block_purple_x",
+        "r": "blocks/block_red_x",
+        "o": "blocks/block_orange_x",
+        "y": "blocks/block_yellow_x",
+        "g": "blocks/block_green_x",
+        "b": "blocks/block_blue_x",
+        "p": "blocks/block_purple_x",
         "P": "boi_2",
     }
 
     _pathname_map = {
         ".": "sky",
         "@": "ground",
-        "r": "block_red",
-        "o": "block_orange",
-        "y": "block_yellow",
-        "g": "block_green",
-        "b": "block_blue",
-        "p": "block_purple",
+        "r": "blocks/block_red",
+        "o": "blocks/block_orange",
+        "y": "blocks/block_yellow",
+        "g": "blocks/block_green",
+        "b": "blocks/block_blue",
+        "p": "blocks/block_purple",
         "P": "boi",
     }
 
     _skycolor = (90, 192, 236)
 
-    def make_image_from_str(mapstring: str, path: Path) -> None:
+    def make_image_from_str(mapstring: str, path: Path, scale: int = 1) -> None:
         """
         Generates an image from a string representation
 
@@ -56,7 +56,10 @@ class ImageGen:
         for row in lines:
             count_c = 0
             for col in row:
-                region = assets[ImageGen._str_path_map[col]].crop((0, 0, 16, 16))
+                # TODO: update this key for an unnumbered block
+                region = assets[ImageGen.get_image_path([col, -1], scale)].crop(
+                    (0, 0, 16, 16)
+                )
                 newImage.paste(
                     region,
                     (
@@ -90,15 +93,20 @@ class ImageGen:
             The Path of the image.
         """
         if obj_arr[0] in [".", "@"]:
-            return assetpath / f"{scale}x" / f"{ImageGen._asset_map[obj_arr[0]]}.png"
+            return assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}.png"
         elif obj_arr[0] is "P":
             # TODO: make boi not static.
-            return assetpath / f"{scale}x" / f"{ImageGen._asset_map[obj_arr[0]]}_2.png"
+            return (
+                assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}_2.png"
+            )
+        # TODO: update this key for an unnumbered block
         elif obj_arr[1] is -1:
-            return assetpath / f"{scale}x" / f"{ImageGen._asset_map[obj_arr[0]]}_x.png"
+            return (
+                assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}_x.png"
+            )
         else:
             return (
                 assetpath
                 / f"{scale}x"
-                / f"{ImageGen._asset_map[obj_arr[0]]}_{obj_arr[1]}.png"
+                / f"{ImageGen._pathname_map[obj_arr[0]]}_{obj_arr[1]}.png"
             )

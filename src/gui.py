@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from pathlib import Path
 import logging
+import os
 
 from src.image_gen import ImageGen
 
@@ -23,8 +24,17 @@ class SceneFrame(ttk.Frame):
         for row in range(height):
             self.rowconfigure(row, weight=1)
 
-        for row in range(height):
-            for col in range(width):
+        for row in range(width):
+            for col in range(height):
+                path = ImageGen.get_image_path(
+                    game_instance.array()[row][col],
+                    container._scale,
+                    assetpath=assetpath,
+                )
+                self.logger.info(f"({row},{col}) image path: {str(path)}")
+                self.logger.info("Opening..: " + str(os.path.exists(path)))
+                continue
+
                 image_labelx = ttk.Label(
                     container,
                     image=ImageGen.get_image_path(
