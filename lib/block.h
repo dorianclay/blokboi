@@ -36,14 +36,15 @@ class Block : public GameObject
     {
         return _color;
     }
-    int number() const override
-    {
-        return '0' + _number;
-    }
     int kind() const override
     {
         return _color;
     }
+    int number() const override
+    {
+        return '0' + _number;
+    }
+
     void repr(std::ostream &ostr) const;
 };
 
@@ -53,9 +54,13 @@ class Ground : public Block
   public:
     Ground(int x, int y);
     void repr(std::ostream &ostr) const;
+    int kind() const override
+    {
+        return GameObject::kind();
+    }
     int number() const override
     {
-        return _number;
+        return GameObject::number();
     }
 };
 
