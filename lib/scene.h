@@ -34,6 +34,7 @@ class Scene
     LOCATION *findObject(GameObject *object);
     void fill_ground(int col, int *lastheight, int *priorheight, int *maxheight);
     int count_blocks(int col);
+    void update_array(int x, int y, char colrval, char numrval);
 
   public:
     Scene();

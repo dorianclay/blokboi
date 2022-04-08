@@ -56,8 +56,8 @@ Ground::Ground(int x, int y)
 {
     _location.x = x;
     _location.y = y;
-    _number = -1;
-    _color = 'G';
+    _number = 'X';
+    _color = 'X';
     _movable = false;
     _kind = GROUND;
 }
