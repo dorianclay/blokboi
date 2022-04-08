@@ -169,7 +169,8 @@ void Scene::generate_easy()
                 break;
         }
         _space[block_col][block_row] = new Block(block_col, block_row);
-        update_array(block_col, block_row, _space[block_col][block_row]->kind(), _space[block_col][block_row]->number());
+        update_array(block_col, block_row, _space[block_col][block_row]->kind(),
+                     _space[block_col][block_row]->number());
     }
 
     // Put a player anywhere above a block.
@@ -177,7 +178,8 @@ void Scene::generate_easy()
     int player_height = count_blocks(player_col);
     _player = new Player(player_col, player_height);
     _space[player_col][player_height] = _player;
-    update_array(player_col, player_height, _space[player_col][player_height]->kind(), _space[player_col][player_height]->number());
+    update_array(player_col, player_height, _space[player_col][player_height]->kind(),
+                 _space[player_col][player_height]->number());
 }
 
 void Scene::generate(const string &str)
