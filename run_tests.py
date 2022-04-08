@@ -4,7 +4,7 @@ import unittest
 class LocalTestRunner:
     def run_tests():
         loader = unittest.TestLoader()
-        tests = loader.discover(".", "test*.py")
+        tests = loader.discover(".", "_test.py")
         testRunner = unittest.runner.TextTestRunner()
         results = testRunner.run(tests)
         return results
