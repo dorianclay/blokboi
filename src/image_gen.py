@@ -100,7 +100,7 @@ class ImageGen:
                 assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}_2.png"
             )
         # TODO: update this key for an unnumbered block
-        elif obj_arr[1] is -1:
+        elif obj_arr[1] is "X":
             return (
                 assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}_x.png"
             )
