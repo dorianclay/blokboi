@@ -5,9 +5,10 @@
 
 enum Kind
 {
-    BLOCK,
-    GROUND,
-    PLAYER
+    SKY = '.',
+    BLOCK = 'X',
+    GROUND = '@',
+    PLAYER = 'P'
 };
 
 typedef union location {
@@ -27,14 +28,14 @@ class GameObject
     }
 
   public:
-    Kind kind()
+    // accessors
+    virtual int kind() const
     {
         return _kind;
     }
-    void update(int x, int y)
+    virtual int number() const
     {
-        _location.x = x;
-        _location.x = y;
+        return 'X';
     }
     const LOCATION location() const
     {
@@ -46,6 +47,12 @@ class GameObject
     bool movable() const
     {
         return _movable;
+    }
+    // mutators
+    void update(int x, int y)
+    {
+        _location.x = x;
+        _location.x = y;
     }
 };
 

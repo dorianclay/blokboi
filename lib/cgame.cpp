@@ -3,6 +3,7 @@
 namespace py = pybind11;
 
 #include "game.h"
+#include <cstdint>
 
 PYBIND11_MODULE(blokboi, m)
 {
@@ -16,9 +17,9 @@ PYBIND11_MODULE(blokboi, m)
         .def("jump", &Game::jump)
         .def("pick_up", &Game::pick_up)
         .def("put_down", &Game::put_down)
-        // TODO: Make the <vector<vector: GameObject>> an opaque type
-        .def("scene_space", &Game::scene_space)
-        // TODO (END)
+        .def("width", &Game::width)
+        .def("height", &Game::height)
+        .def("array", &Game::array)
         .def("representation", &Game::representation)
         .def("objective", &Game::objective)
         .def("__repr__", [](Game &a) { return a.representation(); });
