@@ -81,7 +81,7 @@ def main(**kwargs):
         game_instance = Game()
         scale = 2
         app = App(game_instance, scale=scale)
-        frame = SceneFrame(game_instance, app, assetpath=Path("assets"))
+        frame = SceneFrame(app, game_instance, assetpath=Path("assets"))
         app.mainloop()
 
 
