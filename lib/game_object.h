@@ -28,14 +28,14 @@ class GameObject
     }
 
   public:
-    Kind kind()
+    // accessors
+    virtual int kind() const
     {
         return _kind;
     }
-    void update(int x, int y)
+    virtual int number() const
     {
-        _location.x = x;
-        _location.x = y;
+        return 'X';
     }
     const LOCATION location() const
     {
@@ -48,9 +48,11 @@ class GameObject
     {
         return _movable;
     }
-    int number()
+    // mutators
+    void update(int x, int y)
     {
-        return -1;
+        _location.x = x;
+        _location.x = y;
     }
 };
 

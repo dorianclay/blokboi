@@ -32,8 +32,7 @@ Scene::Scene()
     {
         for (int j = 0; j < _height; j++)
         {
-            _data[i][j][0] = '.';
-            _data[i][j][1] = -1;
+            update_array(i, j, '.', 'X');
         }
     }
 }
@@ -50,8 +49,7 @@ Scene::Scene(int x, int y)
     {
         for (int j = 0; j < _height; j++)
         {
-            _data[i][j][0] = '.';
-            _data[i][j][1] = -1;
+            update_array(i, j, '.', 'X');
         }
     }
 }
@@ -90,8 +88,7 @@ void Scene::fill_ground(int col, int *lastheight, int *priorheight, int *maxheig
     {
         // put a block here...
         _space[col][y] = new Ground(col, y);
-        _data[col][y][0] = _space[col][y]->kind();
-        _data[col][y][1] = -1;
+        update_array(col, y, _space[col][y]->kind(), _space[col][y]->number());
     }
 
     *lastheight = thisheight;
@@ -113,6 +110,12 @@ int Scene::count_blocks(int col)
         }
     }
     return height;
+}
+
+void Scene::update_array(int x, int y, char colrval, char numrval)
+{
+    _data[x][y][0] = colrval;
+    _data[x][y][1] = numrval;
 }
 
 void Scene::generate_easy()
@@ -166,8 +169,7 @@ void Scene::generate_easy()
                 break;
         }
         _space[block_col][block_row] = new Block(block_col, block_row);
-        _data[block_col][block_row][0] = _space[block_col][block_row]->kind();
-        _data[block_col][block_row][1] = _space[block_col][block_row]->number();
+        update_array(block_col, block_row, _space[block_col][block_row]->kind(), _space[block_col][block_row]->number());
     }
 
     // Put a player anywhere above a block.
@@ -175,8 +177,7 @@ void Scene::generate_easy()
     int player_height = count_blocks(player_col);
     _player = new Player(player_col, player_height);
     _space[player_col][player_height] = _player;
-    _data[player_col][player_height][0] = _space[player_col][player_height]->kind();
-    _data[player_col][player_height][1] = -1;
+    update_array(player_col, player_height, _space[player_col][player_height]->kind(), _space[player_col][player_height]->number());
 }
 
 void Scene::generate(const string &str)
@@ -202,8 +203,7 @@ void Scene::flush()
         for (int j = 0; j < _height; j++)
         {
             _space[i][j] = nullptr;
-            _data[i][j][0] = '.';
-            _data[i][j][1] = -1;
+            update_array(i, j, '.', 'X');
         }
     }
 }
@@ -277,10 +277,8 @@ void Scene::move(int x, int y, int dx, int dy)
 
     _space[newx][newy] = _space[x][y];
     _space[newx][newy]->update(newx, newy);
-    _data[newx][newy][0] = _space[newx][newy]->kind();
-    _data[newx][newy][1] = _space[newx][newy]->number();
-    _data[x][y][0] = '.';
-    _data[x][y][1] = -1;
+    update_array(newx, newy, _space[newx][newy]->kind(), _space[newx][newy]->number());
+    update_array(x, y, '.', 'X');
     _space[x][y] = nullptr;
 }
 
