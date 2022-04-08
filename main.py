@@ -37,7 +37,7 @@ def test(logger):
         strfull += strrow + "\n"
     logger.info("Game array representation:\n" + strfull)
 
-    ImageGen.make_image_from_str(game_instance.__repr__(), Path("test.png"))
+    ImageGen.make_image_from_str(game_instance.__repr__(), Path("imagetest.png"))
 
 
 def generate_rand_scenes(logger, num, outdir=Path("data")):
@@ -79,7 +79,8 @@ def main(**kwargs):
     if kwargs["gui"]:
         logger.info("Running game app...")
         game_instance = Game()
-        app = App()
+        scale = 2
+        app = App(game_instance, scale=scale)
         frame = SceneFrame(game_instance, app, assetpath=Path("assets"))
         app.mainloop()
 
