@@ -80,8 +80,9 @@ def main(**kwargs):
         logger.info("Running game app...")
         game_instance = Game()
         scale = 2
-        app = App(game_instance, scale=scale)
-        frame = SceneFrame(app, game_instance, assetpath=Path("assets"))
+        app = App(game_instance.width(), game_instance.height(), scale=scale)
+        # frame = SceneFrame(app, game_instance, assetpath=Path("assets"))
+        # frame = MainFrame(app)
         app.mainloop()
 
 
