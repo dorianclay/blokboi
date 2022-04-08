@@ -94,13 +94,12 @@ class ImageGen:
         """
         if obj_arr[0] in [".", "@"]:
             return assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}.png"
-        elif obj_arr[0] is "P":
+        elif obj_arr[0] == "P":
             # TODO: make boi not static.
             return (
                 assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}_2.png"
             )
-        # TODO: update this key for an unnumbered block
-        elif obj_arr[1] is "X":
+        elif obj_arr[1] == "X":
             return (
                 assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}_x.png"
             )
@@ -110,3 +109,9 @@ class ImageGen:
                 / f"{scale}x"
                 / f"{ImageGen._pathname_map[obj_arr[0]]}_{obj_arr[1]}.png"
             )
+
+    def get_sky_hex():
+        return "%02x%02x%02x" % ImageGen._skycolor
+
+    def get_sky_rgb():
+        return ImageGen._skycolor
