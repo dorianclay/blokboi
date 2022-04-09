@@ -7,6 +7,9 @@ import logging
 from src.image_gen import ImageGen
 from blokboi import Game
 
+LEFT = -1
+RIGHT = 1
+
 
 class CanvasFrame(ttk.Frame):
     def __init__(self, container):
@@ -116,6 +119,7 @@ class App(tk.Tk):
 
         self._game_instance = Game()
 
+        self.__bindings()
         self.__create_widgets()
 
     def __center(self, width=None, height=None):
@@ -136,8 +140,34 @@ class App(tk.Tk):
         self.button_frame = ButtonFrame(self)
         self.button_frame.grid(row=1)
 
+    def __bindings(self):
+        self.bind("<KeyPress-Down>", self.key_right)
+        self.bind("<KeyPress-Left>", self.key_left)
+        self.bind("<KeyPress-Right>", self.key_right)
+        self.bind("<KeyPress-Left>", self.key_left)
+
     def render(self):
         self.canvas_frame.render()
+
+    def key_right(self, event):
+        self.logger.debug(event)
+        self._game_instance.move(RIGHT)
+        self.render()
+
+    def key_left(self, event):
+        self.logger.debug(event)
+        self._game_instance.move(LEFT)
+        self.render()
+
+    def key_up(self, event):
+        self.logger.debug(event)
+        self._game_instance.jump()
+        self.render()
+
+    def key_down(self, event):
+        self.logger.debug(event)
+        self._game_instance.pick_up()
+        self.render()
 
 
 if __name__ == "__main__":
