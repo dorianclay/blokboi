@@ -77,12 +77,10 @@ def main(**kwargs):
             logger.exception("Error while generating images.")
 
     if kwargs["gui"]:
-        logger.info("Running game app...")
-        game_instance = Game()
+        logger.debug("Running game app...")
+        size = (15, 20)
         scale = 2
-        app = App(game_instance.width(), game_instance.height(), scale=scale)
-        # frame = SceneFrame(app, game_instance, assetpath=Path("assets"))
-        # frame = MainFrame(app)
+        app = App(size[1], size[0], scale=scale)
         app.mainloop()
 
 
