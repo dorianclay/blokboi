@@ -31,7 +31,8 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "preLaunchTask": "CMake Build"
         },
         {
             "name": "GDB Launch",
