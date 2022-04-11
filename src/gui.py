@@ -45,27 +45,40 @@ class CanvasFrame(ttk.Frame):
         self.canvas.delete("all")
         for row in range(width):
             for col in range(height):
+                obj_list = self._container._game_instance.array()[row][col]
                 self._draw(
                     row,
                     col,
                     self._assets[
                         ImageGen.get_image_path(
-                            self._container._game_instance.array()[row][col],
+                            obj_list,
                             scale,
                             assetpath,
                         )
                     ],
+                    obj_list,
                 )
 
-    def _draw(self, row, col, image):
+    def _draw(self, row, col, image, obj_list):
         block = 16 * self._container._scale
-        self.canvas.create_image(
+        tags = []
+        if obj_list[0] == ".":
+            return
+        elif obj_list[0] == "@":
+            tags.append("block")
+        elif obj_list[0] == "P":
+            tags.append("player")
+        else:
+            tags.append("block")
+            tags.append(int(obj_list[1]))
+        id = self.canvas.create_image(
             # x
             (block / 2) + block * row,
             # y
             (block / 2) + block * (self._container._sceneheight - 1 - col) + 1,
             # ImageTk.PhotoImage object
             image=image,
+            tags=tags,
         )
 
 

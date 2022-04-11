@@ -11,7 +11,6 @@ def main(**kwargs):
     paths = assetspath.glob("**/boi*.png")
     for path in paths:
         orig = Image.open(path)
-
         out = orig.transpose(Image.FLIP_LEFT_RIGHT)
 
         out.save(path.parent / f"{path.stem}_l.png")
