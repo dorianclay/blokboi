@@ -33,3 +33,10 @@ void Player::repr(std::ostream &ostr) const
 {
     ostr << "P";
 }
+
+int Player::number() const
+{
+    if (_facing == LEFT)
+        return 'L';
+    return 'R';
+}

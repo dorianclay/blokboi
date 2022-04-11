@@ -31,10 +31,7 @@ class Player : public GameObject
     }
     void hold(GameObject *block);
     void repr(std::ostream &ostr) const;
-    int number() const override
-    {
-        return _facing;
-    }
+    int number() const override;
 };
 
 #endif /* PLAYER_H */
