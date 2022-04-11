@@ -11,7 +11,7 @@ enum Kind
     PLAYER = 'P'
 };
 
-typedef union location {
+typedef struct location {
     int x;
     int y;
 } LOCATION;
@@ -52,7 +52,7 @@ class GameObject
     void update(int x, int y)
     {
         _location.x = x;
-        _location.x = y;
+        _location.y = y;
     }
 };
 

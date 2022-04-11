@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
 
     test_game.move(-1);
     test_game.move(-1);
-    test_game.move(-1);
-    test_game.move(-1);
+    test_game.move(1);
+    test_game.move(1);
+    cout << test_game.representation() << endl;
 }
