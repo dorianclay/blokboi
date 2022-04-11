@@ -80,7 +80,11 @@ def main(**kwargs):
         logger.debug("Running game app...")
         size = (15, 20)
         scale = 2
-        app = App(size[1], size[0], scale=scale)
+        if kwargs["load"]:
+            scene = np.load("data/demo_scene.npy")
+            app = App(size[1], size[0], scale=scale, game_instance=Game(scene))
+        else:
+            app = App(size[1], size[0], scale=scale)
         app.mainloop()
 
 
@@ -89,7 +93,7 @@ if __name__ == "__main__":
         description="Command line control for the Blokboi game API."
     )
     runtype_group = parser.add_mutually_exclusive_group()
-    runtype_group.add_argument("--test", action="store_true", help="run a simple test")
+    runtype_group.add_argument("--test", action="store_true", help="run a simple test.")
     runtype_group.add_argument(
         "--generate_images", nargs=2, help="generate images, < number, directory >"
     )
@@ -97,11 +101,14 @@ if __name__ == "__main__":
         "-G", "--gui", action="store_true", help="Run the GUI app."
     )
     parser.add_argument(
+        "-l", "--load", action="store_true", help="load the demo scene."
+    )
+    parser.add_argument(
         "-d",
         "--detail",
         default="info",
         choices=["debug", "info", "warning", "errror", "critical"],
-        help="level of detail to log (default: info)",
+        help="level of detail to log (default: info).",
     )
     args = parser.parse_args()
     main(**vars(args))

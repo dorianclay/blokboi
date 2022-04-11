@@ -38,8 +38,8 @@ void Game::newGame()
     delete _scene;
     delete _player_controller;
     _scene = new Scene(20, 15);
-    _player_controller = new PlayerController(_scene, _scene->get_player());
     _scene->generate_easy();
+    _player_controller = new PlayerController(_scene, _scene->get_player());
     DLOG_F(INFO, "New map generated:\n%s", _scene->representation().c_str());
 }
 
