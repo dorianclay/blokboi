@@ -96,7 +96,7 @@ class ImageGen:
             return assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}.png"
         elif obj_arr[0] == "P":
             # TODO: make boi not static.
-            if obj_arr[1] == 1:
+            if obj_arr[1] == "R":
                 return (
                     assetpath
                     / f"{scale}x"
