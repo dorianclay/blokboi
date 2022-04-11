@@ -13,6 +13,7 @@ class Game
 
   public:
     Game();
+    Game(Char3d pregen);
     void newGame();
     void resetGame();
     void move(int direction);

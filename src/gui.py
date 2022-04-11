@@ -38,6 +38,7 @@ class CanvasFrame(ttk.Frame):
         self.render()
 
     def render(self):
+        self.logger.debug("Drawing map:\n" + str(self._container._game_instance))
         width = self._container._scenewidth
         height = self._container._sceneheight
         assetpath = self._container._assetpath
@@ -58,6 +59,9 @@ class CanvasFrame(ttk.Frame):
                     ],
                     obj_list,
                 )
+
+    def clean(self):
+        self.canvas.delete("all")
 
     def _draw(self, row, col, image, obj_list):
         block = 16 * self._container._scale
@@ -131,6 +135,7 @@ class App(tk.Tk):
         self.rowconfigure(0, weight=1)
 
         self._game_instance = Game()
+        self.logger.debug("Got map:\n" + str(self._game_instance))
 
         self.__create_widgets()
         self.__bindings()
