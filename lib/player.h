@@ -20,9 +20,9 @@ class Player : public GameObject
     Player();
     Player(int x, int y);
 
-    int facing()
+    Direction facing()
     {
-        return (int)_facing;
+        return _facing;
     }
     void face(int direction);
     GameObject *held()
