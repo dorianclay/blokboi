@@ -15,11 +15,14 @@ void PlayerController::move(int direction)
         DLOG_F(ERROR, "Trying to move in invalid direction: %d", direction);
         throw invalid_argument("Direction must be -1 (left) or 1 (right).");
     }
+    DLOG_F(2, "Commanded to move %d", direction);
+    DLOG_F(4, "Currently facing: %d", _player->facing());
 
     // If we're not facing in the direction trying to move,
     // then just flip directions
     if (_player->facing() != direction)
     {
+        DLOG_F(3, "Switching directions.");
         _player->face(direction);
     }
 

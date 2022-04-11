@@ -155,23 +155,23 @@ class App(tk.Tk):
 
     def __key_right(self, event):
         self.logger.debug(event)
-        # self._game_instance.move(RIGHT)
-        # self.render()
+        self._game_instance.move(RIGHT)
+        self.render()
 
     def __key_left(self, event):
         self.logger.debug(event)
-        # self._game_instance.move(LEFT)
-        # self.render()
+        self._game_instance.move(LEFT)
+        self.render()
 
     def __key_up(self, event):
         self.logger.debug(event)
-        # self._game_instance.jump()
-        # self.render()
+        self._game_instance.jump()
+        self.render()
 
     def __key_down(self, event):
         self.logger.debug(event)
-        # self._game_instance.pick_up()
-        # self.render()
+        self._game_instance.pick_up()
+        self.render()
 
 
 if __name__ == "__main__":

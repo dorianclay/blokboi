@@ -9,14 +9,14 @@ using namespace std;
 
 Game::Game()
 {
-    loguru::add_file("logs/blokboi_latest.log", loguru::Truncate, loguru::Verbosity_1);
+    loguru::add_file("logs/blokboi_latest.log", loguru::Truncate, loguru::Verbosity_9);
     loguru::add_file("logs/blokboi_all.log", loguru::Append, loguru::Verbosity_INFO);
     loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
     LOG_F(INFO, "Beginning a new game.");
 
     _scene = new Scene(20, 15);
-    _player_controller = new PlayerController(_scene, _scene->get_player());
     _scene->generate_easy();
+    _player_controller = new PlayerController(_scene, _scene->get_player());
     DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
