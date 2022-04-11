@@ -15,6 +15,18 @@ Player::Player(int x, int y)
     _kind = PLAYER;
 }
 
+Player::Player(int x, int y, char direction)
+{
+    _location.x = x;
+    _location.y = y;
+    _held = nullptr;
+    _kind = PLAYER;
+    if (direction == 'R')
+        _facing = RIGHT;
+    else
+        _facing = LEFT;
+}
+
 void Player::face(int direction)
 {
     assert(direction == LEFT || direction == RIGHT);

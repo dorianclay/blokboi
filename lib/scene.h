@@ -39,9 +39,11 @@ class Scene
   public:
     Scene();
     Scene(int x, int y);
+    Scene(Char3d pregen);
 
     void generate_easy();
     void generate(const std::string &str);
+    void generate_from_array(Char3d pregen);
     void refresh();
     void flush();
     GameObject *get_object(int x, int y);

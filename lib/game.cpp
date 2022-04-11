@@ -20,6 +20,18 @@ Game::Game()
     DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
+Game::Game(Char3d pregen)
+{
+    loguru::add_file("logs/blokboi_latest.log", loguru::Truncate, loguru::Verbosity_9);
+    loguru::add_file("logs/blokboi_all.log", loguru::Append, loguru::Verbosity_INFO);
+    loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
+    LOG_F(INFO, "Building game from pre-generated map.");
+
+    _scene = new Scene(pregen);
+    _player_controller = new PlayerController(_scene, _scene->get_player());
+    DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+}
+
 void Game::newGame()
 {
     LOG_F(INFO, "Making new game.");
