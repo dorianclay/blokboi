@@ -11,7 +11,8 @@ enum Kind
     PLAYER = 'P'
 };
 
-typedef struct location {
+typedef struct location
+{
     int x;
     int y;
 } LOCATION;

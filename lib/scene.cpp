@@ -236,7 +236,6 @@ void Scene::generate_from_array(Char3d pregen)
             }
         }
     }
-
 }
 
 void Scene::refresh()
