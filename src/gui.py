@@ -117,7 +117,15 @@ class ButtonFrame(ttk.Frame):
 
 
 class App(tk.Tk):
-    def __init__(self, width=20, height=15, *, scale=2, assetpath=Path("assets")):
+    def __init__(
+        self,
+        width=20,
+        height=15,
+        game_instance=Game(),
+        *,
+        scale=2,
+        assetpath=Path("assets"),
+    ):
         super().__init__()
         self.logger = logging.getLogger("blokboi.app")
         self.logger.info("Starting Blokboi app...")
@@ -134,7 +142,7 @@ class App(tk.Tk):
         self.rowconfigure(0, weight=2 * height)
         self.rowconfigure(0, weight=1)
 
-        self._game_instance = Game()
+        self._game_instance = game_instance
         self.logger.debug("Got map:\n" + str(self._game_instance))
 
         self.__create_widgets()
