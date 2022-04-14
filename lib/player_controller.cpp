@@ -139,13 +139,13 @@ void PlayerController::put_down()
     int col_max = _scene->get_highest_obj_height(current.x + facing);
 
     // If the column is to the ceiling, we won't be able to place another block
-    if (col_max = _scene->height() - 1)
+    if (col_max == _scene->height() - 1)
     {
         DLOG_F(1, "Can't place block above ceiling.");
         return;
     }
     // If there are no blocks in the column, just put down on the bottom
-    if (col_max = -1)
+    if (col_max == -1)
     {
         DLOG_F(1, "Placing block on the bottom.");
         _scene->move(current.x, current.y + 1, facing, -current.y - 1);
@@ -164,4 +164,11 @@ void PlayerController::put_down()
     DLOG_F(1, "Placing block on top of object at height %d", col_max);
     _scene->move(current.x, current.y + 1, facing, -current.y + col_max);
     _player->hold(nullptr);
+}
+
+bool PlayerController::holding()
+{
+    if (_player->held() == nullptr)
+        return false;
+    return true;
 }

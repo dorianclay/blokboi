@@ -18,6 +18,7 @@ class Game
     void resetGame();
     void move(int direction);
     void jump();
+    void toggle_hold();
     void pick_up();
     void put_down();
     int width()

@@ -64,6 +64,14 @@ void Game::jump()
     _player_controller->jump();
 }
 
+void Game::toggle_hold()
+{
+    if (_player_controller->holding())
+        put_down();
+    else
+        pick_up();
+}
+
 void Game::pick_up()
 {
     _player_controller->pick_up();

@@ -196,7 +196,7 @@ class App(tk.Tk):
 
     def __key_down(self, event):
         self.logger.debug(event)
-        self._game_instance.pick_up()
+        self._game_instance.toggle_hold()
         self.render()
 
 

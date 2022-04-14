@@ -17,6 +17,7 @@ class PlayerController
     void jump();
     void pick_up();
     void put_down();
+    bool holding();
 };
 
 #endif /* PLAYER_CONTROLLER_H */
