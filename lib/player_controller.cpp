@@ -98,8 +98,8 @@ void PlayerController::jump()
     // We're all good to jump
     // (move the block first if held)
     if (_player->held() != nullptr)
-        _scene->move(current.x, current.y + 1, 1, 1);
-    _scene->move(current.x, current.y, 1, 1);
+        _scene->move(current.x, current.y + 1, facing, 1);
+    _scene->move(current.x, current.y, facing, 1);
 }
 
 void PlayerController::pick_up()
