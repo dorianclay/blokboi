@@ -71,11 +71,12 @@ LOCATION *Scene::findObject(GameObject *object)
     {
         for (int j = 0; j < _height; j++)
         {
-            if (_space[i][j] = object)
+            if (_space[i][j] == object)
             {
                 LOCATION *coords = new LOCATION;
                 coords->x = i;
                 coords->y = j;
+                DLOG_F(4, "found on i=%d, j=%d", i, j);
                 return coords;
             }
         }
@@ -285,7 +286,7 @@ void Scene::move(GameObject *object, int dx, int dy)
         LOG_F(ERROR, "Object not found.");
         return;
     }
-
+    DLOG_F(3, "Moving an object at (%d, %d)", coords->x, coords->y);
     move(coords->x, coords->y, dx, dy);
 }
 

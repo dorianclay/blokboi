@@ -44,7 +44,7 @@ void PlayerController::move(int direction)
         // If there is a ground, then we can move normally.
         // (move the block first if held)
         if (_player->held() != nullptr)
-            _scene->move(current.x, current.y + 1, 1, 1);
+            _scene->move(current.x, current.y + 1, direction, 0);
         _scene->move(current.x, current.y, direction, 0);
         return;
     }
@@ -57,7 +57,7 @@ void PlayerController::move(int direction)
             // If the ground below exists, we'll move and drop down a block
             // (move the block first if held)
             if (_player->held() != nullptr)
-                _scene->move(current.x, current.y + 1, 1, 1);
+                _scene->move(current.x, current.y + 1, direction, -1);
             _scene->move(current.x, current.y, direction, -1);
             return;
         }
