@@ -29,6 +29,7 @@ class Scene
     unsigned _width = 10;
     Objects _space;
     Char3d _data;
+    Char3d _init;
     std::uniform_int_distribution<int> _dist_width;
     std::uniform_int_distribution<int> _dist_height;
     LOCATION *findObject(GameObject *object);

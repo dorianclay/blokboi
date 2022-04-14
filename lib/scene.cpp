@@ -35,6 +35,7 @@ Scene::Scene()
             update_array(i, j, '.', 'X');
         }
     }
+    _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
 }
 
 Scene::Scene(int x, int y)
@@ -52,6 +53,7 @@ Scene::Scene(int x, int y)
             update_array(i, j, '.', 'X');
         }
     }
+    _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
 }
 
 Scene::Scene(Char3d pregen)
@@ -192,6 +194,8 @@ void Scene::generate_easy()
     _space[player_col][player_height] = _player;
     update_array(player_col, player_height, _space[player_col][player_height]->kind(),
                  _space[player_col][player_height]->number());
+
+    _init = _data;
 }
 
 void Scene::generate(const string &str)
@@ -204,10 +208,13 @@ void Scene::generate(const string &str)
     ss.str(str);
 
     // TODO: parse the stream and generate objects.
+
+    _init = _data;
 }
 
 void Scene::generate_from_array(Char3d pregen)
 {
+    flush();
     for (int i = 0; i < _width; i++)
     {
         for (int j = 0; j < _height; j++)
@@ -237,10 +244,13 @@ void Scene::generate_from_array(Char3d pregen)
             }
         }
     }
+
+    _init = _data;
 }
 
 void Scene::refresh()
 {
+    generate_from_array(_init);
 }
 
 void Scene::flush()

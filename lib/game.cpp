@@ -45,6 +45,7 @@ void Game::newGame()
 
 void Game::resetGame()
 {
+    LOG_F(INFO, "Resetting scene.");
     _scene->refresh();
 }
 
