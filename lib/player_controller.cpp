@@ -15,7 +15,7 @@ void PlayerController::move(int direction)
         DLOG_F(ERROR, "Trying to move in invalid direction: %d", direction);
         throw invalid_argument("Direction must be -1 (left) or 1 (right).");
     }
-    DLOG_F(2, "Commanded to move %d", direction);
+    DLOG_F(2, "Commanded to move %s", (direction == LEFT) ? "left" : "right");
     DLOG_F(4, "Currently facing: %d", _player->facing());
 
     // If we're not facing in the direction trying to move,
@@ -27,48 +27,45 @@ void PlayerController::move(int direction)
     }
 
     // Otherwise, we're facing the right way, so try to move one block over
+    LOCATION current = _player->location();
+
+    // See if the spot at same height is occupied.
+    GameObject *spot = _scene->get_object(current.x + direction, current.y);
+    if (spot != nullptr)
+    {
+        DLOG_F(1, "Attempted to move to occupied location.");
+        return;
+    }
+
+    // See if the spot one block down is occupied (the "ground")
+    spot = _scene->get_object(current.x + direction, current.y - 1);
+    if (spot != nullptr)
+    {
+        // If there is a ground, then we can move normally.
+        // (move the block first if held)
+        if (_player->held() != nullptr)
+            _scene->move(current.x, current.y + 1, 1, 1);
+        _scene->move(current.x, current.y, direction, 0);
+        return;
+    }
     else
     {
-        LOCATION current = _player->location();
-
-        // See if the spot at same height is occupied.
-        GameObject *spot = _scene->get_object(current.x + direction, current.y);
+        // Otherwise, we need to see if we'll fall off a cliff.
+        spot = _scene->get_object(current.x + direction, current.y - 2);
         if (spot != nullptr)
         {
-            DLOG_F(1, "Attempted to move to occupied location.");
-            return;
-        }
-
-        // See if the spot one block down is occupied (the "ground")
-        spot = _scene->get_object(current.x + direction, current.y - 1);
-        if (spot != nullptr)
-        {
-            // If there is a ground, then we can move normally.
+            // If the ground below exists, we'll move and drop down a block
             // (move the block first if held)
             if (_player->held() != nullptr)
                 _scene->move(current.x, current.y + 1, 1, 1);
-            _scene->move(current.x, current.y, direction, 0);
+            _scene->move(current.x, current.y, direction, -1);
             return;
         }
         else
         {
-            // Otherwise, we need to see if we'll fall off a cliff.
-            spot = _scene->get_object(current.x + direction, current.y - 2);
-            if (spot != nullptr)
-            {
-                // If the ground below exists, we'll move and drop down a block
-                // (move the block first if held)
-                if (_player->held() != nullptr)
-                    _scene->move(current.x, current.y + 1, 1, 1);
-                _scene->move(current.x, current.y, direction, -1);
-                return;
-            }
-            else
-            {
-                // Otherwise, don't move anywhere or we'll die
-                DLOG_F(1, "Attempted to jump off a cliff.");
-                return;
-            }
+            // Otherwise, don't move anywhere or we'll die
+            DLOG_F(1, "Attempted to jump off a cliff.");
+            return;
         }
     }
 }
