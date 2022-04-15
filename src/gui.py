@@ -38,7 +38,6 @@ class CanvasFrame(ttk.Frame):
         self.render()
 
     def render(self):
-        self.logger.debug("Drawing map:\n" + str(self._container._game_instance))
         width = self._container._scenewidth
         height = self._container._sceneheight
         assetpath = self._container._assetpath
@@ -47,6 +46,8 @@ class CanvasFrame(ttk.Frame):
         for row in range(width):
             for col in range(height):
                 obj_list = self._container._game_instance.array()[row][col]
+                if obj_list[0] == "P":
+                    self.logger.debug(f"facing {obj_list[1]}")
                 self._draw(
                     row,
                     col,
@@ -59,9 +60,6 @@ class CanvasFrame(ttk.Frame):
                     ],
                     obj_list,
                 )
-
-    def clean(self):
-        self.canvas.delete("all")
 
     def _draw(self, row, col, image, obj_list):
         block = 16 * self._container._scale
@@ -181,7 +179,7 @@ class App(tk.Tk):
 
     def __key_right(self, event):
         self.logger.debug(event)
-        self._game_instance.move(RIGHT)
+        success = self._game_instance.move(RIGHT)
         self.render()
 
     def __key_left(self, event):

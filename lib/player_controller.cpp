@@ -12,7 +12,6 @@ int PlayerController::move(int direction)
 {
     LOCATION current = _player->location();
     int hasblock = 0;
-
     if (direction != LEFT && direction != RIGHT)
     {
         DLOG_F(ERROR, "Trying to move in invalid direction: %d", direction);
