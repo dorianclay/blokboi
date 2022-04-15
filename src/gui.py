@@ -177,7 +177,7 @@ class App(tk.Tk):
 
     def __key_right(self, event):
         self.logger.debug(event)
-        success = self._game_instance.move(RIGHT)
+        self._game_instance.move(RIGHT)
         self.render()
 
     def __key_left(self, event):

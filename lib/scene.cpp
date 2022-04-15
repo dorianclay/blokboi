@@ -67,6 +67,17 @@ Scene::Scene(Char3d pregen)
     generate_from_array(pregen);
 }
 
+Scene::Scene(Char3d pregen)
+{
+    _width = pregen.size();
+    _height = pregen[0].size();
+    _space = Objects(_width, vector<GameObject *>(_height));
+    _dist_width = uniform_int_distribution<int>(0, _width - 1);
+    _dist_height = uniform_int_distribution<int>(0, _height - 1);
+    _data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+    generate_from_array(pregen);
+}
+
 LOCATION *Scene::findObject(GameObject *object)
 {
     for (int i = 0; i < _width; i++)
@@ -246,6 +257,39 @@ void Scene::generate_from_array(Char3d pregen)
     }
 
     _init = _data;
+}
+
+void Scene::generate_from_array(Char3d pregen)
+{
+    for (int i = 0; i < _width; i++)
+    {
+        for (int j = 0; j < _height; j++)
+        {
+            char kind = pregen[i][j][0];
+            char ident = pregen[i][j][1];
+            _data[i][j][0] = kind;
+            _data[i][j][1] = ident;
+            // If this is a sky:
+            if (kind == '.')
+                continue;
+            // If this is a ground:
+            else if (kind == '@')
+            {
+                _space[i][j] = new Ground(i, j);
+            }
+            // If this is a player:
+            else if (kind == 'P')
+            {
+                _player = new Player(i, j, ident);
+                _space[i][j] = _player;
+            }
+            // If this is a block:
+            else
+            {
+                _space[i][j] = new Block(i, j, kind, ident - '0', true);
+            }
+        }
+    }
 }
 
 void Scene::refresh()

@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 int main(int argc, char *argv[])
 {
     Game test_game = Game(demoscene);
