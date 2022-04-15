@@ -41,6 +41,13 @@ public:
   Scene(int x, int y);
   Scene(Char3d pregen);
 
+  int make_plains(int xstart, int base, int n);
+  int make_steppes(int xstart, int base, int n);
+  int make_plateau(int xstart, int base, int n, int h);
+  int make_canyon(int xstart, int base, int n);
+  int make_cave(int base, int side);
+  int make_spire(int xstart, int base, int n);
+  void generate_modular();
   void generate_easy();
   void generate(const std::string &str);
   void generate_from_array(Char3d pregen);
