@@ -47,6 +47,8 @@ void Game::resetGame()
 {
     LOG_F(INFO, "Resetting scene.");
     _scene->refresh();
+    delete _player_controller;
+    _player_controller = new PlayerController(_scene, _scene->get_player());
 }
 
 int Game::move(int direction)
