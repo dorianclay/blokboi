@@ -9,7 +9,7 @@ using namespace std;
 
 Game::Game()
 {
-    loguru::add_file("logs/blokboi_latest.log", loguru::Truncate, loguru::Verbosity_9);
+    loguru::add_file("logs/blokboi_latest.log", loguru::Truncate, loguru::Verbosity_2);
     loguru::add_file("logs/blokboi_all.log", loguru::Append, loguru::Verbosity_INFO);
     loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
     LOG_F(INFO, "Beginning a new game.");
@@ -45,10 +45,13 @@ void Game::newGame()
 
 void Game::resetGame()
 {
+    LOG_F(INFO, "Resetting scene.");
     _scene->refresh();
+    delete _player_controller;
+    _player_controller = new PlayerController(_scene, _scene->get_player());
 }
 
-void Game::move(int direction)
+int Game::move(int direction)
 {
     if (direction != LEFT && direction != RIGHT)
     {
@@ -56,22 +59,30 @@ void Game::move(int direction)
         throw invalid_argument("Direction must be -1 (left) or 1 (right).");
     }
 
-    _player_controller->move(direction);
+    return _player_controller->move(direction);
 }
 
-void Game::jump()
+int Game::jump()
 {
-    _player_controller->jump();
+    return _player_controller->jump();
 }
 
-void Game::pick_up()
+int Game::toggle_hold()
 {
-    _player_controller->pick_up();
+    if (_player_controller->holding())
+        return put_down();
+    else
+        return pick_up();
 }
 
-void Game::put_down()
+int Game::pick_up()
 {
-    _player_controller->put_down();
+    return _player_controller->pick_up();
+}
+
+int Game::put_down()
+{
+    return _player_controller->put_down();
 }
 
 // const Objects Game::scene_space() const

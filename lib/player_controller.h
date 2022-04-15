@@ -13,10 +13,11 @@ class PlayerController
 
   public:
     PlayerController(Scene *scene, Player *player);
-    void move(int direction);
-    void jump();
-    void pick_up();
-    void put_down();
+    int move(int direction);
+    int jump();
+    int pick_up();
+    int put_down();
+    bool holding();
 };
 
 #endif /* PLAYER_CONTROLLER_H */

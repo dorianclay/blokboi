@@ -35,6 +35,7 @@ Scene::Scene()
             update_array(i, j, '.', 'X');
         }
     }
+    _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
 }
 
 Scene::Scene(int x, int y)
@@ -52,6 +53,7 @@ Scene::Scene(int x, int y)
             update_array(i, j, '.', 'X');
         }
     }
+    _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
 }
 
 Scene::Scene(Char3d pregen)
@@ -71,11 +73,12 @@ LOCATION *Scene::findObject(GameObject *object)
     {
         for (int j = 0; j < _height; j++)
         {
-            if (_space[i][j] = object)
+            if (_space[i][j] == object)
             {
                 LOCATION *coords = new LOCATION;
                 coords->x = i;
                 coords->y = j;
+                DLOG_F(4, "found on i=%d, j=%d", i, j);
                 return coords;
             }
         }
@@ -191,6 +194,8 @@ void Scene::generate_easy()
     _space[player_col][player_height] = _player;
     update_array(player_col, player_height, _space[player_col][player_height]->kind(),
                  _space[player_col][player_height]->number());
+
+    _init = _data;
 }
 
 void Scene::generate(const string &str)
@@ -203,10 +208,13 @@ void Scene::generate(const string &str)
     ss.str(str);
 
     // TODO: parse the stream and generate objects.
+
+    _init = _data;
 }
 
 void Scene::generate_from_array(Char3d pregen)
 {
+    flush();
     for (int i = 0; i < _width; i++)
     {
         for (int j = 0; j < _height; j++)
@@ -236,10 +244,13 @@ void Scene::generate_from_array(Char3d pregen)
             }
         }
     }
+
+    _init = _data;
 }
 
 void Scene::refresh()
 {
+    generate_from_array(_init);
 }
 
 void Scene::flush()
@@ -256,7 +267,7 @@ void Scene::flush()
 
 GameObject *Scene::get_object(int x, int y)
 {
-    if (x < 0 || x > _width || y < 0 || y > _height)
+    if (x < 0 || x >= _width || y < 0 || y >= _height)
         return nullptr;
     return _space[x][y];
 }
@@ -285,7 +296,7 @@ void Scene::move(GameObject *object, int dx, int dy)
         LOG_F(ERROR, "Object not found.");
         return;
     }
-
+    DLOG_F(3, "Moving an object at (%d, %d)", coords->x, coords->y);
     move(coords->x, coords->y, dx, dy);
 }
 
@@ -321,11 +332,16 @@ void Scene::move(int x, int y, int dx, int dy)
         return;
     }
 
-    _space[newx][newy] = _space[x][y];
-    _space[newx][newy]->update(newx, newy);
-    update_array(newx, newy, _space[newx][newy]->kind(), _space[newx][newy]->number());
-    update_array(x, y, '.', 'X');
-    _space[x][y] = nullptr;
+    if (dx == 0 && dy == 0)
+        update_array(x, y, _space[x][y]->kind(), _space[x][y]->number());
+    else
+    {
+        _space[newx][newy] = _space[x][y];
+        _space[newx][newy]->update(newx, newy);
+        update_array(newx, newy, _space[newx][newy]->kind(), _space[newx][newy]->number());
+        update_array(x, y, '.', 'X');
+        _space[x][y] = nullptr;
+    }
 }
 
 string Scene::representation()

@@ -36,8 +36,6 @@ void Player::face(int direction)
 
 void Player::hold(GameObject *block)
 {
-    assert(block->movable());
-
     _held = block;
 }
 
