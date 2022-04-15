@@ -16,3 +16,5 @@ repos:
     rev: v14.0.1
     hooks:
     -   id: clang-format
+        types_or: [c++, c, cuda]
+        args: ['-style={BasedOnStyle: Google}']
