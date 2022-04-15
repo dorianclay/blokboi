@@ -113,6 +113,119 @@ void Scene::update_array(int x, int y, char colrval, char numrval) {
   _data[x][y][1] = numrval;
 }
 
+int Scene::make_plains(int xstart, int base, int n)
+{
+  // __________
+  // Make a flat row of ground
+  for (int i = xstart; i < xstart + n - 1; i++) {
+    _space[i][base] = new Ground(i, base);
+    update_array(i, base, _space[i][base]->kind(), _space[i][base]->number());
+  }
+  return base;
+}
+
+int Scene::make_steppes(int xstart, int base, int n)
+{
+  //       __
+  //    __|
+  // __|
+  // Make "steps" that increase in height linearly with width
+  int step = 0;
+  for (int i = xstart; i < xstart + n - 1; i++) {
+    for (int j = base; j <= base + step; j++) {
+      _space[i][j] = new Ground(i, j);
+      update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+    }
+    // Only increment the step height if we won't go outside the map
+    if (step < _height - 1)
+      step++;
+  }
+  return base + step;
+}
+
+int Scene::make_plateau(int xstart, int base, int n, int h)
+{
+  //       ____________
+  //    __|
+  // __|
+  // Make a couple steps then a flat area
+  int step = 0;
+  for (int i = xstart; i < xstart + n - 1; i++) {
+    for (int j = base; j <= base + step; j++) {
+      _space[i][j] = new Ground(i, j);
+      update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+    }
+    // Increase the step height if we're less than the plateau or the map height
+    if (step < h && step < _height-1)
+      step++;
+  }
+  return base + step;
+}
+
+int Scene::make_canyon(int xstart, int base, int n)
+{
+  // __        __
+  //   |      |
+  //   |______|
+  // Make a 2-block deep canyon
+
+  // Set the canyon bottom height to base-2 or 1, whichever is higher
+  int height = base;
+  if (base - 2 < 0)
+    height = 1;
+  else
+    height = base - 2;
+
+  // Make the first wall
+  _space[xstart][base] = new Ground(xstart, base);
+  update_array(xstart, base, _space[xstart][base]->kind(), _space[xstart][base]->number());
+  // Make the canyon bottom
+  for (int i = xstart+1; i < xstart + n - 2; i++) {
+    _space[i][height] = new Ground(i, height);
+    update_array(i, height, _space[i][height]->kind(), _space[i][height]->number());
+  }
+  // Make the second wall
+  _space[xstart+n-1][base] = new Ground(xstart+n-1, base);
+  update_array(xstart+n-1, base, _space[xstart+n-1][base]->kind(), _space[xstart+n-1][base]->number());
+  return base;
+}
+
+int Scene::make_cave(int base, int side)
+{
+}
+
+int Scene::make_spire(int xstart, int base, int n)
+{
+  //      __
+  //     |  |
+  // ____|  |____
+  // Make a 2-block tall "spire"
+  // First, create a flat row of ground
+  for (int i = xstart; i < xstart + n - 1; i++) {
+    _space[i][base] = new Ground(i, base);
+    update_array(i, base, _space[i][base]->kind(), _space[i][base]->number());
+  }
+  // Randomly pick a column to put the spire in
+  int col = Random::get<int>(xstart+1, xstart+n-2);
+  // Place the spire, checking for map boundaries
+  if (base + 1 < _width - 1) {
+    _space[col][base+1] = new Ground(i, base+1);
+    update_array(i, base+1, _space[i][base+1]->kind(), _space[i][base+1]->number());
+    if (base + 2 < _width - 1) {
+      _space[col][base+2] = new Ground(i, base+2);
+      update_array(i, base+2, _space[i][base+2]->kind(), _space[i][base+2]->number());
+    }
+  }
+  return base;
+}
+
+
+void Scene::generate_modular() {
+  flush();
+
+  _init = _data;
+}
+
 void Scene::generate_easy() {
   flush();
   srand(time(NULL));
