@@ -306,6 +306,4 @@ Char3d demoscene = {
      {'.', 'X'}},
 };
 
-
-
 #endif /* GAME_MANAGER_H */

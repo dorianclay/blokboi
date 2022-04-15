@@ -20,48 +20,31 @@
 //     COUNT
 // };
 
-class Block : public GameObject
-{
-  protected:
-    char colors[7] = {'r', 'o', 'y', 'g', 'b', 'p', 'X'};
-    char _color;
-    int _number;
+class Block : public GameObject {
+protected:
+  char colors[7] = {'r', 'o', 'y', 'g', 'b', 'p', 'X'};
+  char _color;
+  int _number;
 
-  public:
-    Block();
-    Block(int x, int y);
-    Block(int x, int y, char color, int number, bool movable);
+public:
+  Block();
+  Block(int x, int y);
+  Block(int x, int y, char color, int number, bool movable);
 
-    int color() const
-    {
-        return _color;
-    }
-    int kind() const override
-    {
-        return _color;
-    }
-    int number() const override
-    {
-        return '0' + _number;
-    }
+  int color() const { return _color; }
+  int kind() const override { return _color; }
+  int number() const override { return '0' + _number; }
 
-    void repr(std::ostream &ostr) const;
+  void repr(std::ostream &ostr) const;
 };
 
-class Ground : public Block
-{
-  protected:
-  public:
-    Ground(int x, int y);
-    void repr(std::ostream &ostr) const;
-    int kind() const override
-    {
-        return GameObject::kind();
-    }
-    int number() const override
-    {
-        return GameObject::number();
-    }
+class Ground : public Block {
+protected:
+public:
+  Ground(int x, int y);
+  void repr(std::ostream &ostr) const;
+  int kind() const override { return GameObject::kind(); }
+  int number() const override { return GameObject::number(); }
 };
 
 #endif /* BLOCK_H */
