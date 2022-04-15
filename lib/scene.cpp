@@ -209,19 +209,11 @@ int Scene::make_spire(int xstart, int base, int n)
   int col = Random::get<int>(xstart+1, xstart+n-2);
   // Place the spire, checking for map boundaries
   if (base + 1 < _width - 1) {
-<<<<<<< HEAD
-    _space[col][base+1] = new Ground(i, base+1);
-    update_array(i, base+1, _space[i][base+1]->kind(), _space[i][base+1]->number());
-    if (base + 2 < _width - 1) {
-      _space[col][base+2] = new Ground(i, base+2);
-      update_array(i, base+2, _space[i][base+2]->kind(), _space[i][base+2]->number());
-=======
     _space[col][base+1] = new Ground(col, base+1);
     update_array(col, base+1, _space[col][base+1]->kind(), _space[col][base+1]->number());
     if (base + 2 < _width - 1) {
       _space[col][base+2] = new Ground(col, base+2);
       update_array(col, base+2, _space[col][base+2]->kind(), _space[col][base+2]->number());
->>>>>>> Create chunk generators
     }
   }
   return base;
