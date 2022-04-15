@@ -142,6 +142,13 @@ int PlayerController::put_down()
     LOCATION current = _player->location();
     int facing = _player->facing();
 
+    // Make sure we're not attempting to place off the map
+    if (current.x == 0 && facing == -1 || current.x == _scene->width() -1 && facing == 1)
+    {
+        DLOG_F(1, "Can't place a block off the map.");
+        return -1;
+    }
+
     // Get the height of the highest object in the column we're facing
     int col_max = _scene->get_highest_obj_height(current.x + facing);
 

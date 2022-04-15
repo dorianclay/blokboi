@@ -267,7 +267,7 @@ void Scene::flush()
 
 GameObject *Scene::get_object(int x, int y)
 {
-    if (x < 0 || x > _width || y < 0 || y > _height)
+    if (x < 0 || x >= _width || y < 0 || y >= _height)
         return nullptr;
     return _space[x][y];
 }
