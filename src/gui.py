@@ -46,8 +46,6 @@ class CanvasFrame(ttk.Frame):
         for row in range(width):
             for col in range(height):
                 obj_list = self._container._game_instance.array()[row][col]
-                if obj_list[0] == "P":
-                    self.logger.debug(f"facing {obj_list[1]}")
                 self._draw(
                     row,
                     col,
