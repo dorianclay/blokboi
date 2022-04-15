@@ -332,11 +332,16 @@ void Scene::move(int x, int y, int dx, int dy)
         return;
     }
 
-    _space[newx][newy] = _space[x][y];
-    _space[newx][newy]->update(newx, newy);
-    update_array(newx, newy, _space[newx][newy]->kind(), _space[newx][newy]->number());
-    update_array(x, y, '.', 'X');
-    _space[x][y] = nullptr;
+    if (dx == 0 && dy == 0)
+        update_array(x, y, _space[x][y]->kind(), _space[x][y]->number());
+    else
+    {
+        _space[newx][newy] = _space[x][y];
+        _space[newx][newy]->update(newx, newy);
+        update_array(newx, newy, _space[newx][newy]->kind(), _space[newx][newy]->number());
+        update_array(x, y, '.', 'X');
+        _space[x][y] = nullptr;
+    }
 }
 
 string Scene::representation()

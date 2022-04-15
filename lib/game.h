@@ -16,11 +16,11 @@ class Game
     Game(Char3d pregen);
     void newGame();
     void resetGame();
-    void move(int direction);
-    void jump();
-    void toggle_hold();
-    void pick_up();
-    void put_down();
+    int move(int direction);
+    int jump();
+    int toggle_hold();
+    int pick_up();
+    int put_down();
     int width()
     {
         return _scene->width();
