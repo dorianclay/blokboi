@@ -6,6 +6,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
+#include <cassert>
 
 using Random = effolkronium::random_static;
 
@@ -113,61 +114,107 @@ void Scene::update_array(int x, int y, char colrval, char numrval) {
   _data[x][y][1] = numrval;
 }
 
-int Scene::make_plains(int xstart, int base, int n)
+int Scene::make_plains(int xstart, int base, int n, int m, int dir)
 {
+  /* Make a flat row of ground
+   *  xstart: the column to put the leftmost block in
+   *  base:   the height of the leftmost block
+   *  n:      the number of blocks in this chunk
+   *  m:      (unused)
+   *  dir:    (unused)
+   */
   // __________
-  // Make a flat row of ground
-  for (int i = xstart; i < xstart + n - 1; i++) {
+  DLOG_F(2, "Generating plains (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
+
+  for (int i = xstart; i < xstart + n; i++) {
     _space[i][base] = new Ground(i, base);
     update_array(i, base, _space[i][base]->kind(), _space[i][base]->number());
   }
   return base;
 }
 
-int Scene::make_steppes(int xstart, int base, int n)
+int Scene::make_steppes(int xstart, int base, int n, int m, int dir)
 {
+  /* Make "steps" that increase in height linearly with width
+   *  xstart: the column to put the leftmost block in
+   *  base:   the height of the leftmost block
+   *  n:      the number of blocks in this chunk
+   *  m:      (unused)
+   *  dir:    -1 if generating feature left, 1 if generating feature right
+   */
   //       __
   //    __|
   // __|
-  // Make "steps" that increase in height linearly with width
+  DLOG_F(2, "Generating steppes (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
+
   int step = 0;
-  for (int i = xstart; i < xstart + n - 1; i++) {
-    for (int j = base; j <= base + step; j++) {
-      _space[i][j] = new Ground(i, j);
-      update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+  for (int i = xstart; i < xstart + n; i++) {
+    int j = base + step;
+    _space[i][j] = new Ground(i, j);
+    update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+    // If generating left,
+    if (dir == -1) {
+      // Only increment the step height if we won't go outside the map
+      if (base + step < _height * 4 / 5)
+        step++;
+    // Else generating right,
+    } else {
+      // Only increment the step height if we won't go outside the map
+      if (base + step > 1)
+        step--;
     }
-    // Only increment the step height if we won't go outside the map
-    if (step < _height - 1)
-      step++;
   }
   return base + step;
 }
 
-int Scene::make_plateau(int xstart, int base, int n, int h)
+int Scene::make_plateau(int xstart, int base, int n, int m, int dir)
 {
+  /* Make a couple steps then a flat area
+   *  xstart: the column to put the leftmost block in
+   *  base:   the height of the leftmost block
+   *  n:      the number of blocks in this chunk
+   *  m:      the number of steps to go up
+   *  dir:    -1 if generating feature left, 1 if generating feature right
+   */
   //       ____________
   //    __|
   // __|
-  // Make a couple steps then a flat area
+  DLOG_F(2, "Generating plateau (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
+
+  assert(n >= 0 && m >= 0 && xstart >= 0 && base > 0);
   int step = 0;
-  for (int i = xstart; i < xstart + n - 1; i++) {
-    for (int j = base; j <= base + step; j++) {
-      _space[i][j] = new Ground(i, j);
-      update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+  for (int i = xstart; i < xstart + n; i++) {
+    int j = base + step;
+    _space[i][j] = new Ground(i, j);
+    update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+    // If generating left feature,
+    if (dir == -1) {
+      // Increase the step height if we're less than the plateau or the map height
+      if (base + step < m && base + step < _height * 4 / 5)
+        step++;
+    // Else we're generating right feature
+    } else {
+      // Increase the step height if we're less than the plateau and above the minimum
+      if (base + step < m && base + step > 1)
+        step--;
     }
-    // Increase the step height if we're less than the plateau or the map height
-    if (step < h && step < _height-1)
-      step++;
   }
   return base + step;
 }
 
-int Scene::make_canyon(int xstart, int base, int n)
+int Scene::make_canyon(int xstart, int base, int n, int m, int dir)
 {
+  /* Make a 2-block deep canyon
+   *  xstart: the column to put the leftmost block in
+   *  base:   the height of the leftmost block
+   *  n:      the number of blocks in this chunk
+   *  m:      (unused)
+   *  dir:    (unused)
+   */
   // __        __
   //   |      |
   //   |______|
-  // Make a 2-block deep canyon
+  DLOG_F(2, "Generating canyon (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
 
   // Set the canyon bottom height to base-2 or 1, whichever is higher
   int height = base;
@@ -180,7 +227,7 @@ int Scene::make_canyon(int xstart, int base, int n)
   _space[xstart][base] = new Ground(xstart, base);
   update_array(xstart, base, _space[xstart][base]->kind(), _space[xstart][base]->number());
   // Make the canyon bottom
-  for (int i = xstart+1; i < xstart + n - 2; i++) {
+  for (int i = xstart+1; i < xstart + n - 1; i++) {
     _space[i][height] = new Ground(i, height);
     update_array(i, height, _space[i][height]->kind(), _space[i][height]->number());
   }
@@ -190,28 +237,45 @@ int Scene::make_canyon(int xstart, int base, int n)
   return base;
 }
 
-int Scene::make_cave(int base, int side)
+int Scene::make_cave(int xstart, int base, int n, int m, int dir)
 {
+  /* Make a cave structure
+   *  xstart: the column to put the leftmost block in
+   *  base:   the height of the leftmost block
+   *  n:      (unused)
+   *  m:      (unused)
+   *  dir:    -1 if generating feature left, 1 if generating feature right
+   */
+  DLOG_F(2, "Generating cave (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
+  return base;
 }
 
-int Scene::make_spire(int xstart, int base, int n)
+int Scene::make_spire(int xstart, int base, int n, int m, int dir)
 {
+  /* Make a 2-block tall "spire"
+   *  xstart: the column to put the leftmost block in
+   *  base:   the height of the leftmost block
+   *  n:      the number of blocks in this chunk
+   *  m:      (unused)
+   *  dir:    (unused)
+   */
   //      __
   //     |  |
   // ____|  |____
-  // Make a 2-block tall "spire"
+  DLOG_F(2, "Generating spire (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
+
   // First, create a flat row of ground
-  for (int i = xstart; i < xstart + n - 1; i++) {
+  for (int i = xstart; i < xstart + n; i++) {
     _space[i][base] = new Ground(i, base);
     update_array(i, base, _space[i][base]->kind(), _space[i][base]->number());
   }
   // Randomly pick a column to put the spire in
   int col = Random::get<int>(xstart+1, xstart+n-2);
   // Place the spire, checking for map boundaries
-  if (base + 1 < _width - 1) {
+  if (base + 1 < _height - 1) {
     _space[col][base+1] = new Ground(col, base+1);
     update_array(col, base+1, _space[col][base+1]->kind(), _space[col][base+1]->number());
-    if (base + 2 < _width - 1) {
+    if (base + 2 < _height - 1) {
       _space[col][base+2] = new Ground(col, base+2);
       update_array(col, base+2, _space[col][base+2]->kind(), _space[col][base+2]->number());
     }
@@ -220,8 +284,69 @@ int Scene::make_spire(int xstart, int base, int n)
 }
 
 
+/*
+ *
+ * PUBLIC
+ *
+ */
+
+
 void Scene::generate_modular() {
   flush();
+
+  vector<int> direction = {-1, 1};
+
+  // Randomly pick the number of modules to use,
+  // where each module is at least 3 wide
+  int nummods = Random::get(1, (int) _width / 3);
+  int blockneed = 0;
+
+  // Randomly pick the module parameters;
+  int remaining = _width;
+  int col = 0;
+  int last_height = Random::get(1, (int) _height * 3 / 4);
+  for (int i=0; i < nummods; i++) {
+    int maker_idx = Random::get(0, 4); // module
+    int n;
+    if (nummods - i == 1) {
+      n = remaining;
+    } else {
+      n = Random::get(3, remaining - 3 * (nummods - i - 1)); // n
+    }
+    int m = Random::get(1, n); // m
+    Random::shuffle(direction);
+    int dir = direction[0]; // dir
+
+    // Fill the module
+    // last_height = _maker_funcs[maker_idx](col, last_height, n, m, dir);
+    if (maker_idx == 0)
+      last_height = make_plains(col, last_height, n, m, dir);
+    else if (maker_idx == 1)
+      last_height = make_steppes(col, last_height, n, m, dir);
+    else if (maker_idx == 2)
+      last_height = make_plateau(col, last_height, n, m, dir);
+    else if (maker_idx == 3) {
+      last_height = make_canyon(col, last_height, n, m, dir);
+      blockneed += 2;
+    } else {
+      last_height = make_spire(col, last_height, n, m, dir);
+      blockneed += 2;
+    }
+
+    col += n;
+    remaining -= n;
+  }
+
+  // Fill ground below
+  for (int i=0; i < _width; i++) {
+    int y = get_lowest_obj_height(i);
+    for (int j=0; j < y; j++) {
+      _space[i][j] = new Ground(i,j);
+      update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
+    }
+  }
+
+  // TODO: generate usable blocks
 
   _init = _data;
 }
@@ -349,6 +474,14 @@ GameObject *Scene::get_object(int x, int y) {
 
 int Scene::get_highest_obj_height(int col) {
   for (int y = _height - 1; y >= 0; y--) {
+    if (_space[col][y] != nullptr)
+      return y;
+  }
+  return -1;
+}
+
+int Scene::get_lowest_obj_height(int col) {
+  for (int y = 0; y < _height; y++) {
     if (_space[col][y] != nullptr)
       return y;
   }

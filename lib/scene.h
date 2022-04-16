@@ -20,6 +20,7 @@ typedef std::vector<std::vector<std::vector<char>>> Char3d;
 */
 
 class Scene {
+  typedef int (Scene::*module_maker)(int xstart, int base, int n, int m, int dir);
 protected:
   Blocks _blocks;
   Blocks _ground;
@@ -35,18 +36,18 @@ protected:
   void fill_ground(int col, int *lastheight, int *priorheight, int *maxheight);
   int count_blocks(int col);
   void update_array(int x, int y, char colrval, char numrval);
+  int make_plains(int xstart, int base, int n, int m, int dir);
+  int make_steppes(int xstart, int base, int n, int m, int dir);
+  int make_plateau(int xstart, int base, int n, int m, int dir);
+  int make_canyon(int xstart, int base, int n, int m, int dir);
+  int make_cave(int xstart, int base, int n, int m, int dir);
+  int make_spire(int xstart, int base, int n, int m, int dir);
 
 public:
   Scene();
   Scene(int x, int y);
   Scene(Char3d pregen);
 
-  int make_plains(int xstart, int base, int n);
-  int make_steppes(int xstart, int base, int n);
-  int make_plateau(int xstart, int base, int n, int h);
-  int make_canyon(int xstart, int base, int n);
-  int make_cave(int base, int side);
-  int make_spire(int xstart, int base, int n);
   void generate_modular();
   void generate_easy();
   void generate(const std::string &str);
@@ -55,6 +56,7 @@ public:
   void flush();
   GameObject *get_object(int x, int y);
   int get_highest_obj_height(int col);
+  int get_lowest_obj_height(int col);
   Player *get_player();
   // const Objects get_space() const
   // {
