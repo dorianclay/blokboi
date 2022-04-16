@@ -132,6 +132,12 @@ class App(tk.Tk):
         self._assetpath = assetpath
 
         self.title("Blokboi")
+        self.tk.call(
+            "wm",
+            "iconphoto",
+            self._w,
+            tk.PhotoImage(file=str(assetpath / "2x" / "boi_1_r.png")),
+        )
         self.__center(width * 16 * scale, height * 16 * scale + 48)
         self.resizable(False, False)
 
