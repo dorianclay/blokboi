@@ -16,7 +16,7 @@ Game::Game() {
   LOG_F(INFO, "Beginning a new game.");
 
   _scene = new Scene(20, 15);
-  _scene->generate_easy();
+  _scene->generate_modular();
   _player_controller = new PlayerController(_scene, _scene->get_player());
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
@@ -39,7 +39,7 @@ void Game::newGame() {
   delete _scene;
   delete _player_controller;
   _scene = new Scene(20, 15);
-  _scene->generate_easy();
+  _scene->generate_modular();
   _player_controller = new PlayerController(_scene, _scene->get_player());
   DLOG_F(INFO, "New map generated:\n%s", _scene->representation().c_str());
 }
