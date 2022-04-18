@@ -21,7 +21,7 @@ Game::Game() {
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
-Game::Game(Char3d pregen) {
+Game::Game(Char3d pregen, string objective) {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    loguru::Verbosity_9);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -31,6 +31,7 @@ Game::Game(Char3d pregen) {
 
   _scene = new Scene(pregen);
   _player_controller = new PlayerController(_scene, _scene->get_player());
+  _objective = objective;
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 

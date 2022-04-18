@@ -12,7 +12,7 @@ private:
 
 public:
   Game();
-  Game(Char3d pregen);
+  Game(Char3d pregen, std::string objective="");
   void newGame();
   void resetGame();
   int move(int direction);
