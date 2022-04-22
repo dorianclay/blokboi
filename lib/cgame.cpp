@@ -13,6 +13,7 @@ PYBIND11_MODULE(blokboi, m) {
       .def(py::init<Char3d>())
       .def("newGame", &Game::newGame)
       .def("resetGame", &Game::resetGame)
+      .def("set_objective", &Game::set_objective)
       .def("move", &Game::move)
       .def("jump", &Game::jump)
       .def("toggle_hold", &Game::toggle_hold)
