@@ -3,6 +3,7 @@
 
 #include "player_controller.h"
 #include "scene.h"
+#include <string>
 
 class Game {
 private:
@@ -15,6 +16,7 @@ public:
   Game(Char3d pregen, std::string objective="");
   void newGame();
   void resetGame();
+  void set_objective(std::string objective) { _objective = objective; }
   int move(int direction);
   int jump();
   int toggle_hold();
