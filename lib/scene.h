@@ -23,7 +23,6 @@ class Scene {
   typedef int (Scene::*module_maker)(int xstart, int base, int n, int m, int dir);
 protected:
   Blocks _blocks;
-  Blocks _ground;
   Player *_player;
   unsigned _height = 10;
   unsigned _width = 10;
@@ -34,8 +33,10 @@ protected:
   std::uniform_int_distribution<int> _dist_height;
   LOCATION *findObject(GameObject *object);
   void fill_ground(int col, int *lastheight, int *priorheight, int *maxheight);
+  void fill_ground();
   int count_blocks(int col);
   void update_array(int x, int y, char colrval, char numrval);
+  void update_array(int x, int y);
   int make_plains(int xstart, int base, int n, int m, int dir);
   int make_steppes(int xstart, int base, int n, int m, int dir);
   int make_plateau(int xstart, int base, int n, int m, int dir);
@@ -49,6 +50,7 @@ public:
   Scene(Char3d pregen);
 
   void generate_modular();
+  void generate_heuristical();
   void generate_easy();
   void generate(const std::string &str);
   void generate_from_array(Char3d pregen);

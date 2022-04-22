@@ -16,7 +16,7 @@ Game::Game() {
   LOG_F(INFO, "Beginning a new game.");
 
   _scene = new Scene(20, 15);
-  _scene->generate_modular();
+  _scene->generate_heuristical();
   _player_controller = new PlayerController(_scene, _scene->get_player());
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }

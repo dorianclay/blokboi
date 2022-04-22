@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <vector>
 #include <cassert>
+#include <cmath>
 
 using Random = effolkronium::random_static;
 
@@ -96,6 +97,26 @@ void Scene::fill_ground(int col, int *lastheight, int *priorheight,
   *lastheight = thisheight;
 }
 
+void Scene::fill_ground() {
+  int maxheight = Random::get(1, (int) _height * 3 / 4);
+  int startcol = Random::get(_dist_width);
+  int lastheight = maxheight;
+  int priorheight = maxheight;
+
+  // Generate ground to right
+  for (int i = (int) startcol; i < _width; i++) {
+    fill_ground(i, &lastheight, &priorheight, &maxheight);
+  }
+
+  lastheight = maxheight;
+  priorheight = lastheight;
+
+  // Generate ground to left
+  for (int i = (int)startcol - 1; i >= 0; i--) {
+    fill_ground(i, &lastheight, &priorheight, &maxheight);
+  }
+}
+
 int Scene::count_blocks(int col) {
   // Find the height of the blocks at x=col
   int height = 0;
@@ -112,6 +133,10 @@ int Scene::count_blocks(int col) {
 void Scene::update_array(int x, int y, char colrval, char numrval) {
   _data[x][y][0] = colrval;
   _data[x][y][1] = numrval;
+}
+
+void Scene::update_array(int x, int y) {
+  update_array(x, y, _space[x][y]->kind(), _space[x][y]->number());
 }
 
 int Scene::make_plains(int xstart, int base, int n, int m, int dir)
@@ -347,6 +372,112 @@ void Scene::generate_modular() {
   }
 
   // TODO: generate usable blocks
+
+  _init = _data;
+}
+
+void Scene::generate_heuristical() {
+  flush();
+  srand(time(NULL));
+
+  DLOG_F(INFO, "Generating scene heuristically...");
+
+  // Keep generating until we've made a satisfactory map
+  while (true) {
+    fill_ground();
+
+    // Pick a column for the player to go
+    int player_col = Random::get(_dist_width);
+
+    // Find an edge (a block where the next col's block >= 2 below)
+    int blockneed = 0;
+    int stay_col = 0, stay_height = 0, walk_height = 0;
+    int walk_col = stay_col + 1;
+    while (stay_col < _width - 1) {
+      blockneed = 0;
+      stay_height = count_blocks(stay_col);
+      walk_col = stay_col + 1;
+      while (walk_col < _width) {
+        walk_height = count_blocks(walk_col);
+        // TODO: check conditional is actually finding a step "landing" point.
+        if (stay_height - walk_height <= 1) {
+          walk_col++;
+          break;
+        }
+        blockneed += (stay_height - (walk_col - stay_col)) - count_blocks(walk_col);
+        walk_col++;
+      }
+      // place blocks between the closer point: stay or walked
+      int block_col, block_row;
+      while (blockneed > 0) {
+        block_col = Random::get(player_col, abs(player_col - walk_col) < abs(player_col - stay_col) ? walk_col : stay_col);
+        block_row = count_blocks(block_col);
+        _blocks.push_back(new Block(block_col, block_row));
+        _space[block_col][block_row] = _blocks.back();
+        update_array(block_col, block_row);
+        blockneed--;
+      }
+
+      stay_col = walk_col;
+    }
+
+    stay_col = _width - 1;
+    walk_col = stay_col - 1;
+    while (stay_col > 1) {
+      blockneed = 0;
+      stay_height = count_blocks(stay_col);
+      walk_col = stay_col - 1;
+      while (walk_col > 0) {
+        walk_height = count_blocks(walk_col);
+        // TODO: check conditional is finding a step landing point
+        if (stay_height - walk_height <= 1) {
+          walk_col--;
+          break;
+        }
+        blockneed += (stay_height - (stay_col - walk_col)) - count_blocks(walk_col);
+        walk_col--;
+      }
+      // place blocks between the closer point: stay or walked
+      int block_col, block_row;
+      while (blockneed > 0) {
+        block_col = Random::get(player_col, abs(player_col - walk_col) < abs(player_col - stay_col) ? walk_col : stay_col);
+        block_row = count_blocks(block_col);
+        _blocks.push_back(new Block(block_col, block_row));
+        _space[block_col][block_row] = _blocks.back();
+        update_array(block_col, block_row);
+        blockneed--;
+      }
+
+      stay_col = walk_col;
+    }
+
+    // Place the player
+    int player_height = count_blocks(player_col);
+    int buffer = 0;
+    // See if the player is surrounded
+    if (player_col > 0 && count_blocks(player_col - 1) - player_height > 1) {
+      buffer = count_blocks(player_col - 1) - player_height;
+      player_height = count_blocks(player_col - 1);
+    }
+    if (player_col < _width - 1 && count_blocks(player_col + 1) - player_height > 1) {
+      buffer = count_blocks(player_col + 1) - player_height;
+      player_height = count_blocks(player_col + 1);
+    }
+    // Fill in the area now below player (if any)
+    for (int i = 0; i < buffer; i++) {
+      int buffheight = player_height - i - 1;
+      _blocks.push_back(new Block(player_col, buffheight));
+      _space[player_col][buffheight] = _blocks.back();
+      update_array(player_col, buffheight);
+    }
+    // Place the player
+    _player = new Player(player_col, player_height);
+    _space[player_col][player_height] = _player;
+    update_array(player_col, player_height);
+
+    // TODO: check that map is playable before breaking
+    break;
+  }
 
   _init = _data;
 }
