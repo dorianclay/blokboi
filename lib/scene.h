@@ -35,6 +35,7 @@ protected:
   void fill_ground(int col, int *lastheight, int *priorheight, int *maxheight);
   void fill_ground();
   int count_blocks(int col);
+  void place_walker_blocks(int player_col, int walk_col, int stay_col);
   void update_array(int x, int y, char colrval, char numrval);
   void update_array(int x, int y);
   int make_plains(int xstart, int base, int n, int m, int dir);
@@ -49,10 +50,10 @@ public:
   Scene(int x, int y);
   Scene(Char3d pregen);
 
+  void generate();
   void generate_modular();
   void generate_heuristical();
   void generate_easy();
-  void generate(const std::string &str);
   void generate_from_array(Char3d pregen);
   void refresh();
   void flush();

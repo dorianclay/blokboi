@@ -10,6 +10,7 @@ set(SOURCE_FILES
     lib/block.cpp
     lib/player.cpp
     lib/player_controller.cpp
+    lib/generators.cpp
 )
 
 
