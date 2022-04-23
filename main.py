@@ -79,7 +79,7 @@ def main(**kwargs):
     if kwargs["gui"]:
         logger.debug("Running game app...")
         size = (15, 20)
-        scale = 2
+        scale = kwargs["scale"]
         if kwargs["load"]:
             scene = np.load("data/demo_scene.npy")
             app = App(size[1], size[0], scale=scale, game_instance=Game(scene))
@@ -100,6 +100,7 @@ if __name__ == "__main__":
     runtype_group.add_argument(
         "-G", "--gui", action="store_true", help="Run the GUI app."
     )
+    parser.add_argument("-S", "--scale", type=int, default=2, help="set the GUI scaling.")
     parser.add_argument(
         "-l", "--load", action="store_true", help="load the demo scene."
     )
