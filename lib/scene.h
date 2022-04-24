@@ -19,8 +19,8 @@ typedef std::vector<std::vector<std::vector<char>>> Char3d;
     Dim(2) is a vector of [object type, block number value]
 */
 
+
 class Scene {
-  typedef int (Scene::*module_maker)(int xstart, int base, int n, int m, int dir);
 protected:
   Blocks _blocks;
   Player *_player;
@@ -29,6 +29,20 @@ protected:
   Objects _space;
   Char3d _data;
   Char3d _init;
+  Blocks _targets;
+  std::string _relationship;
+  std::vector<std::string> relations = {
+    "above",
+    "below",
+    "under",
+    "on top",
+    "beneath",
+    "right",
+    "left",
+    "off",
+    "side",
+    "diagonal"
+  };
   std::uniform_int_distribution<int> _dist_width;
   std::uniform_int_distribution<int> _dist_height;
   LOCATION *findObject(GameObject *object);
@@ -36,6 +50,7 @@ protected:
   void fill_ground();
   int count_blocks(int col);
   void place_walker_blocks(int player_col, int walk_col, int stay_col);
+  bool check_scene();
   void update_array(int x, int y, char colrval, char numrval);
   void update_array(int x, int y);
   int make_plains(int xstart, int base, int n, int m, int dir);
@@ -57,14 +72,14 @@ public:
   void generate_from_array(Char3d pregen);
   void refresh();
   void flush();
+  bool verify();
   GameObject *get_object(int x, int y);
   int get_highest_obj_height(int col);
   int get_lowest_obj_height(int col);
   Player *get_player();
-  // const Objects get_space() const
-  // {
-  //     return _space;
-  // }
+  const Blocks *targets() { return &_targets; }
+  const Block *targets(int blocknum);
+  std::string relationship() { return _relationship; }
   char *data() { return &_data[0][0][0]; }
   Char3d array() { return _data; }
   void move(GameObject *object, int dx, int dy);

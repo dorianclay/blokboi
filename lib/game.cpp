@@ -7,6 +7,8 @@
 
 using namespace std;
 
+#define CHECKSTEPS 10000
+
 Game::Game() {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    loguru::Verbosity_2);
@@ -83,3 +85,70 @@ int Game::put_down() { return _player_controller->put_down(); }
 string Game::representation() { return _scene->representation(); }
 
 string Game::objective() { return _objective; }
+
+/**
+ * @brief Walk to a column.
+ *
+ * @param scene* the scene.
+ * @param col int: column to walk to
+ * @param steps* the step counter
+ * @return int: 1 if successful, -1 if unsuccessful
+ */
+int walk_to(Scene *scene, int col, int *steps) {
+  if (col < 0 || col >= scene->width()) {
+    throw invalid_argument("Column out of map bounds.");
+  }
+
+  if (scene->get_player()->location().x < col) {
+    // TODO: Walk right
+  } else if (scene->get_player()->location().x > col) {
+    // TODO: walk left
+  } else {
+    return 1;
+  }
+}
+
+/**
+ * @brief Run the heuristic player
+ *
+ * @return int: the number of steps taken. (-1 if heuristic failed)
+ */
+int Game::run_heuristic() {
+  LOG_SCOPE_FUNCTION(INFO);
+
+  string relationship = _scene->relationship();
+
+
+  int steps = 0;
+
+  while (steps < CHECKSTEPS) {
+    // Bring the first target (_targets[0]) to the second target (_targets[1])
+      // If can't reach the target, turn around and pick up the farthest available block
+
+      // Place the block at the obstacle, and try to walk towards the first target again
+
+    // Arrange the target blocks as defined by their relationship
+    if (relationship == "above" || relationship == "on top") {
+      // TODO: _target[0] on _target[1]
+    } else if (relationship == "below" || relationship == "under" || relationship == "beneath") {
+      // TODO: _target[0] under _target[1]
+    } else if (relationship == "right") {
+      // TODO: t[0] to the right of t[1]
+    } else if (relationship == "left") {
+      // TODO: t[0] to the left of t[1]
+    } else if (relationship == "side") {
+      // TODO: t[0] directly beside t[1]
+    } else if (relationship == "off") {
+      // TODO: t[0] not above t[1]
+    } else if (relationship == "diagonal") {
+      // TODO: t[0] at an adjacent diagonal to t[1]
+    } else {
+      LOG_F(ERROR, "Handling target relationship '%s' is undefined.", relationship);
+      throw invalid_argument("I don't know how to handle the target relationship.");
+    }
+
+    steps++;
+  }
+
+  return -1;
+}

@@ -34,6 +34,7 @@ Scene::Scene() {
     }
   }
   _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+  _relationship = "";
 }
 
 Scene::Scene(int x, int y) {
@@ -49,6 +50,7 @@ Scene::Scene(int x, int y) {
     }
   }
   _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+  _relationship = "";
 }
 
 Scene::Scene(Char3d pregen) {
@@ -58,6 +60,7 @@ Scene::Scene(Char3d pregen) {
   _dist_width = uniform_int_distribution<int>(0, _width - 1);
   _dist_height = uniform_int_distribution<int>(0, _height - 1);
   _data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+  _relationship = "";
   generate_from_array(pregen);
 }
 
@@ -387,6 +390,78 @@ void Scene::flush() {
   }
 }
 
+/**
+ * @brief Verify if the goal has been achieved.
+ *
+ * @return true if {_targets[0]} {_relationship} {_targets[1]}
+ * @return false if not achieved.
+ */
+bool Scene::verify() {
+  // Let 'a' : target[0]
+  // Let 'b' : target[1]
+  int ax = _targets[0]->location().x;
+  int ay = _targets[0]->location().y;
+  int bx = _targets[1]->location().x;
+  int by = _targets[1]->location().y;
+
+  if (_relationship == "above" || _relationship == "on top") {
+    // _target[0] on top of _target[1]
+    if (ax == bx) {
+      if (ay == by + 1)
+        return true;
+    }
+  } else if (_relationship == "below" || _relationship == "under" || _relationship == "beneath") {
+    // _target[0] under _target[1]
+    if (ax == bx) {
+      if (ay == by - 1)
+        return true;
+    }
+  } else if (_relationship == "right") {
+    // target[0] directly to the right of target[1]
+    if (ay == by) {
+      if (ax == bx + 1)
+        return true;
+    }
+  } else if (_relationship == "left") {
+    // target[0] directly to the left of target[1]
+    if (ay == by) {
+      if (ax == bx - 1)
+        return true;
+    }
+  } else if (_relationship == "side") {
+    // target[0] directly beside target[1]
+    if (ay == by) {
+      if (ax == bx + 1)
+        return true;
+      if (ax == bx - 1)
+        return true;
+    }
+  } else if (_relationship == "off") {
+    // target[0] not above target[1]
+    if (ax != bx)
+      return true;
+    if (ax == bx) {
+      if (ay < by)
+        return true;
+    }
+  } else if (_relationship == "diagonal") {
+    // target[0] at an adjacent diagonal to target[1]
+    if (ax == bx - 1 || ax == bx + 1) {
+      if (ay == by + 1)
+        return true;
+      if (ay == by - 1)
+        return true;
+    }
+  } else {
+    LOG_F(ERROR, "Handling target relationship '%s' is undefined.", _relationship);
+    throw invalid_argument("I don't know how to handle the target relationship.");
+  }
+
+  // If we matched one of the handled relationships but weren't true,
+  // then the goal state has not been achieved.
+  return false;
+}
+
 GameObject *Scene::get_object(int x, int y) {
   if (x < 0 || x >= _width || y < 0 || y >= _height)
     return nullptr;
@@ -410,6 +485,10 @@ int Scene::get_lowest_obj_height(int col) {
 }
 
 Player *Scene::get_player() { return _player; }
+
+const Block *Scene::targets(int blocknum) {
+  return _targets.at(blocknum);
+}
 
 void Scene::move(GameObject *object, int dx, int dy) {
   LOCATION *coords = findObject(object);
