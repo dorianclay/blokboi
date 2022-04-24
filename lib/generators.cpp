@@ -6,13 +6,27 @@ using Random = effolkronium::random_static;
 
 using namespace std;
 
+#define GENERATOR_ATTEMPTS 1000
+#define GEN_WARN_V 2
+
+/**
+ * @brief Generate a scene using the default generator.
+ *
+ */
 void Scene::generate() {
   generate_heuristical();
 }
 
+/**
+ * @brief Place blocks between the player and the closest of two columns.
+ *
+ * @param player_col The column of the player.
+ * @param walk_col The 'walker' column.
+ * @param stay_col The 'stayer' column.
+ */
 void Scene::place_walker_blocks(int player_col, int walk_col, int stay_col) {
   int block_col, block_row;
-  while (true) {
+  for (int i=0; i<_width; i++) {
     // If walker is closer to the player...
     if (abs(player_col - walk_col) < abs(player_col - stay_col)){
       if (walk_col - player_col > 0) {
@@ -41,19 +55,27 @@ void Scene::place_walker_blocks(int player_col, int walk_col, int stay_col) {
     if (block_row < _height-1)
       break;
   }
+  if (block_row >= _height - 1)
+    return;
   _blocks.push_back(new Block(block_col, block_row));
   _space[block_col][block_row] = _blocks.back();
   update_array(block_col, block_row);
 }
 
+/**
+ * @brief Generate a scene heuristics to increase playability.
+ *
+ */
 void Scene::generate_heuristical() {
-  flush();
   srand(time(NULL));
 
-  DLOG_F(INFO, "Generating scene heuristically...");
-
+  int attempts = 0;
   // Keep generating until we've made a satisfactory map
-  while (true) {
+  while (attempts < GENERATOR_ATTEMPTS) {
+    flush();
+    attempts++;
+    LOG_F(INFO, "Attempt %d to generate a scene heuristically...", attempts);
+
     fill_ground();
 
     // Pick a column for the player to go
@@ -69,7 +91,6 @@ void Scene::generate_heuristical() {
       walk_col = stay_col + 1;
       while (walk_col < _width) {
         walk_height = count_blocks(walk_col);
-        // TODO: check conditional is actually finding a step "landing" point.
         if (stay_height - walk_height <= walk_col - stay_col) {
           walk_col++;
           break;
@@ -95,7 +116,6 @@ void Scene::generate_heuristical() {
       walk_col = stay_col - 1;
       while (walk_col > 0) {
         walk_height = count_blocks(walk_col);
-        // TODO: check conditional is finding a step landing point
         if (stay_height - walk_height <= stay_col - walk_col) {
           walk_col--;
           break;
@@ -116,13 +136,11 @@ void Scene::generate_heuristical() {
     int rand_blocks = Random::get(0, (int) _width/3);
     for (int i=0; i< rand_blocks; i++) {
       int block_col, block_row;
-      while (true) {
-        block_col = Random::get(_dist_width);
-        block_row = count_blocks(block_col);
-        // Keep getting a random column until we have one that is under the ceiling
-        if (block_row < _height -1)
-          break;
-      }
+      block_col = Random::get(_dist_width);
+      block_row = count_blocks(block_col);
+      // Keep getting a random column until we have one that is under the ceiling
+      if (block_row >= _height)
+        continue;
       _blocks.push_back(new Block(block_col, block_row));
       _space[block_col][block_row] = _blocks.back();
       update_array(block_col, block_row);
@@ -152,13 +170,34 @@ void Scene::generate_heuristical() {
     _space[player_col][player_height] = _player;
     update_array(player_col, player_height);
 
-    // TODO: check that map is playable before breaking
-    break;
+    // Pick objective blocks
+    int target1 = Random::get(0, (int) _blocks.size() - 1);
+    int target2;
+    for (int i=0; i<_blocks.size(); i++) {
+      target2 = Random::get(0, (int) _blocks.size() - 1);
+      if (target1 != target2)
+        break;
+    }
+    if (target1 == target2) {
+      continue;
+    }
+    _targets.push_back(_blocks.at(target1));
+    _targets.push_back(_blocks.at(target2));
+    _relationship = relations.at(Random::get(0, (int) relations.size() - 1));
+
+    if (check_scene()) {
+      LOG_F(INFO, "Generated a scene after %d tries.", attempts);
+      break;
+    }
   }
 
   _init = _data;
 }
 
+/**
+ * @brief Generate a scene randomly.
+ *
+ */
 void Scene::generate_easy() {
   flush();
   srand(time(NULL));
@@ -220,6 +259,11 @@ void Scene::generate_easy() {
   _init = _data;
 }
 
+/**
+ * @brief Generate a scene from an array representation.
+ *
+ * @param pregen The Char3d-defined array holding the scene representation.
+ */
 void Scene::generate_from_array(Char3d pregen) {
   flush();
   for (int i = 0; i < _width; i++) {
@@ -248,4 +292,75 @@ void Scene::generate_from_array(Char3d pregen) {
   }
 
   _init = _data;
+}
+
+
+/**
+ * @brief Verify that a scene is playable and generate solution.
+ *
+ * @return true if the scene has a playable solution.
+ * @return false if the scene is invalid.
+ */
+bool Scene::check_scene() {
+  LOG_SCOPE_FUNCTION(INFO);
+  // Check a player exists
+  if (_player == nullptr) {
+    VLOG_SCOPE_F(GEN_WARN_V, "No player was found.");
+    return false;
+  }
+
+  // Check if the player is in bounds
+  if (_player->location().x < 0 || _player->location().x >= _width || _player->location().y < 0 || _player->location().y >= _height) {
+    VLOG_SCOPE_F(GEN_WARN_V, "Player generated out of bounds.");
+    return false;
+  }
+
+  // Check at least one block exists
+  if (_blocks.size() == 0) {
+    VLOG_SCOPE_F(GEN_WARN_V, "No blocks found.");
+    return false;
+  }
+
+  // Check the player isn't on a pillar
+  int player_col = _player->location().x;
+  int player_height = _player->location().y;
+  int pillar = false;
+  for (int i=player_col; i<_width; i++) {
+    int highest_obj = get_highest_obj_height(i);
+    if (highest_obj == -1) {
+      return false;
+    }
+    if (player_height != highest_obj && (abs(player_height - highest_obj) < 2)) {
+      pillar = false;
+      break;
+    }
+    if (player_height - highest_obj >= 2) {
+      pillar = true;
+    }
+  }
+  for (int i=player_col; i>=0; i--) {
+    int highest_obj = get_highest_obj_height(i);
+    if (highest_obj == -1) {
+      return false;
+    }
+    if (player_height != highest_obj && (abs(player_height - highest_obj) < 2)) {
+      pillar = false;
+      break;
+    }
+    if (player_height - highest_obj >= 2) {
+      pillar = true;
+    }
+  }
+  if (pillar) {
+    VLOG_SCOPE_F(GEN_WARN_V, "Detected a pillar.");
+    return false;
+  }
+
+  // Generate the heurisitic
+  if (verify()) {
+    VLOG_SCOPE_F(GEN_WARN_V, "Scene generated with solution already complete.");
+    return false;
+  }
+
+  return true;
 }

@@ -16,6 +16,7 @@ public:
   Game(Char3d pregen, std::string objective="");
   void newGame();
   void resetGame();
+  int run_heuristic();
   void set_objective(std::string objective) { _objective = objective; }
   int move(int direction);
   int jump();
@@ -25,14 +26,6 @@ public:
   int width() { return _scene->width(); }
   int height() { return _scene->height(); }
   Char3d array() { return _scene->array(); }
-  // const Objects scene_space() const
-  // {
-  //     return _scene->get_space();
-  // }
-  // const Scene *scene() const
-  // {
-  //     return _scene;
-  // }
   std::string representation();
   std::string objective();
 };
