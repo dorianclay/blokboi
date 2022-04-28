@@ -1,0 +1,14 @@
+{
+  "coordinates": [
+    [
+      7,
+      1
+    ],
+    [
+      14,
+      4
+    ]
+  ],
+  "objective": "Put the blue block on top of block 9.",
+  "relationship": "on top"
+}

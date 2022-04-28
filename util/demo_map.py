@@ -1,4 +1,6 @@
 import numpy as np
+import json
+from pathlib import Path
 
 
 def main(**kwargs):
@@ -26,6 +28,18 @@ def main(**kwargs):
         [['@', 'X'],['@', 'X'],['@', 'X'],['@', 'X'],['o', '9'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X']],
         # fmt: on
     ]
+
+    obj_dict = {
+        "objective": "Put the blue block on top of block 9.",
+        "coordinates": [[7, 1], [14, 4]],
+        "relationship": "on top",
+    }
+
+    jsonpath = Path("demo_scene.json")
+
+    with open(jsonpath, "w") as file:
+        json.dump(obj_dict, file)
+
     maparr = np.array(demomap)
     np.save("demo_scene.npy", maparr)
 
