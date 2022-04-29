@@ -71,7 +71,7 @@ LOCATION *Scene::findObject(GameObject *object) {
         LOCATION *coords = new LOCATION;
         coords->x = i;
         coords->y = j;
-        DLOG_F(4, "found on i=%d, j=%d", i, j);
+        DLOG_F(5, "found on i=%d, j=%d", i, j);
         return coords;
       }
     }

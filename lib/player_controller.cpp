@@ -11,7 +11,7 @@ PlayerController::PlayerController(Scene *scene, Player *player)
  * @brief Move the player in a given direction
  *
  * @param direction : -1 for left, 1 for right
- * @return int : -1 if unsuccessful, 1 if holding a block, 0 if not
+ * @return int : -1 if occupied, -2 if a cliff, 1 if successful and holding a block, 0 if not
  */
 int PlayerController::move(int direction) {
   LOCATION current = _player->location();
@@ -20,13 +20,13 @@ int PlayerController::move(int direction) {
     DLOG_F(ERROR, "Trying to move in invalid direction: %d", direction);
     throw invalid_argument("Direction must be -1 (left) or 1 (right).");
   }
-  DLOG_F(4, "Commanded to move %s", (direction == LEFT) ? "left" : "right");
-  DLOG_F(4, "Currently facing: %d", _player->facing());
+  DLOG_F(5, "Commanded to move %s", (direction == LEFT) ? "left" : "right");
+  DLOG_F(5, "Currently facing: %d", _player->facing());
 
   // If we're not facing in the direction trying to move,
   // then just flip directions
   if (_player->facing() != direction) {
-    DLOG_F(3, "Switching directions.");
+    DLOG_F(5, "Switching directions.");
     _player->face(direction);
     _scene->move(current.x, current.y, 0, 0);
     return hasblock;
@@ -64,7 +64,7 @@ int PlayerController::move(int direction) {
     } else {
       // Otherwise, don't move anywhere or we'll die
       DLOG_F(1, "Attempted to jump off a cliff.");
-      return -1;
+      return -2;
     }
   }
 }
@@ -95,6 +95,7 @@ int PlayerController::jump() {
     _scene->move(current.x, current.y + 1, facing, 1);
   hasblock = 1;
   _scene->move(current.x, current.y, facing, 1);
+  DLOG_F(1, "Jumping.");
   return hasblock;
 }
 

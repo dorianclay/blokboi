@@ -25,10 +25,20 @@ public:
   const LOCATION location() const { return _location; }
   virtual void repr(std::ostream &ostr) const {}
   bool movable() const { return _movable; }
+  bool isBlock() const { return _kind == BLOCK; }
   // mutators
   void update(int x, int y) {
     _location.x = x;
     _location.y = y;
+  }
+  bool operator!=(const GameObject& other) const {
+    return ! (*this == other);
+  }
+  bool operator==(const GameObject& other) const {
+    if (_location.x == other.location().x && _location.y == other.location().y) {
+      return true;
+    }
+    return false;
   }
 };
 
