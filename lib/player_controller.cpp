@@ -7,6 +7,12 @@ using namespace std;
 PlayerController::PlayerController(Scene *scene, Player *player)
     : _scene(scene), _player(player) {}
 
+/**
+ * @brief Move the player in a given direction
+ *
+ * @param direction : -1 for left, 1 for right
+ * @return int : -1 if unsuccessful, 1 if holding a block, 0 if not
+ */
 int PlayerController::move(int direction) {
   LOCATION current = _player->location();
   int hasblock = 0;
@@ -23,6 +29,7 @@ int PlayerController::move(int direction) {
     DLOG_F(3, "Switching directions.");
     _player->face(direction);
     _scene->move(current.x, current.y, 0, 0);
+    return hasblock;
   }
 
   // Otherwise, we're facing the right way, so try to move one block over

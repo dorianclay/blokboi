@@ -4,6 +4,7 @@ namespace py = pybind11;
 
 #include "game.h"
 #include <cstdint>
+#include <string>
 
 PYBIND11_MODULE(blokboi, m) {
   m.doc() = "Blokboi game";
@@ -11,8 +12,10 @@ PYBIND11_MODULE(blokboi, m) {
   py::class_<Game>(m, "Game")
       .def(py::init())
       .def(py::init<Char3d>())
+      .def(py::init<Char3d, std::string, Int2d, std::string>())
       .def("newGame", &Game::newGame)
       .def("resetGame", &Game::resetGame)
+      .def("run_heuristic", &Game::run_heuristic)
       .def("set_objective", &Game::set_objective)
       .def("move", &Game::move)
       .def("jump", &Game::jump)

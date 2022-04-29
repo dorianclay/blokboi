@@ -453,13 +453,38 @@ bool Scene::verify() {
         return true;
     }
   } else {
-    LOG_F(ERROR, "Handling target relationship '%s' is undefined.", _relationship);
+    LOG_F(ERROR, "Handling target relationship '%s' is undefined.", _relationship.c_str());
     throw invalid_argument("I don't know how to handle the target relationship.");
   }
 
   // If we matched one of the handled relationships but weren't true,
   // then the goal state has not been achieved.
   return false;
+}
+
+void Scene::targets(Int2d coords) {
+  if (coords.size() != 2 || coords[0].size() != 2) {
+    throw invalid_argument("Must be a 2-D array of size 2x2.");
+  }
+  int x1, y1;
+  x1 = coords[0][0];
+  y1 = coords[0][1];
+  if (x1 < 0 || x1 >= _width || y1 < 0 || y1 >= _height) {
+    throw invalid_argument("Cannot set target to a block outside scene boundary.");
+    return;
+  }
+  int x2, y2;
+  x2 = coords[1][0];
+  y2 = coords[1][1];
+  if (x2 < 0 || x2 >= _width || y2 < 0 || y2 >= _height) {
+    throw invalid_argument("Cannot set target to a block outside scene boundary.");
+    return;
+  }
+  _targets.clear();
+  _targets.push_back(dynamic_cast<Block*>(get_object(x1, y1)));
+  _targets.push_back(dynamic_cast<Block*>(get_object(x2, y2)));
+
+  DLOG_F(INFO, "Successfully set targets manually. T1: (%d, %d)\tT2: (%d, %d)", x1, y1, x2, y2);
 }
 
 GameObject *Scene::get_object(int x, int y) {

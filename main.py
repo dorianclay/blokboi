@@ -1,6 +1,7 @@
 import argparse
 import os
 import io
+import json
 from pathlib import Path
 from contextlib import redirect_stderr
 import numpy as np
@@ -82,7 +83,19 @@ def main(**kwargs):
         scale = kwargs["scale"]
         if kwargs["load"]:
             scene = np.load("data/demo_scene.npy")
-            app = App(size[1], size[0], scale=scale, game_instance=Game(scene))
+            with open("data/demo_scene.json", "r") as jsonfile:
+                obj_dict = json.load(jsonfile)
+            app = App(
+                size[1],
+                size[0],
+                scale=scale,
+                game_instance=Game(
+                    scene,
+                    obj_dict["objective"],
+                    obj_dict["coordinates"],
+                    obj_dict["relationship"],
+                ),
+            )
         else:
             app = App(size[1], size[0], scale=scale)
         app.mainloop()
@@ -100,7 +113,9 @@ if __name__ == "__main__":
     runtype_group.add_argument(
         "-G", "--gui", action="store_true", help="Run the GUI app."
     )
-    parser.add_argument("-S", "--scale", type=int, default=2, help="set the GUI scaling.")
+    parser.add_argument(
+        "-S", "--scale", type=int, default=2, help="set the GUI scaling."
+    )
     parser.add_argument(
         "-l", "--load", action="store_true", help="load the demo scene."
     )
