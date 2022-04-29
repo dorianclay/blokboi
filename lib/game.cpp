@@ -166,6 +166,12 @@ int find_furthest_block_available(Game &game, int direction) {
   int i = game.scene()->get_player()->location().x;
   int available = -1;
   int lastheight = game.scene()->get_player()->location().y;
+  if (lastheight - game.scene()->get_highest_obj_height(i + direction) == 2) {
+    if (game.scene()->get_object(i, lastheight - 1)->isBlock()) {
+      available = i;
+    }
+  }
+
   while (i > 0 && i < game.width()-1) {
     int thiscol = i + direction;
     int thisheight = game.scene()->get_highest_obj_height(thiscol);
@@ -211,13 +217,23 @@ int get_to_col(Game &game, int col, int &steps) {
       // If we didn't get to the column desired, turn around, get a block, and put it there
       int buildblock = find_furthest_block_available(game, -game.scene()->get_player()->facing());
       DLOG_F(3, "I want a building block at column %d.", buildblock);
-      walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
-      game.toggle_hold();
-      if (success == -1)
+      if (buildblock == -1)
+        break;
+      else if (buildblock == game.player_location().x) {
+        walk_to(game, game.player_location().x - dir, steps);
+        walk_to(game, game.player_location().x, steps);
+        game.toggle_hold();
         walk_to(game, nextcol, steps);
-      else
-        walk_to(game, nextcol, steps);
-      game.toggle_hold();
+        game.toggle_hold();
+      } else {
+        walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
+        game.toggle_hold();
+        if (success == -1)
+          walk_to(game, nextcol, steps);
+        else
+          walk_to(game, nextcol, steps);
+        game.toggle_hold();
+      }
     }
   }
 
