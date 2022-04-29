@@ -208,7 +208,7 @@ int get_to_col(Game &game, int col, int &steps) {
       if (missedheight > game.player_location().y) {
         nextcol = game.player_location().x - dir;
       }
-      // TODO: if we didn't get to the column desired, turn around, get a block, and put it there
+      // If we didn't get to the column desired, turn around, get a block, and put it there
       int buildblock = find_furthest_block_available(game, -game.scene()->get_player()->facing());
       DLOG_F(3, "I want a building block at column %d.", buildblock);
       walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
