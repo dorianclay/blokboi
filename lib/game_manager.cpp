@@ -6,9 +6,13 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  Game test_game = Game();
+  Game test_game = Game(demoscene, "", {{7,1},{14,4}}, "on top");
   // Game test_game = Game(demoscene);
   // test_game.newGame();
+  cout << test_game.representation() << endl;
+
+  test_game.run_heuristic();
+
   cout << test_game.representation() << endl;
 
   // test_game.move(1);

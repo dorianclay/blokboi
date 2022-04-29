@@ -12,7 +12,7 @@ using namespace std;
 
 Game::Game() {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
-                   loguru::Verbosity_2);
+                   loguru::Verbosity_4);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
                    loguru::Verbosity_INFO);
   loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
@@ -108,31 +108,79 @@ string Game::objective() { return _objective; }
  * @return int: 1 if successful, -1 if unsuccessful.
  */
 int walk_to(Game &game, int col, int &steps) {
+  LOG_SCOPE_FUNCTION(4);
+  DLOG_F(4, "Attempting to walk to column %d.", col);
+
   if (col < 0 || col >= game.width()) {
     throw invalid_argument("Column out of map bounds.");
   }
+  int err_code = 0;
 
   if (game.player_location().x < col) {
     // Walk right
-    for (int i=0; i<game.width(); i++) {
+    for (int i=0; i<game.width() * 2; i++) {
       steps++;
-      if (game.move(1) == -1)
+      err_code = game.move(1);
+      if (err_code == -1) {
+        err_code = game.jump();
+      }
+      if (err_code < 0 || game.player_location().x == col)
         break;
     }
   } else if (game.player_location().x > col) {
     // walk left
-    for (int i=0; i<game.width(); i++) {
+    for (int i=0; i<game.width() * 2; i++) {
       steps++;
-      if (game.move(-1) == -1)
+      err_code = game.move(-1);
+      if (err_code == -1) {
+        err_code = game.jump();
+      }
+      if (err_code < 0 || game.player_location().x == col)
         break;
     }
   } else {
-    return 1;
+    err_code = game.move(- game.scene()->get_player()->facing());
   }
-  if (game.player_location().x == col)
+  if (err_code >= 0)
     return 1;
   else
+    return err_code;
+  // if (game.player_location().x == col)
+  //   return 1;
+  // else
+  //   return -1;
+}
+
+/**
+ * @brief Find the farthest available block from the player in some direction.
+ *
+ * @param game
+ * @param direction
+ * @return int: the column of the block, -1 if invalid
+ */
+int find_furthest_block_available(Game &game, int direction) {
+  if (direction != 1 && direction != -1) {
+    throw invalid_argument("Direction must be +/- 1.");
     return -1;
+  }
+  int i = game.scene()->get_player()->location().x;
+  int available = -1;
+  int lastheight = game.scene()->get_player()->location().y;
+  while (i > 0 && i < game.width()-1) {
+    int thiscol = i + direction;
+    int thisheight = game.scene()->get_highest_obj_height(thiscol);
+    if (abs(lastheight - thisheight) > 1) {
+      return available;
+    }
+    if (game.scene()->get_object(thiscol, thisheight)->isBlock()) {
+      if (thisheight < lastheight)
+       return available;
+      available = thiscol;
+    }
+    lastheight = thisheight;
+    i = thiscol;
+  }
+  return available;
 }
 
 /**
@@ -145,15 +193,31 @@ int walk_to(Game &game, int col, int &steps) {
  */
 int get_to_col(Game &game, int col, int &steps) {
   int attempts = 0;
+  int dir = game.player_location().x < col ? 1 : -1;
   while (attempts < WALKATTEMPTS) {
     attempts++;
 
     int success = walk_to(game, col, steps);
-    if (success == 1) {
+    if (success >= 0) {
       DLOG_F(3, "Navigated to column %d.", col);
       return 1;
     } else {
+      // See if we can't go further because it's a wall or a cliff
+      int missedheight = game.scene()->get_highest_obj_height(game.player_location().x + dir);
+      int nextcol = game.player_location().x;
+      if (missedheight > game.player_location().y) {
+        nextcol = game.player_location().x - dir;
+      }
       // TODO: if we didn't get to the column desired, turn around, get a block, and put it there
+      int buildblock = find_furthest_block_available(game, -game.scene()->get_player()->facing());
+      DLOG_F(3, "I want a building block at column %d.", buildblock);
+      walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
+      game.toggle_hold();
+      if (success == -1)
+        walk_to(game, nextcol, steps);
+      else
+        walk_to(game, nextcol, steps);
+      game.toggle_hold();
     }
   }
 
@@ -176,7 +240,12 @@ int Game::run_heuristic() {
   int steps = 0;
 
   // TODO: REMOVE DEBUG COMMANDS
-  walk_to(*this, width() - 1, steps);
+  try {
+    get_to_col(*this, width() - 1, steps);
+  }
+  catch (exception& e) {
+    DLOG_F(ERROR, "Caught exception: %s", e.what());
+  }
 
   return 1;
 

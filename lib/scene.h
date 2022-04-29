@@ -75,7 +75,6 @@ public:
   void refresh();
   void flush();
   bool verify();
-  // TODO: finish implementing function to manually set targets
   void targets(Int2d coords);
   void relate(std::string relationship) { _relationship = relationship; }
   GameObject *get_object(int x, int y);

@@ -24,6 +24,7 @@ public:
   int toggle_hold();
   int pick_up();
   int put_down();
+  Scene *scene() { return _scene; }
   int width() { return _scene->width(); }
   int height() { return _scene->height(); }
   const LOCATION player_location() { return _scene->get_player()->location(); }
