@@ -12,6 +12,7 @@ typedef std::vector<Block *> Blocks;
 typedef std::vector<GameObject *> ObjectList;
 typedef std::vector<std::vector<GameObject *>> Objects;
 typedef std::vector<std::vector<std::vector<char>>> Char3d;
+typedef std::vector<std::vector<int>> Int2d;
 
 /* DATA 3D array specification
     Dim(0) are the rows.
@@ -64,6 +65,7 @@ public:
   Scene();
   Scene(int x, int y);
   Scene(Char3d pregen);
+  Scene(Char3d pregen, std::string objective, Int2d obj_coords);
 
   void generate();
   void generate_modular();
@@ -73,6 +75,9 @@ public:
   void refresh();
   void flush();
   bool verify();
+  // TODO: finish implementing function to manually set targets
+  void targets(Int2d coords);
+  void relate(std::string relationship) { _relationship = relationship; }
   GameObject *get_object(int x, int y);
   int get_highest_obj_height(int col);
   int get_lowest_obj_height(int col);

@@ -97,6 +97,7 @@ class ButtonFrame(ttk.Frame):
         ttk.Button(self, text="new scene", command=self.new_scene_clicked).grid(
             column=1, row=0
         )
+        ttk.Button(self, text="step", command=self.step_heuristic).grid(column=2, row=0)
 
         for widget in self.winfo_children():
             widget.grid(padx=16, pady=0)
@@ -109,6 +110,12 @@ class ButtonFrame(ttk.Frame):
     def new_scene_clicked(self):
         self.logger.debug("New Scene clicked")
         self._container._game_instance.newGame()
+        self._container.render()
+
+    def step_heuristic(self):
+        self.logger.debug("Stepping heurisitic")
+        success = self._container._game_instance.run_heuristic()
+        self.logger.debug(f"    Got success: {'true' if success == 1 else 'false'}")
         self._container.render()
 
 
