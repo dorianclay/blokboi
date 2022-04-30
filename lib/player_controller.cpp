@@ -117,6 +117,12 @@ int PlayerController::pick_up() {
     return -1;
   }
 
+  // If the block is buried, we can't pick it up
+  if (spot->location().y != _scene->get_highest_obj_height(spot->location().x)) {
+    DLOG_F(1, "Block is buried.");
+    return -1;
+  }
+
   if (facing == LEFT)
     _scene->move(spot, 1, 1);
   else
