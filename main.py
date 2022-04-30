@@ -4,6 +4,7 @@ import io
 import json
 from pathlib import Path
 from contextlib import redirect_stderr
+from sqlite3 import paramstyle
 import numpy as np
 
 
@@ -15,7 +16,10 @@ from run_tests import LocalTestRunner
 from blokboi import Game
 
 
-def test(logger):
+def test(**kwargs):
+    logger = Logger.log_setup(
+        "blokboiTest", detail=kwargs["detail"], suppress_datetime=False, console=True
+    )
     logger.info("Running local tests...")
     with redirect_stderr(io.StringIO()) as f:
         results = LocalTestRunner.run_tests()
@@ -42,11 +46,21 @@ def test(logger):
     ImageGen.make_image_from_str(game_instance.__repr__(), Path("imagetest.png"))
 
 
-def generate_rand_scenes(logger, num, outdir=Path("data")):
+def generate_rand_scenes(**kwargs):  # logger, num, outdir=Path("data")):
+    logger = Logger.log_setup(
+        "blokboiImg", detail=kwargs["detail"], suppress_datetime=False, console=True
+    )
     logger.info("Beginning generating random scenes...")
+    outdir = kwargs["path"]
+
+    found = Path(outdir).glob("**/scene_*.png")
+    if found != None:
+        for path in found:
+            os.remove(path)
+
     game_instance = Game()
     count = 0
-    while count < num:
+    while count < kwargs["number"]:
         game_instance.newGame()
         ImageGen.make_image_from_str(
             game_instance.__repr__(), outdir / f"scene_{count:05d}.png"
@@ -55,71 +69,107 @@ def generate_rand_scenes(logger, num, outdir=Path("data")):
     logger.info(f"Finished making {count} scenes.")
 
 
-def main(**kwargs):
+def gui(**kwargs):
     logger = Logger.log_setup(
-        "blokboi", detail="debug", suppress_datetime=False, console=True
+        "blokboi", detail=kwargs["detail"], suppress_datetime=False, console=True
     )
-    logger.info("Initializing blokboi.")
-    if kwargs["test"]:
-        try:
-            test(logger)
-        except:
-            logger.exception("ERROR WHILE TESTING.")
+    logger.debug("Running game app...")
+    size = (15, 20)
+    scale = kwargs["scale"]
+    if kwargs["loadn"]:
+        loader = MapLoader()
+        scene, obj, coords, relation = loader.loadn(kwargs["loadn"])
+        app = App(
+            game_instance=Game(scene, obj, coords, relation),
+            width=size[1],
+            height=size[0],
+            scale=scale,
+        )
+    else:
+        app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
+    app.mainloop()
 
-    if kwargs["generate_images"] != None:
-        try:
-            num_images = int(kwargs["generate_images"][0])
-            outdir = Path(kwargs["generate_images"][1])
-            found = Path(outdir).glob("**/scene_*.png")
-            if found != None:
-                for path in found:
-                    os.remove(path)
-            generate_rand_scenes(logger, num_images, outdir)
-        except:
-            logger.exception("Error while generating images.")
 
-    if kwargs["gui"]:
-        logger.debug("Running game app...")
-        size = (15, 20)
-        scale = kwargs["scale"]
-        if kwargs["load"]:
-            loader = MapLoader()
-            scene, obj, coords, relation = loader.loadn("demo")
-            app = App(
-                game_instance=Game(scene, obj, coords, relation),
-                width=size[1],
-                height=size[0],
-                scale=scale,
-            )
-        else:
-            app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
-        app.mainloop()
-
+"""
+################
+ARGUMENT PARSING
+################
+"""
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Command line control for the Blokboi game API."
     )
-    runtype_group = parser.add_mutually_exclusive_group()
-    runtype_group.add_argument("--test", action="store_true", help="run a simple test.")
-    runtype_group.add_argument(
-        "--generate_images", nargs=2, help="generate images, < number, directory >"
+    subparsers = parser.add_subparsers(title="subcommands")
+
+    parser_gui = subparsers.add_parser(
+        "gui", description="The GUI App for blokboi.", help="Run the GUI app."
     )
-    runtype_group.add_argument(
-        "-G", "--gui", action="store_true", help="Run the GUI app."
+    parser_gui.add_argument(
+        "-S", "--scale", type=int, default=2, help="Set the GUI scaling."
     )
-    parser.add_argument(
-        "-S", "--scale", type=int, default=2, help="set the GUI scaling."
+    gui_loadgroup = parser_gui.add_mutually_exclusive_group()
+    gui_loadgroup.add_argument(
+        "-ln",
+        "--loadn",
+        nargs="?",
+        const="demo",
+        type=str,
+        metavar="NAME",
+        help="Load the demo scene NAME.",
     )
-    parser.add_argument(
-        "-l", "--load", action="store_true", help="load the demo scene."
+    gui_loadgroup.add_argument(
+        "-l",
+        "--load",
+        nargs="?",
+        const=1,
+        type=int,
+        metavar="NUM",
+        help="Load the demo scene number NUM.",
     )
-    parser.add_argument(
-        "-d",
+    parser_gui.add_argument(
+        "--path",
+        type=str,
+        default="assets",
+        help="Path to the assets directory (default: assets).",
+    )
+    parser_gui.add_argument(
         "--detail",
         default="info",
-        choices=["debug", "info", "warning", "errror", "critical"],
-        help="level of detail to log (default: info).",
+        choices=["debug", "info", "warning", "error", "critical"],
+        help="Level of detail to python log (default: info).",
     )
+    parser_gui.set_defaults(func=gui)
+
+    parser_test = subparsers.add_parser(
+        "test", description="Simple test of blokboi.", help="Run a simple test."
+    )
+    parser_test.add_argument(
+        "--detail",
+        default="info",
+        choices=["debug", "info", "warning", "error", "critical"],
+        help="Level of detail to python log (default: info).",
+    )
+    parser_test.set_defaults(func=test)
+
+    parser_img = subparsers.add_parser(
+        "img", description="Generate scene images.", help="Generate images."
+    )
+    parser_img.add_argument(
+        "number", type=int, default=5000, help="The number of images to generate."
+    )
+    parser_img.add_argument(
+        "--path",
+        type=str,
+        default="assets",
+        help="Path to the assets directory (default: assets).",
+    )
+    parser_img.add_argument(
+        "--detail",
+        default="info",
+        choices=["debug", "info", "warning", "error", "critical"],
+        help="Level of detail to python log (default: info).",
+    )
+    parser_img.set_defaults(func=generate_rand_scenes)
     args = parser.parse_args()
-    main(**vars(args))
+    args.func(**vars(args))
