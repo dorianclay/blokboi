@@ -487,13 +487,13 @@ void Scene::targets(Int2d coords) {
   DLOG_F(INFO, "Successfully set targets manually. T1: (%d, %d)\tT2: (%d, %d)", x1, y1, x2, y2);
 }
 
-GameObject *Scene::get_object(int x, int y) {
+GameObject *Scene::get_object(int x, int y) const {
   if (x < 0 || x >= _width || y < 0 || y >= _height)
     return nullptr;
   return _space[x][y];
 }
 
-int Scene::get_highest_obj_height(int col) {
+int Scene::get_highest_obj_height(int col) const {
   for (int y = _height - 1; y >= 0; y--) {
     if (_space[col][y] != nullptr)
       return y;
@@ -501,7 +501,17 @@ int Scene::get_highest_obj_height(int col) {
   return -1;
 }
 
-int Scene::get_lowest_obj_height(int col) {
+int Scene::get_highest_block_height(int col) const {
+  for (int y = _height - 1; y >= 0; y--) {
+    if (_space[col][y] != nullptr && _space[col][y] != _player)
+      return y;
+    else if (_space[col][y] != nullptr && _space[col][y] == _player)
+      return y - 1;
+  }
+  return -1;
+}
+
+int Scene::get_lowest_obj_height(int col) const {
   for (int y = 0; y < _height; y++) {
     if (_space[col][y] != nullptr)
       return y;
@@ -515,7 +525,7 @@ int Scene::get_lowest_obj_height(int col) {
  * @param direction
  * @return int
  */
-int Scene::furthest_block_available(int direction) {
+int Scene::furthest_block_available(int direction) const {
   if (direction != 1 && direction != -1) {
     throw invalid_argument("Direction must be +/- 1.");
     return -1;
@@ -528,16 +538,23 @@ int Scene::furthest_block_available(int direction) {
   while (i > 0 && i < _width-1) {
     int thiscol = i + direction;
     int thisheight = get_highest_obj_height(thiscol);
+    // If this block is more than one block below the last, we just went off a cliff
     if (abs(lastheight - thisheight) > 1) {
       return available;
     }
+    // If this block is one higher than the last block...
     if (thisheight - lastheight == 1) {
+      // Check if it's a playable block
       if (get_object(thiscol, thisheight)->isBlock()) {
         available = thiscol;
       }
+    // If this block is one lower than the last block...
     } else if (lastheight - thisheight == 1) {
+      // Check if the prior block was a playable block
       if (get_object(thiscol - direction, lastheight)->isBlock()) {
-        available = thiscol - direction;
+        // And pick it up only if we won't make a wall
+        if (get_highest_block_height(thiscol - 2*direction) - get_object(thiscol - direction, lastheight)->location().y != 1)
+          available = thiscol - direction;
       }
     }
     lastheight = thisheight;
@@ -546,9 +563,7 @@ int Scene::furthest_block_available(int direction) {
   return available;
 }
 
-Player *Scene::get_player() { return _player; }
-
-const Block *Scene::targets(int blocknum) {
+const Block *Scene::targets(int blocknum) const {
   return _targets.at(blocknum);
 }
 

@@ -77,14 +77,15 @@ public:
   bool verify();
   void targets(Int2d coords);
   void relate(std::string relationship) { _relationship = relationship; }
-  GameObject *get_object(int x, int y);
-  int get_highest_obj_height(int col);
-  int get_lowest_obj_height(int col);
-  int furthest_block_available(int direction);
-  Player *get_player();
-  const Blocks *targets() { return &_targets; }
-  const Block *targets(int blocknum);
-  std::string relationship() { return _relationship; }
+  GameObject *get_object(int x, int y) const ;
+  int get_highest_obj_height(int col) const;
+  int get_highest_block_height(int col) const;
+  int get_lowest_obj_height(int col) const;
+  int furthest_block_available(int direction) const;
+  Player *get_player() const {return _player; }
+  const Blocks *targets() const { return &_targets; }
+  const Block *targets(int blocknum) const;
+  std::string relationship() const { return _relationship; }
   char *data() { return &_data[0][0][0]; }
   Char3d array() { return _data; }
   void move(GameObject *object, int dx, int dy);
