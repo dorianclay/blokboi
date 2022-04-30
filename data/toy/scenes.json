@@ -26,7 +26,7 @@
       ]
     ],
     "id": "stacking1",
-    "objective": "Put the purple block above red block.",
+    "objective": "Put the purple block above the red block.",
     "relationship": "above"
   },
   {
