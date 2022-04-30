@@ -52,11 +52,18 @@ class MapLoader:
             (scene, objective, coordinates, relationship)
         """
         self.logger.info(f"Loading map {map_name}.")
-        scene = np.load(self.datapath / f"{self.name_dict[map_name]}.npy")
-        with open(self.datapath / f"{self.name_dict[map_name]}.json", "r") as jsonfile:
-            obj_dict = json.load(jsonfile)
+        scene = np.load(self.datapath / "toy" / "scenes.npy")
+        with open(self.datapath / "toy" / "scenes.json", "r") as jsonfile:
+            objective_arr = json.load(jsonfile)
+        count = 0
+        for item in objective_arr:
+            if item["id"] == map_name:
+                break
+            count += 1
+
+        obj_dict = objective_arr[count]
         return (
-            scene,
+            scene[count],
             obj_dict["objective"],
             obj_dict["coordinates"],
             obj_dict["relationship"],

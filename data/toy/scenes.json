@@ -1,0 +1,47 @@
+[
+  {
+    "coordinates": [
+      [
+        7,
+        1
+      ],
+      [
+        14,
+        4
+      ]
+    ],
+    "id": "demo",
+    "objective": "Put the blue block on top of block 9.",
+    "relationship": "on top"
+  },
+  {
+    "coordinates": [
+      [
+        2,
+        4
+      ],
+      [
+        15,
+        4
+      ]
+    ],
+    "id": "stacking1",
+    "objective": "Put the purple block on the red block.",
+    "relationship": "on top"
+  },
+  {
+    "coordinates": [
+      [
+        2,
+        4
+      ],
+      [
+        15,
+        4
+      ]
+    ],
+    "id": "stacking2",
+    "objective": "Put the purple block below the red block.",
+    "relationship": "below"
+  }
+]
