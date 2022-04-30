@@ -31,7 +31,7 @@ def main(**kwargs):
         # fmt: on
     ]
 
-    stacking1 = [
+    stacking = [
         # fmt: off
         [['@', 'X'],['@', 'X'],['@', 'X'],['@', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X']],
         [['@', 'X'],['@', 'X'],['@', 'X'],['@', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X']],
@@ -65,15 +65,63 @@ def main(**kwargs):
         },
         {
             "id": "stacking1",
-            "objective": "Put the purple block on the red block.",
+            "objective": "Put the purple block above red block.",
             "coordinates": [[2, 4], [15, 4]],
-            "relationship": "on top",
+            "relationship": "above",
         },
         {
             "id": "stacking2",
             "objective": "Put the purple block below the red block.",
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "below",
+        },
+        {
+            "id": "stacking3",
+            "objective": "Put the purple block under the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "under",
+        },
+        {
+            "id": "stacking4",
+            "objective": "Put the purple block on top of the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "on top",
+        },
+        {
+            "id": "stacking5",
+            "objective": "Put the purple block beneath the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "beneath",
+        },
+        {
+            "id": "stacking6",
+            "objective": "Put the purple block to the right of the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "right",
+        },
+        {
+            "id": "stacking7",
+            "objective": "Put the purple block to the left of the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "left",
+        },
+        {
+            "id": "stacking8",
+            "objective": "Take the purple block off the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "off",
+        },
+        {
+            "id": "stacking9",
+            "objective": "Put the purple block to the side of the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "side",
+        },
+        {
+            "id": "stacking10",
+            "objective": "Put the purple block diagonal to the red block.",
+            "coordinates": [[2, 4], [15, 4]],
+            "relationship": "diagonal",
         },
     ]
 
@@ -85,7 +133,19 @@ def main(**kwargs):
     with open(savedir / "scenes.json", "w") as file:
         json.dump(obj_dict, file)
 
-    maps = [demomap, stacking1, stacking1]
+    maps = [
+        demomap,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+        stacking,
+    ]
 
     maparr = np.array(maps)
     np.save(savedir / "scenes.npy", maparr)
