@@ -115,7 +115,7 @@ def main(**kwargs):
         },
         {
             "id": "stacking1",
-            "objective": "Put the purple block above red block.",
+            "objective": "Put the purple block above the red block.",
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "above",
         },
