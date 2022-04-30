@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Image, ttk
+from tkinter import Image, StringVar, ttk
 from pathlib import Path
 from PIL import ImageTk
 import logging
@@ -119,6 +119,24 @@ class ButtonFrame(ttk.Frame):
         self._container.render()
 
 
+class LabelFrame(ttk.Frame):
+    def __init__(self, container):
+        super().__init__(container)
+        self.logger = logging.getLogger("blokboi.app.label")
+        self._container = container
+        self.goal = StringVar()
+
+        self.__create_widgets()
+
+    def __create_widgets(self):
+        self.update()
+        self.label = ttk.Label(self, textvariable=self.goal)
+        self.label.pack()
+
+    def update(self):
+        self.goal.set("Goal: " + self._container._game_instance.objective())
+
+
 class App(tk.Tk):
     def __init__(
         self,
@@ -170,10 +188,13 @@ class App(tk.Tk):
 
     def __create_widgets(self):
         self.canvas_frame = CanvasFrame(self)
-        self.canvas_frame.grid(row=0, sticky=tk.N)
+        self.canvas_frame.grid(row=1, sticky=tk.N)
 
         self.button_frame = ButtonFrame(self)
-        self.button_frame.grid(row=1)
+        self.button_frame.grid(row=2)
+
+        self.label_frame = LabelFrame(self)
+        self.label_frame.grid(row=0)
 
     def __bindings(self):
         self.bind("<Up>", self.__key_up)
@@ -187,6 +208,8 @@ class App(tk.Tk):
 
     def render(self):
         self.canvas_frame.render()
+        self.label_frame.update()
+        self.update()
 
     def __key_right(self, event):
         self.logger.debug(event)
