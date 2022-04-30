@@ -175,9 +175,23 @@ int get_to_col(Game &game, int col, int &steps) {
       // See if we can't go further because it's a wall or a cliff
       int missedheight = game.scene()->get_highest_obj_height(game.player_location().x + dir);
       int nextcol = game.player_location().x;
+      // If it's a wall, we need to place the block where we're currently standing...
       if (missedheight > game.player_location().y) {
         nextcol = game.player_location().x - dir;
+      // If it's a cliff, check first if we are standing on a block we can pick up
+      } else if (game.player_location().y - 1 - game.scene()->get_highest_obj_height(game.player_location().x - dir) == 1) {
+        if (game.scene()->get_object(nextcol, game.player_location().y - 1)->isBlock()) {
+          walk_to(game, game.player_location().x - dir, steps);
+          walk_to(game, game.player_location().x, steps);
+          game.toggle_hold();
+          walk_to(game, nextcol, steps);
+          game.toggle_hold();
+          continue;
+        }
       }
+
+
+
       // If we didn't get to the column desired, turn around, get a block, and put it there
       int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
       DLOG_F(3, "I want a building block at column %d.", buildblock);

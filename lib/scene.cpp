@@ -509,6 +509,12 @@ int Scene::get_lowest_obj_height(int col) {
   return -1;
 }
 
+/**
+ * @brief Get the furthest block that can be picked up
+ *
+ * @param direction
+ * @return int
+ */
 int Scene::furthest_block_available(int direction) {
   if (direction != 1 && direction != -1) {
     throw invalid_argument("Direction must be +/- 1.");
@@ -518,6 +524,7 @@ int Scene::furthest_block_available(int direction) {
   int available = -1;
   int lastheight = _player->location().y - 1;
 
+  // While we're in map bounds...
   while (i > 0 && i < _width-1) {
     int thiscol = i + direction;
     int thisheight = get_highest_obj_height(thiscol);
