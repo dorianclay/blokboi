@@ -80,6 +80,7 @@ public:
   GameObject *get_object(int x, int y);
   int get_highest_obj_height(int col);
   int get_lowest_obj_height(int col);
+  int furthest_block_available(int direction);
   Player *get_player();
   const Blocks *targets() { return &_targets; }
   const Block *targets(int blocknum);

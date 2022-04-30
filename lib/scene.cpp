@@ -509,6 +509,36 @@ int Scene::get_lowest_obj_height(int col) {
   return -1;
 }
 
+int Scene::furthest_block_available(int direction) {
+  if (direction != 1 && direction != -1) {
+    throw invalid_argument("Direction must be +/- 1.");
+    return -1;
+  }
+  int i = _player->location().x;
+  int available = -1;
+  int lastheight = _player->location().y - 1;
+
+  while (i > 0 && i < _width-1) {
+    int thiscol = i + direction;
+    int thisheight = get_highest_obj_height(thiscol);
+    if (abs(lastheight - thisheight) > 1) {
+      return available;
+    }
+    if (thisheight - lastheight == 1) {
+      if (get_object(thiscol, thisheight)->isBlock()) {
+        available = thiscol;
+      }
+    } else if (lastheight - thisheight == 1) {
+      if (get_object(thiscol - direction, lastheight)->isBlock()) {
+        available = thiscol - direction;
+      }
+    }
+    lastheight = thisheight;
+    i = thiscol;
+  }
+  return available;
+}
+
 Player *Scene::get_player() { return _player; }
 
 const Block *Scene::targets(int blocknum) {
