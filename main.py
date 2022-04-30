@@ -10,6 +10,7 @@ import numpy as np
 from src.logger import Logger
 from src.image_gen import ImageGen
 from src.gui import *
+from src.map_loader import MapLoader
 from run_tests import LocalTestRunner
 from blokboi import Game
 
@@ -82,22 +83,16 @@ def main(**kwargs):
         size = (15, 20)
         scale = kwargs["scale"]
         if kwargs["load"]:
-            scene = np.load("data/demo_scene.npy")
-            with open("data/demo_scene.json", "r") as jsonfile:
-                obj_dict = json.load(jsonfile)
+            loader = MapLoader()
+            scene, obj, coords, relation = loader.loadn("demo")
             app = App(
-                size[1],
-                size[0],
+                game_instance=Game(scene, obj, coords, relation),
+                width=size[1],
+                height=size[0],
                 scale=scale,
-                game_instance=Game(
-                    scene,
-                    obj_dict["objective"],
-                    obj_dict["coordinates"],
-                    obj_dict["relationship"],
-                ),
             )
         else:
-            app = App(size[1], size[0], scale=scale)
+            app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
         app.mainloop()
 
 

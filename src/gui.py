@@ -122,9 +122,9 @@ class ButtonFrame(ttk.Frame):
 class App(tk.Tk):
     def __init__(
         self,
+        game_instance,
         width=20,
         height=15,
-        game_instance=Game(),
         *,
         scale=2,
         assetpath=Path("assets"),
