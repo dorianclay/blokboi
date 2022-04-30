@@ -163,5 +163,35 @@
     "id": "stacking10",
     "objective": "Put the purple block diagonal to the red block.",
     "relationship": "diagonal"
+  },
+  {
+    "coordinates": [
+      [
+        16,
+        7
+      ],
+      [
+        6,
+        8
+      ]
+    ],
+    "id": "crates",
+    "objective": "Put the yellow block next to purple block.",
+    "relationship": "side"
+  },
+  {
+    "coordinates": [
+      [
+        10,
+        2
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "id": "sparse",
+    "objective": "Put the green block below the red block.",
+    "relationship": "below"
   }
 ]
