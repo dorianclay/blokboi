@@ -141,6 +141,8 @@ int walk_to(Game &game, int col, int &steps) {
   } else {
     err_code = game.move(- game.scene()->get_player()->facing());
   }
+  DLOG_F(4, "Map after walking:\n%s", game.representation().c_str());
+
   if (err_code >= 0)
     return 1;
   else
@@ -165,12 +167,7 @@ int find_furthest_block_available(Game &game, int direction) {
   }
   int i = game.scene()->get_player()->location().x;
   int available = -1;
-  int lastheight = game.scene()->get_player()->location().y;
-  if (lastheight - game.scene()->get_highest_obj_height(i + direction) == 2) {
-    if (game.scene()->get_object(i, lastheight - 1)->isBlock()) {
-      available = i;
-    }
-  }
+  int lastheight = game.scene()->get_player()->location().y - 1;
 
   while (i > 0 && i < game.width()-1) {
     int thiscol = i + direction;
@@ -178,10 +175,14 @@ int find_furthest_block_available(Game &game, int direction) {
     if (abs(lastheight - thisheight) > 1) {
       return available;
     }
-    if (game.scene()->get_object(thiscol, thisheight)->isBlock()) {
-      if (thisheight < lastheight)
-       return available;
-      available = thiscol;
+    if (thisheight - lastheight == 1) {
+      if (game.scene()->get_object(thiscol, thisheight)->isBlock()) {
+        available = thiscol;
+      }
+    } else if (lastheight - thisheight == 1) {
+      if (game.scene()->get_object(thiscol - direction, lastheight)->isBlock()) {
+        available = thiscol - direction;
+      }
     }
     lastheight = thisheight;
     i = thiscol;
@@ -228,10 +229,7 @@ int get_to_col(Game &game, int col, int &steps) {
       } else {
         walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
         game.toggle_hold();
-        if (success == -1)
-          walk_to(game, nextcol, steps);
-        else
-          walk_to(game, nextcol, steps);
+        walk_to(game, nextcol, steps);
         game.toggle_hold();
       }
     }
