@@ -141,7 +141,7 @@ int walk_to(Game &game, int col, int &steps) {
   } else {
     err_code = game.move(- game.scene()->get_player()->facing());
   }
-  DLOG_F(4, "Map after walking:\n%s", game.representation().c_str());
+  DLOG_F(7, "Map after walking:\n%s", game.representation().c_str());
 
   if (err_code >= 0)
     return 1;
@@ -151,43 +151,6 @@ int walk_to(Game &game, int col, int &steps) {
   //   return 1;
   // else
   //   return -1;
-}
-
-/**
- * @brief Find the farthest available block from the player in some direction.
- *
- * @param game
- * @param direction
- * @return int: the column of the block, -1 if invalid
- */
-int find_furthest_block_available(Game &game, int direction) {
-  if (direction != 1 && direction != -1) {
-    throw invalid_argument("Direction must be +/- 1.");
-    return -1;
-  }
-  int i = game.scene()->get_player()->location().x;
-  int available = -1;
-  int lastheight = game.scene()->get_player()->location().y - 1;
-
-  while (i > 0 && i < game.width()-1) {
-    int thiscol = i + direction;
-    int thisheight = game.scene()->get_highest_obj_height(thiscol);
-    if (abs(lastheight - thisheight) > 1) {
-      return available;
-    }
-    if (thisheight - lastheight == 1) {
-      if (game.scene()->get_object(thiscol, thisheight)->isBlock()) {
-        available = thiscol;
-      }
-    } else if (lastheight - thisheight == 1) {
-      if (game.scene()->get_object(thiscol - direction, lastheight)->isBlock()) {
-        available = thiscol - direction;
-      }
-    }
-    lastheight = thisheight;
-    i = thiscol;
-  }
-  return available;
 }
 
 /**
@@ -216,21 +179,41 @@ int get_to_col(Game &game, int col, int &steps) {
         nextcol = game.player_location().x - dir;
       }
       // If we didn't get to the column desired, turn around, get a block, and put it there
-      int buildblock = find_furthest_block_available(game, -game.scene()->get_player()->facing());
+      int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
       DLOG_F(3, "I want a building block at column %d.", buildblock);
-      if (buildblock == -1)
+      // If furthest block was invalid
+      if (buildblock < 0)
         break;
+      int bbheight = game.scene()->get_highest_obj_height(buildblock);
+      int bbcloseheight = game.scene()->get_highest_obj_height(buildblock + dir);
+      if (game.scene()->get_object(buildblock + dir, bbcloseheight) == game.scene()->get_player())
+        bbcloseheight -= 1;
+      int bbfarheight = game.scene()->get_highest_obj_height(buildblock - dir);
+      if (game.scene()->get_object(buildblock - dir, bbfarheight) == game.scene()->get_player())
+        bbcloseheight -= 1;
+      // If we're standing on the block we need
       else if (buildblock == game.player_location().x) {
         walk_to(game, game.player_location().x - dir, steps);
         walk_to(game, game.player_location().x, steps);
         game.toggle_hold();
         walk_to(game, nextcol, steps);
         game.toggle_hold();
-      } else {
+      // If we walk straight to the block
+      } else if (bbheight - bbcloseheight == 1) {
         walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
         game.toggle_hold();
         walk_to(game, nextcol, steps);
         game.toggle_hold();
+      // If we need to cut back to pick up
+      } else if (bbheight - bbfarheight == 1) {
+        walk_to(game, buildblock - dir, steps);
+        walk_to(game, game.player_location().x, steps);
+        game.toggle_hold();
+        walk_to(game, nextcol, steps);
+        game.toggle_hold();
+      // None above seems to be true...
+      } else {
+        throw runtime_error("Not sure how to proceed...It appears I am trying to navigate to a building block I can't access.");
       }
     }
   }

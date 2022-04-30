@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "effolkronium/random.hpp"
 #include <loguru.hpp>
+#include <stdexcept>
 
 using Random = effolkronium::random_static;
 
@@ -190,6 +191,9 @@ void Scene::generate_heuristical() {
       break;
     }
   }
+  if (attempts == GENERATOR_ATTEMPTS) {
+    throw runtime_error("Could not generate a good scene in " + to_string(attempts) + " tries.");
+  }
 
   _init = _data;
 }
@@ -302,22 +306,43 @@ void Scene::generate_from_array(Char3d pregen) {
  * @return false if the scene is invalid.
  */
 bool Scene::check_scene() {
-  LOG_SCOPE_FUNCTION(INFO);
+  // LOG_SCOPE_FUNCTION(INFO);
   // Check a player exists
   if (_player == nullptr) {
-    VLOG_SCOPE_F(GEN_WARN_V, "No player was found.");
+    VLOG_F(GEN_WARN_V, "No player was found.");
     return false;
   }
 
   // Check if the player is in bounds
   if (_player->location().x < 0 || _player->location().x >= _width || _player->location().y < 0 || _player->location().y >= _height) {
-    VLOG_SCOPE_F(GEN_WARN_V, "Player generated out of bounds.");
+    VLOG_F(GEN_WARN_V, "Player generated out of bounds.");
     return false;
   }
 
   // Check at least one block exists
   if (_blocks.size() == 0) {
-    VLOG_SCOPE_F(GEN_WARN_V, "No blocks found.");
+    VLOG_F(GEN_WARN_V, "No blocks found.");
+    return false;
+  }
+
+  // Check there are no blocks too high
+  //   (would make blokboi carry out of map)
+  for (int i=0; i<_width; i++) {
+    if (_space[i][_height - 1] != nullptr) {
+      VLOG_F(GEN_WARN_V, "Blocks found in top row.");
+      return false;
+    }
+    if (_space[i][_height - 2] != nullptr) {
+      if (_space[i][_height - 2] != _player) {
+        VLOG_F(GEN_WARN_V, "Non-player block found in second to top row.");
+        return false;
+      }
+    }
+  }
+
+  // Check that the player can at least get started with one block
+  if (furthest_block_available(1) < 0 && furthest_block_available(-1) < 0) {
+    VLOG_F(GEN_WARN_V, "Player would not be able to pick up any blocks.");
     return false;
   }
 
@@ -352,13 +377,13 @@ bool Scene::check_scene() {
     }
   }
   if (pillar) {
-    VLOG_SCOPE_F(GEN_WARN_V, "Detected a pillar.");
+    VLOG_F(GEN_WARN_V, "Detected a pillar.");
     return false;
   }
 
   // Generate the heurisitic
   if (verify()) {
-    VLOG_SCOPE_F(GEN_WARN_V, "Scene generated with solution already complete.");
+    VLOG_F(GEN_WARN_V, "Scene generated with solution already complete.");
     return false;
   }
 
