@@ -135,7 +135,7 @@ if __name__ == "__main__":
     )
     parser_gui.add_argument(
         "--detail",
-        default="info",
+        default="debug",
         choices=["debug", "info", "warning", "error", "critical"],
         help="Level of detail to python log (default: info).",
     )
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     )
     parser_test.add_argument(
         "--detail",
-        default="info",
+        default="debug",
         choices=["debug", "info", "warning", "error", "critical"],
         help="Level of detail to python log (default: info).",
     )
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     )
     parser_img.add_argument(
         "--detail",
-        default="info",
+        default="debug",
         choices=["debug", "info", "warning", "error", "critical"],
         help="Level of detail to python log (default: info).",
     )
