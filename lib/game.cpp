@@ -34,11 +34,11 @@ Game::Game(Char3d pregen, string objective) {
 
   _scene = new Scene(pregen);
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  _objective = objective;
+  _scene->objective(objective);
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
-Game::Game(Char3d pregen, string objective, Int2d obj_coords, string relationship) {
+Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_matrix) {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    loguru::Verbosity_9);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -48,8 +48,8 @@ Game::Game(Char3d pregen, string objective, Int2d obj_coords, string relationshi
 
   _scene = new Scene(pregen);
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  _objective = objective;
-  _scene->targets(obj_coords);
+  _scene->targets(obj_coords, feature_matrix);
+  _scene->objective(objective);
   _scene->relate(relationship);
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
@@ -97,7 +97,7 @@ int Game::put_down() { return _player_controller->put_down(); }
 
 string Game::representation() { return _scene->representation(); }
 
-string Game::objective() { return _objective; }
+string Game::objective() { return _scene->objective(); }
 
 /**
  * @brief Walk to a column.

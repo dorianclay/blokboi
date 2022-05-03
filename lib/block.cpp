@@ -33,18 +33,6 @@ Block::Block(int x, int y, char color, int number, bool movable)
 
 void Block::repr(ostream &ostr) const {
   ostr << _color;
-  // if (_color == RED)
-  //     ostr << "r";
-  // else if (_color == ORANGE)
-  //     ostr << "o";
-  // else if (_color == YELLOW)
-  //     ostr << "y";
-  // else if (_color == GREEN)
-  //     ostr << "g";
-  // else if (_color == BLUE)
-  //     ostr << "b";
-  // else if (_color == PURPLE)
-  //     ostr << "p";
 }
 
 Ground::Ground(int x, int y) {
@@ -57,3 +45,24 @@ Ground::Ground(int x, int y) {
 }
 
 void Ground::repr(ostream &ostr) const { ostr << "@"; }
+
+string colorname(char color) {
+  switch(color) {
+    case 'r':
+      return "red";
+    case 'o':
+      return "orange";
+    case 'y':
+      return "yellow";
+    case 'g':
+      return "green";
+    case 'b':
+      return "blue";
+    case 'p':
+      return "purple";
+    case 'X':
+      return "blank";
+    default:
+      return "";
+  }
+}

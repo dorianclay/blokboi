@@ -153,11 +153,13 @@ int PlayerController::put_down() {
     DLOG_F(1, "Can't place block above ceiling.");
     return -1;
   }
+
   // If there are no blocks in the column, just put down on the bottom
   if (col_max == -1) {
     DLOG_F(1, "Placing block on the bottom.");
     _scene->move(current.x, current.y + 1, facing, -current.y - 1);
     _player->hold(nullptr);
+    _scene->verify();
     return 1;
   }
 
@@ -171,6 +173,7 @@ int PlayerController::put_down() {
   DLOG_F(1, "Placing block on top of object at height %d", col_max);
   _scene->move(current.x, current.y + 1, facing, -current.y + col_max);
   _player->hold(nullptr);
+  _scene->verify();
   return 1;
 }
 

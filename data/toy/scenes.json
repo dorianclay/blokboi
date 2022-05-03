@@ -10,8 +10,18 @@
         4
       ]
     ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
     "id": "demo",
-    "objective": "Put the blue block on top of block 9.",
+    "objective": "Put the blue block on top of the 9 block.",
     "relationship": "on top"
   },
   {
@@ -23,6 +33,16 @@
       [
         15,
         4
+      ]
+    ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
       ]
     ],
     "id": "stacking1",
@@ -40,6 +60,16 @@
         4
       ]
     ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
     "id": "stacking2",
     "objective": "Put the purple block below the red block.",
     "relationship": "below"
@@ -53,6 +83,16 @@
       [
         15,
         4
+      ]
+    ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
       ]
     ],
     "id": "stacking3",
@@ -70,6 +110,16 @@
         4
       ]
     ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
     "id": "stacking4",
     "objective": "Put the purple block on top of the red block.",
     "relationship": "on top"
@@ -83,6 +133,16 @@
       [
         15,
         4
+      ]
+    ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
       ]
     ],
     "id": "stacking5",
@@ -115,6 +175,16 @@
         4
       ]
     ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
     "id": "stacking7",
     "objective": "Put the purple block to the left of the red block.",
     "relationship": "left"
@@ -128,6 +198,16 @@
       [
         15,
         4
+      ]
+    ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
       ]
     ],
     "id": "stacking8",
@@ -145,6 +225,16 @@
         4
       ]
     ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
     "id": "stacking9",
     "objective": "Put the purple block to the side of the red block.",
     "relationship": "side"
@@ -158,6 +248,16 @@
       [
         15,
         4
+      ]
+    ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
       ]
     ],
     "id": "stacking10",
@@ -175,6 +275,16 @@
         8
       ]
     ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
     "id": "crates",
     "objective": "Put the yellow block next to purple block.",
     "relationship": "side"
@@ -188,6 +298,16 @@
       [
         0,
         2
+      ]
+    ],
+    "features": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        0
       ]
     ],
     "id": "sparse",

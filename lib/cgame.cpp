@@ -12,7 +12,7 @@ PYBIND11_MODULE(blokboi, m) {
   py::class_<Game>(m, "Game")
       .def(py::init())
       .def(py::init<Char3d>())
-      .def(py::init<Char3d, std::string, Int2d, std::string>())
+      .def(py::init<Char3d, std::string, std::string, Int2d, Int2d>())
       .def("newGame", &Game::newGame)
       .def("resetGame", &Game::resetGame)
       .def("run_heuristic", &Game::run_heuristic)
@@ -27,5 +27,6 @@ PYBIND11_MODULE(blokboi, m) {
       .def("array", &Game::array)
       .def("representation", &Game::representation)
       .def("objective", &Game::objective)
+      .def("success", &Game::success)
       .def("__repr__", [](Game &a) { return a.representation(); });
 }

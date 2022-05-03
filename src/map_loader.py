@@ -65,6 +65,7 @@ class MapLoader:
         return (
             scene[count],
             obj_dict["objective"],
-            obj_dict["coordinates"],
             obj_dict["relationship"],
+            obj_dict["coordinates"],
+            obj_dict["features"],
         )
