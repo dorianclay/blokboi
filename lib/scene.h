@@ -44,7 +44,7 @@ protected:
     "beneath",
     "right",
     "left",
-    "off",
+    // "off",
     "side",
     "diagonal"
   };
