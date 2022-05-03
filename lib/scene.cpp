@@ -13,8 +13,6 @@ using Random = effolkronium::random_static;
 
 using namespace std;
 
-uniform_int_distribution<int> dist_heightdiff(-2, 2);
-uniform_int_distribution<int> dist_heightdiff_restrict(-1, 1);
 // uniform_int_distribution<int> dist_nums(MIN_NUMBER, MAX_NUMBER);
 // uniform_int_distribution<int> dist_colors((int)RED, (int)PURPLE);
 
@@ -79,237 +77,84 @@ LOCATION *Scene::findObject(GameObject *object) {
   return nullptr;
 }
 
-void Scene::fill_ground(int col, int *lastheight, int *priorheight,
-                        int *maxheight) {
-  // Get a new height that is the prev. height +/- [-2,2]
-  int thisheight = *lastheight + Random::get(dist_heightdiff);
-  // Make sure the height is no less than 1
-  if (thisheight < 1)
-    thisheight = 1;
-  // Make sure the height is no more than our window
-  else if (thisheight >= (_height * 4 / 5))
-    thisheight = (_height * 4 / 5) - 1;
-
-  // Fill up to this height with ground:
-  for (int y = 0; y <= thisheight; y++) {
-    // put a block here...
-    _space[col][y] = new Ground(col, y);
-    update_array(col, y, _space[col][y]->kind(), _space[col][y]->number());
-  }
-
-  *lastheight = thisheight;
-}
-
-void Scene::fill_ground() {
-  int maxheight = Random::get(1, (int) _height * 3 / 4);
-  int startcol = Random::get(_dist_width);
-  int lastheight = maxheight;
-  int priorheight = maxheight;
-
-  // Generate ground to right
-  for (int i = (int) startcol; i < _width; i++) {
-    fill_ground(i, &lastheight, &priorheight, &maxheight);
-  }
-
-  lastheight = maxheight;
-  priorheight = lastheight;
-
-  // Generate ground to left
-  for (int i = (int)startcol - 1; i >= 0; i--) {
-    fill_ground(i, &lastheight, &priorheight, &maxheight);
-  }
-}
-
-int Scene::count_blocks(int col) {
-  // Find the height of the blocks at x=col
-  int height = 0;
-  for (int i = 0; i < _height - 1; i++) {
-    if (_space[col][i] != nullptr) {
-      height += 1;
-    } else {
-      break;
+/**
+ * @brief Set the valid finishing blocks.
+ *
+ */
+void Scene::set_valid() {
+  _valid.clear();
+  // for each of the targets...
+  for (int tgt = 0; tgt < _target_features.size(); tgt++) {
+    Blocks objective;
+    // check for every block
+    for (int i = 0; i < _blocks.size(); i++) {
+      Block *temp = _blocks[i];
+      // if the block is the same color as the feature we want
+      if (temp->color() == _target_features[tgt][0]) {
+        objective.push_back(temp);
+      // if the block has the same number as the feature we want
+      } else if (temp->number() == _target_features[tgt][1]) {
+        objective.push_back(temp);
+      }
     }
+    _valid.push_back(objective);
   }
-  return height;
 }
 
-void Scene::update_array(int x, int y, char colrval, char numrval) {
-  _data[x][y][0] = colrval;
-  _data[x][y][1] = numrval;
-}
 
-void Scene::update_array(int x, int y) {
-  update_array(x, y, _space[x][y]->kind(), _space[x][y]->number());
-}
+/**
+ * @brief Set the objective string.
+ *
+ */
+void Scene::set_string() {
+  stringstream ss;
+  string demo = "Put the {color0} block {number0} {relation} to the {color1} block {number1}.";
+  ss.str("");
 
-int Scene::make_plains(int xstart, int base, int n, int m, int dir)
-{
-  /* Make a flat row of ground
-   *  xstart: the column to put the leftmost block in
-   *  base:   the height of the leftmost block
-   *  n:      the number of blocks in this chunk
-   *  m:      (unused)
-   *  dir:    (unused)
-   */
-  // __________
-  DLOG_F(2, "Generating plains (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
-
-  for (int i = xstart; i < xstart + n; i++) {
-    _space[i][base] = new Ground(i, base);
-    update_array(i, base, _space[i][base]->kind(), _space[i][base]->number());
+  // verb
+  if (_relationship == "off") {
+    ss << "Take";
+  } else {
+    ss << "Put";
   }
-  return base;
-}
-
-int Scene::make_steppes(int xstart, int base, int n, int m, int dir)
-{
-  /* Make "steps" that increase in height linearly with width
-   *  xstart: the column to put the leftmost block in
-   *  base:   the height of the leftmost block
-   *  n:      the number of blocks in this chunk
-   *  m:      (unused)
-   *  dir:    -1 if generating feature left, 1 if generating feature right
-   */
-  //       __
-  //    __|
-  // __|
-  DLOG_F(2, "Generating steppes (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
-
-  int step = 0;
-  for (int i = xstart; i < xstart + n; i++) {
-    int j = base + step;
-    _space[i][j] = new Ground(i, j);
-    update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
-    // If generating left,
-    if (dir == -1) {
-      // Only increment the step height if we won't go outside the map
-      if (base + step < _height * 4 / 5)
-        step++;
-    // Else generating right,
-    } else {
-      // Only increment the step height if we won't go outside the map
-      if (base + step > 1)
-        step--;
-    }
+  // objective 1's features
+  ss << " the ";
+  if (_target_features[0][0] != -1) {
+    ss << colorname(_target_features[0][0]) << " ";
   }
-  return base + step;
-}
-
-int Scene::make_plateau(int xstart, int base, int n, int m, int dir)
-{
-  /* Make a couple steps then a flat area
-   *  xstart: the column to put the leftmost block in
-   *  base:   the height of the leftmost block
-   *  n:      the number of blocks in this chunk
-   *  m:      the number of steps to go up
-   *  dir:    -1 if generating feature left, 1 if generating feature right
-   */
-  //       ____________
-  //    __|
-  // __|
-  DLOG_F(2, "Generating plateau (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
-
-  assert(n >= 0 && m >= 0 && xstart >= 0 && base > 0);
-  int step = 0;
-  for (int i = xstart; i < xstart + n; i++) {
-    int j = base + step;
-    _space[i][j] = new Ground(i, j);
-    update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
-    // If generating left feature,
-    if (dir == -1) {
-      // Increase the step height if we're less than the plateau or the map height
-      if (base + step < m && base + step < _height * 4 / 5)
-        step++;
-    // Else we're generating right feature
-    } else {
-      // Increase the step height if we're less than the plateau and above the minimum
-      if (base + step < m && base + step > 1)
-        step--;
-    }
+  if (_target_features[0][1] != -1) {
+    ss << _target_features[0][1] - '0' << " ";
   }
-  return base + step;
-}
+  ss << "block ";
 
-int Scene::make_canyon(int xstart, int base, int n, int m, int dir)
-{
-  /* Make a 2-block deep canyon
-   *  xstart: the column to put the leftmost block in
-   *  base:   the height of the leftmost block
-   *  n:      the number of blocks in this chunk
-   *  m:      (unused)
-   *  dir:    (unused)
-   */
-  // __        __
-  //   |      |
-  //   |______|
-  DLOG_F(2, "Generating canyon (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
-
-  // Set the canyon bottom height to base-2 or 1, whichever is higher
-  int height = base;
-  if (base - 2 < 0)
-    height = 1;
-  else
-    height = base - 2;
-
-  // Make the first wall
-  _space[xstart][base] = new Ground(xstart, base);
-  update_array(xstart, base, _space[xstart][base]->kind(), _space[xstart][base]->number());
-  // Make the canyon bottom
-  for (int i = xstart+1; i < xstart + n - 1; i++) {
-    _space[i][height] = new Ground(i, height);
-    update_array(i, height, _space[i][height]->kind(), _space[i][height]->number());
+  // relationship
+  if (_relationship == "right" || _relationship == "left") {
+    ss << "to the " << _relationship << " of ";
+  } else if (_relationship == "side") {
+    if (Random::get<bool>())
+      ss << "next to ";
+    else
+      ss << "to the side of ";
+  } else if (_relationship == "diagonal") {
+    ss << _relationship << " to ";
+  } else if (_relationship == "on top") {
+    ss << _relationship << " of ";
+  } else {
+    ss << _relationship << " ";
   }
-  // Make the second wall
-  _space[xstart+n-1][base] = new Ground(xstart+n-1, base);
-  update_array(xstart+n-1, base, _space[xstart+n-1][base]->kind(), _space[xstart+n-1][base]->number());
-  return base;
-}
 
-int Scene::make_cave(int xstart, int base, int n, int m, int dir)
-{
-  /* Make a cave structure
-   *  xstart: the column to put the leftmost block in
-   *  base:   the height of the leftmost block
-   *  n:      (unused)
-   *  m:      (unused)
-   *  dir:    -1 if generating feature left, 1 if generating feature right
-   */
-  DLOG_F(2, "Generating cave (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
-  return base;
-}
-
-int Scene::make_spire(int xstart, int base, int n, int m, int dir)
-{
-  /* Make a 2-block tall "spire"
-   *  xstart: the column to put the leftmost block in
-   *  base:   the height of the leftmost block
-   *  n:      the number of blocks in this chunk
-   *  m:      (unused)
-   *  dir:    (unused)
-   */
-  //      __
-  //     |  |
-  // ____|  |____
-  DLOG_F(2, "Generating spire (start col: %d, base height: %d, n: %d, m: %d, dir: %d).", xstart, base, n, m, dir);
-
-  // First, create a flat row of ground
-  for (int i = xstart; i < xstart + n; i++) {
-    _space[i][base] = new Ground(i, base);
-    update_array(i, base, _space[i][base]->kind(), _space[i][base]->number());
+  ss << "the ";
+  if (_target_features[1][0] != -1) {
+    ss << colorname(_target_features[1][0]) << " ";
   }
-  // Randomly pick a column to put the spire in
-  int col = Random::get<int>(xstart+1, xstart+n-2);
-  // Place the spire, checking for map boundaries
-  if (base + 1 < _height - 1) {
-    _space[col][base+1] = new Ground(col, base+1);
-    update_array(col, base+1, _space[col][base+1]->kind(), _space[col][base+1]->number());
-    if (base + 2 < _height - 1) {
-      _space[col][base+2] = new Ground(col, base+2);
-      update_array(col, base+2, _space[col][base+2]->kind(), _space[col][base+2]->number());
-    }
+  if (_target_features[1][1] != -1) {
+    ss << _target_features[1][1] - '0' << " ";
   }
-  return base;
+  ss << "block.";
+
+  _objective = ss.str();
 }
+
 
 
 /*
@@ -318,76 +163,25 @@ int Scene::make_spire(int xstart, int base, int n, int m, int dir)
  *
  */
 
-
-void Scene::generate_modular() {
-  flush();
-
-  vector<int> direction = {-1, 1};
-
-  // Randomly pick the number of modules to use,
-  // where each module is at least 3 wide
-  int nummods = Random::get(1, (int) _width / 3);
-  int blockneed = 0;
-
-  // Randomly pick the module parameters;
-  int remaining = _width;
-  int col = 0;
-  int last_height = Random::get(1, (int) _height * 3 / 4);
-  for (int i=0; i < nummods; i++) {
-    int maker_idx = Random::get(0, 4); // module
-    int n;
-    if (nummods - i == 1) {
-      n = remaining;
-    } else {
-      n = Random::get(3, remaining - 3 * (nummods - i - 1)); // n
-    }
-    int m = Random::get(1, n); // m
-    Random::shuffle(direction);
-    int dir = direction[0]; // dir
-
-    // Fill the module
-    // last_height = _maker_funcs[maker_idx](col, last_height, n, m, dir);
-    if (maker_idx == 0)
-      last_height = make_plains(col, last_height, n, m, dir);
-    else if (maker_idx == 1)
-      last_height = make_steppes(col, last_height, n, m, dir);
-    else if (maker_idx == 2)
-      last_height = make_plateau(col, last_height, n, m, dir);
-    else if (maker_idx == 3) {
-      last_height = make_canyon(col, last_height, n, m, dir);
-      blockneed += 2;
-    } else {
-      last_height = make_spire(col, last_height, n, m, dir);
-      blockneed += 2;
-    }
-
-    col += n;
-    remaining -= n;
-  }
-
-  // Fill ground below
-  for (int i=0; i < _width; i++) {
-    int y = get_lowest_obj_height(i);
-    for (int j=0; j < y; j++) {
-      _space[i][j] = new Ground(i,j);
-      update_array(i, j, _space[i][j]->kind(), _space[i][j]->number());
-    }
-  }
-
-  // TODO: generate usable blocks
-
-  _init = _data;
-}
-
 void Scene::refresh() { generate_from_array(_init); }
 
 void Scene::flush() {
+  // Clean out the _space and _data arrays
   for (int i = 0; i < _width; i++) {
     for (int j = 0; j < _height; j++) {
+      delete _space[i][j];
       _space[i][j] = nullptr;
       update_array(i, j, '.', 'X');
     }
   }
+  // Clean out _blocks, _player, _valid, _success, _realtionship
+  _blocks.clear();
+  _init.clear();
+  _targets.clear();
+  _target_features.clear();
+  _valid.clear();
+  _success = false;
+  _relationship = "";
 }
 
 /**
@@ -397,64 +191,90 @@ void Scene::flush() {
  * @return false if not achieved.
  */
 bool Scene::verify() {
-  // Let 'a' : target[0]
-  // Let 'b' : target[1]
-  int ax = _targets[0]->location().x;
-  int ay = _targets[0]->location().y;
-  int bx = _targets[1]->location().x;
-  int by = _targets[1]->location().y;
+  // Check the first objective's valid options
+  for (int i=0; i<_valid[0].size(); i++) {
+    // Against every second objective's valid options
+    for (int j=0; j<_valid[1].size(); j++) {
+      // Let 'a' : target[0]
+      // Let 'b' : target[1]
+      int ax = _valid[0][i]->location().x;
+      int ay = _valid[0][i]->location().y;
+      int bx = _valid[1][j]->location().x;
+      int by = _valid[1][j]->location().y;
 
-  if (_relationship == "above" || _relationship == "on top") {
-    // _target[0] on top of _target[1]
-    if (ax == bx) {
-      if (ay == by + 1)
-        return true;
+      if (_relationship == "above" || _relationship == "on top") {
+        // _target[0] on top of _target[1]
+        if (ax == bx) {
+          if (ay == by + 1){
+            _success = true;
+            return true;
+          }
+        }
+      } else if (_relationship == "below" || _relationship == "under" || _relationship == "beneath") {
+        // _target[0] under _target[1]
+        if (ax == bx) {
+          if (ay == by - 1) {
+            _success = true;
+            return true;
+          }
+        }
+      } else if (_relationship == "right") {
+        // target[0] directly to the right of target[1]
+        if (ay == by) {
+          if (ax == bx + 1) {
+            _success = true;
+            return true;
+          }
+        }
+      } else if (_relationship == "left") {
+        // target[0] directly to the left of target[1]
+        if (ay == by) {
+          if (ax == bx - 1) {
+            _success = true;
+            return true;
+          }
+        }
+      } else if (_relationship == "side") {
+        // target[0] directly beside target[1]
+        if (ay == by) {
+          if (ax == bx + 1) {
+            _success = true;
+            return true;
+          }
+          if (ax == bx - 1) {
+            _success = true;
+            return true;
+          }
+        }
+      } else if (_relationship == "off") {
+        // target[0] not above target[1]
+        if (ax != bx) {
+          _success = true;
+          return true;
+        }
+        if (ax == bx) {
+          if (ay < by) {
+            _success = true;
+            return true;
+          }
+        }
+      } else if (_relationship == "diagonal") {
+        // target[0] at an adjacent diagonal to target[1]
+        if (ax == bx - 1 || ax == bx + 1) {
+          if (ay == by + 1) {
+            _success = true;
+            return true;
+          }
+          if (ay == by - 1) {
+            _success = true;
+            return true;
+          }
+        }
+      } else {
+        LOG_F(ERROR, "Handling target relationship '%s' is undefined.", _relationship.c_str());
+        throw invalid_argument("I don't know how to handle the target relationship.");
+      }
     }
-  } else if (_relationship == "below" || _relationship == "under" || _relationship == "beneath") {
-    // _target[0] under _target[1]
-    if (ax == bx) {
-      if (ay == by - 1)
-        return true;
-    }
-  } else if (_relationship == "right") {
-    // target[0] directly to the right of target[1]
-    if (ay == by) {
-      if (ax == bx + 1)
-        return true;
-    }
-  } else if (_relationship == "left") {
-    // target[0] directly to the left of target[1]
-    if (ay == by) {
-      if (ax == bx - 1)
-        return true;
-    }
-  } else if (_relationship == "side") {
-    // target[0] directly beside target[1]
-    if (ay == by) {
-      if (ax == bx + 1)
-        return true;
-      if (ax == bx - 1)
-        return true;
-    }
-  } else if (_relationship == "off") {
-    // target[0] not above target[1]
-    if (ax != bx)
-      return true;
-    if (ax == bx) {
-      if (ay < by)
-        return true;
-    }
-  } else if (_relationship == "diagonal") {
-    // target[0] at an adjacent diagonal to target[1]
-    if (ax == bx - 1 || ax == bx + 1) {
-      if (ay == by + 1)
-        return true;
-      if (ay == by - 1)
-        return true;
-    }
-  } else {
-    LOG_F(ERROR, "Handling target relationship '%s' is undefined.", _relationship.c_str());
-    throw invalid_argument("I don't know how to handle the target relationship.");
   }
 
   // If we matched one of the handled relationships but weren't true,
@@ -462,8 +282,8 @@ bool Scene::verify() {
   return false;
 }
 
-void Scene::targets(Int2d coords) {
-  if (coords.size() != 2 || coords[0].size() != 2) {
+void Scene::targets(Int2d coords, Int2d feature_matrix) {
+  if (coords.size() != 2 || coords[0].size() != 2 || feature_matrix.size() != 2 || feature_matrix[0].size() != 2) {
     throw invalid_argument("Must be a 2-D array of size 2x2.");
   }
   int x1, y1;
@@ -481,8 +301,26 @@ void Scene::targets(Int2d coords) {
     return;
   }
   _targets.clear();
+  _valid.clear();
+  _target_features.clear();
   _targets.push_back(dynamic_cast<Block*>(get_object(x1, y1)));
   _targets.push_back(dynamic_cast<Block*>(get_object(x2, y2)));
+  for (int i=0; i < 2; i++ ) {
+    vector<int> temp;
+    if (feature_matrix[i][0] == 1)
+      temp.push_back(_targets[i]->color());
+    else
+      temp.push_back(-1);
+
+    if (feature_matrix[i][1] == 1)
+      temp.push_back(_targets[i]->number());
+    else
+      temp.push_back(-1);
+
+    _target_features.push_back(temp);
+  }
+  set_valid();
+  set_string();
 
   DLOG_F(INFO, "Successfully set targets manually. T1: (%d, %d)\tT2: (%d, %d)", x1, y1, x2, y2);
 }

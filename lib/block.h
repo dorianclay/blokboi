@@ -22,7 +22,7 @@
 
 class Block : public GameObject {
 protected:
-  char colors[7] = {'r', 'o', 'y', 'g', 'b', 'p', 'X'};
+  static inline char colors[7] = {'r', 'o', 'y', 'g', 'b', 'p', 'X'};
   char _color;
   int _number;
 
@@ -46,5 +46,8 @@ public:
   int kind() const override { return GameObject::kind(); }
   int number() const override { return GameObject::number(); }
 };
+
+std::string colorname(char color);
+
 
 #endif /* BLOCK_H */
