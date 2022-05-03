@@ -31,7 +31,7 @@ Scene::Scene() {
       update_array(i, j, '.', 'X');
     }
   }
-  _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+  _init_data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
   _relationship = "";
 }
 
@@ -47,7 +47,7 @@ Scene::Scene(int x, int y) {
       update_array(i, j, '.', 'X');
     }
   }
-  _init = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+  _init_data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
   _relationship = "";
 }
 
@@ -60,6 +60,17 @@ Scene::Scene(Char3d pregen) {
   _data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
   _relationship = "";
   generate_from_array(pregen);
+}
+
+Scene::Scene(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask) {
+  _width = pregen.size();
+  _height = pregen[0].size();
+  _space = Objects(_width, vector<GameObject *>(_height));
+  _dist_width = uniform_int_distribution<int>(0, _width - 1);
+  _dist_height = uniform_int_distribution<int>(0, _height - 1);
+  _data = Char3d(_width, vector<vector<char>>(_height, vector<char>(2)));
+  _relationship = "";
+  generate_from_saved(pregen, objective, relationship, obj_coords, feature_mask);
 }
 
 LOCATION *Scene::findObject(GameObject *object) {
@@ -163,7 +174,20 @@ void Scene::set_string() {
  *
  */
 
-void Scene::refresh() { generate_from_array(_init); }
+void Scene::refresh() {
+  Int2d feature_mask;
+  for (int i=0; i< _target_features.size(); i++) {
+    vector<int> temp;
+    for (int j=0; j < _target_features[0].size(); j++) {
+      if (_target_features[i][j] == -1)
+        temp.push_back(0);
+      else
+        temp.push_back(1);
+    }
+    feature_mask.push_back(temp);
+  }
+  generate_from_saved(_init_data, objective(), relationship(), _init_obj_coords, feature_mask);
+}
 
 void Scene::flush() {
   // Clean out the _space and _data arrays
@@ -176,12 +200,13 @@ void Scene::flush() {
   }
   // Clean out _blocks, _player, _valid, _success, _realtionship
   _blocks.clear();
-  _init.clear();
+  _init_data.clear();
   _targets.clear();
   _target_features.clear();
   _valid.clear();
   _success = false;
   _relationship = "";
+  _objective = "";
 }
 
 /**
@@ -287,8 +312,8 @@ bool Scene::verify() {
   return success;
 }
 
-void Scene::targets(Int2d coords, Int2d feature_matrix) {
-  if (coords.size() != 2 || coords[0].size() != 2 || feature_matrix.size() != 2 || feature_matrix[0].size() != 2) {
+void Scene::targets(Int2d coords, Int2d feature_mask) {
+  if (coords.size() != 2 || coords[0].size() != 2 || feature_mask.size() != 2 || feature_mask[0].size() != 2) {
     throw invalid_argument("Must be a 2-D array of size 2x2.");
   }
   int x1, y1;
@@ -309,15 +334,17 @@ void Scene::targets(Int2d coords, Int2d feature_matrix) {
   _valid.clear();
   _target_features.clear();
   _targets.push_back(dynamic_cast<Block*>(get_object(x1, y1)));
+  _init_obj_coords.push_back({x1, y1});
   _targets.push_back(dynamic_cast<Block*>(get_object(x2, y2)));
+  _init_obj_coords.push_back({x2, y2});
   for (int i=0; i < 2; i++ ) {
     vector<int> temp;
-    if (feature_matrix[i][0] == 1)
+    if (feature_mask[i][0] == 1)
       temp.push_back(_targets[i]->color());
     else
       temp.push_back(-1);
 
-    if (feature_matrix[i][1] == 1)
+    if (feature_mask[i][1] == 1)
       temp.push_back(_targets[i]->number());
     else
       temp.push_back(-1);

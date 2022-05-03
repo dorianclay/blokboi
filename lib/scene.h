@@ -22,20 +22,24 @@ typedef std::vector<std::vector<int>> Int2d;
 
 
 class Scene {
-protected:
+private:
   Blocks _blocks;
   Player *_player;
   unsigned _height = 10;
   unsigned _width = 10;
   Objects _space;
   Char3d _data;
-  Char3d _init;
   Blocks _targets;
   Int2d _target_features;
   std::vector<Blocks> _valid;
   bool _success = false;
   std::string _relationship;
   std::string _objective;
+
+  Char3d _init_data;
+  Int2d _init_obj_coords;
+
+
   static inline std::vector<std::string> relations = {
     "above",
     "below",
@@ -74,11 +78,11 @@ public:
   Scene();
   Scene(int x, int y);
   Scene(Char3d pregen);
-  Scene(Char3d pregen, std::string objective, Int2d obj_coords);
+  Scene(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask);
 
   // getters
-  int height() { return _height; }
-  int width() { return _width; }
+  int height() const { return _height; }
+  int width() const { return _width; }
   GameObject *get_object(int x, int y) const ;
   int get_highest_obj_height(int col) const;
   int get_highest_block_height(int col) const;
@@ -90,12 +94,11 @@ public:
   std::string relationship() const { return _relationship; }
   std::string objective() const { return _objective; }
   bool success() const { return _success; }
-  char *data() { return &_data[0][0][0]; }
-  Char3d array() { return _data; }
+  Char3d array() const { return _data; }
   std::string representation();
 
   // setters
-  void targets(Int2d coords, Int2d feature_matrix);
+  void targets(Int2d coords, Int2d feature_mask);
   void relate(std::string relationship) { _relationship = relationship; }
   void objective(std::string objective) { _objective = objective; }
 
@@ -105,6 +108,7 @@ public:
   void generate_heuristical();
   void generate_easy();
   void generate_from_array(Char3d pregen);
+  void generate_from_saved(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask);
   void refresh();
   bool verify();
   void move(GameObject *object, int dx, int dy);

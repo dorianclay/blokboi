@@ -190,7 +190,10 @@ void Scene::generate_heuristical() {
     _targets.push_back(_blocks.at(target1));
     _targets.push_back(_blocks.at(target2));
     _relationship = relations.at(Random::get(0, (int) relations.size() - 1));
+    // For each of the two targets...
     for (int i=0; i < 2; i++) {
+      // Save their starting location
+      _init_obj_coords.push_back({_targets[i]->location().x, _targets[i]->location().y});
       vector<int> temp;
       // Randomly decide with 50/50 prob whether to select the color and/or number as the relevant feature
       // Use color
@@ -226,7 +229,7 @@ void Scene::generate_heuristical() {
     throw runtime_error("Could not generate a good scene in " + to_string(attempts) + " tries.");
   }
 
-  _init = _data;
+  _init_data = _data;
 }
 
 /**
@@ -291,7 +294,7 @@ void Scene::generate_easy() {
                _space[player_col][player_height]->kind(),
                _space[player_col][player_height]->number());
 
-  _init = _data;
+  _init_data = _data;
 }
 
 /**
@@ -327,7 +330,23 @@ void Scene::generate_from_array(Char3d pregen) {
     }
   }
 
-  _init = _data;
+  _init_data = _data;
+}
+
+/**
+ * @brief Re-generate a saved scene.
+ *
+ * @param pregen The Char3d array representing a scene.
+ * @param objective The objective string.
+ * @param relationship The objective block a:b relationship.
+ * @param obj_coords The coordinates of the initial two target blocks.
+ * @param feature_mask The relevant features from the target blocks.
+ */
+void Scene::generate_from_saved(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
+  generate_from_array(pregen);
+  targets(obj_coords, feature_mask);
+  Scene::objective(objective);
+  relate(relationship);
 }
 
 void Scene::generate_modular() {
@@ -387,7 +406,7 @@ void Scene::generate_modular() {
 
   // TODO: generate usable blocks
 
-  _init = _data;
+  _init_data = _data;
 }
 
 

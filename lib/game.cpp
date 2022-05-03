@@ -38,7 +38,7 @@ Game::Game(Char3d pregen, string objective) {
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
-Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_matrix) {
+Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    loguru::Verbosity_9);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -46,11 +46,8 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
   loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
   LOG_F(INFO, "Building game from pre-generated map.");
 
-  _scene = new Scene(pregen);
+  _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  _scene->targets(obj_coords, feature_matrix);
-  _scene->objective(objective);
-  _scene->relate(relationship);
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 

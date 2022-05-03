@@ -1,1 +1,1 @@
-{"id": "stacking2", "objective": "Put the purple block below the red block.", "coordinates": [[2, 4], [15, 4]], "relationship": "below", "features": [[1, 0], [1, 0]], "ground truth": ""}
+{"id": "stacking2", "objective": "Put the purple block below the red block.", "coordinates": [[2, 4], [14, 4]], "relationship": "below", "features": [[1, 0], [1, 0]], "ground truth": ""}
