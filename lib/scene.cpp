@@ -191,6 +191,7 @@ void Scene::flush() {
  * @return false if not achieved.
  */
 bool Scene::verify() {
+  bool success = false;
   // Check the first objective's valid options
   for (int i=0; i<_valid[0].size(); i++) {
     // Against every second objective's valid options
@@ -206,68 +207,68 @@ bool Scene::verify() {
         // _target[0] on top of _target[1]
         if (ax == bx) {
           if (ay == by + 1){
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else if (_relationship == "below" || _relationship == "under" || _relationship == "beneath") {
         // _target[0] under _target[1]
         if (ax == bx) {
           if (ay == by - 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else if (_relationship == "right") {
         // target[0] directly to the right of target[1]
         if (ay == by) {
           if (ax == bx + 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else if (_relationship == "left") {
         // target[0] directly to the left of target[1]
         if (ay == by) {
           if (ax == bx - 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else if (_relationship == "side") {
         // target[0] directly beside target[1]
         if (ay == by) {
           if (ax == bx + 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
           if (ax == bx - 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else if (_relationship == "off") {
         // target[0] not above target[1]
         if (ax != bx) {
-          _success = true;
-          return true;
+          success = true;
+          break;
         }
         if (ax == bx) {
           if (ay < by) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else if (_relationship == "diagonal") {
         // target[0] at an adjacent diagonal to target[1]
         if (ax == bx - 1 || ax == bx + 1) {
           if (ay == by + 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
           if (ay == by - 1) {
-            _success = true;
-            return true;
+            success = true;
+            break;
           }
         }
       } else {
@@ -279,7 +280,11 @@ bool Scene::verify() {
 
   // If we matched one of the handled relationships but weren't true,
   // then the goal state has not been achieved.
-  return false;
+  _success = success;
+  if (success) {
+    LOG_F(WARNING, "Success! Completed objective.");
+  }
+  return success;
 }
 
 void Scene::targets(Int2d coords, Int2d feature_matrix) {
