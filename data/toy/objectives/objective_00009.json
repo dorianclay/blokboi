@@ -1,0 +1,1 @@
+{"id": "stacking9", "objective": "Put the purple block to the side of the red block.", "coordinates": [[2, 4], [15, 4]], "relationship": "side", "features": [[1, 0], [1, 0]], "ground truth": ""}

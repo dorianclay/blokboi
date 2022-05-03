@@ -8,8 +8,8 @@ repos:
         exclude: .*\.log
     -   id: trailing-whitespace
         exclude: .*\.log
-    -   id: pretty-format-json
-        args: ['--autofix']
+    # -   id: pretty-format-json
+    #     args: ['--autofix']
 -   repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:

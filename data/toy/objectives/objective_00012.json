@@ -1,0 +1,1 @@
+{"id": "sparse", "objective": "Put the green block below the red block.", "coordinates": [[10, 2], [0, 2]], "relationship": "below", "features": [[1, 0], [1, 0]], "ground truth": ""}
