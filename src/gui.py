@@ -4,8 +4,9 @@ from pathlib import Path
 from PIL import ImageTk
 import logging
 
-from src.image_gen import ImageGen
 from blokboi import Game
+from src.image_gen import ImageGen
+from src.map_loader import MapLoader
 
 LEFT = -1
 RIGHT = 1
@@ -93,11 +94,12 @@ class ButtonFrame(ttk.Frame):
         self.__create_widgets()
 
     def __create_widgets(self):
-        ttk.Button(self, text="reset", command=self.reset_clicked).grid(column=0, row=0)
+        ttk.Button(self, text="reset", command=self.reset_clicked).grid(column=1, row=0)
         ttk.Button(self, text="new scene", command=self.new_scene_clicked).grid(
-            column=1, row=0
+            column=2, row=0
         )
-        ttk.Button(self, text="step", command=self.step_heuristic).grid(column=2, row=0)
+        ttk.Button(self, text="step", command=self.step_heuristic).grid(column=3, row=0)
+        ttk.Button(self, text="save", command=self.save_scene).grid(column=0, row=0)
 
         for widget in self.winfo_children():
             widget.grid(padx=16, pady=0)
@@ -120,6 +122,11 @@ class ButtonFrame(ttk.Frame):
         self.logger.debug(f"    Got success: {'true' if success == 1 else 'false'}")
         self._container.render()
         self._container.label_frame.update_goal()
+
+    def save_scene(self):
+        self.logger.debug("Saving scene")
+        self._container._maploader.save(self._container._game_instance)
+        self.logger.info("Scene saved succesfully.")
 
 
 class LabelFrame(ttk.Frame):
@@ -152,6 +159,7 @@ class App(tk.Tk):
         *,
         scale=2,
         assetpath=Path("assets"),
+        datapath=Path("data"),
     ):
         super().__init__()
         self.logger = logging.getLogger("blokboi.app")
@@ -161,6 +169,8 @@ class App(tk.Tk):
         self._scenewidth = width
         self._sceneheight = height
         self._assetpath = assetpath
+        self._datapath = datapath
+        self._maploader = MapLoader(datapath=datapath / "mechanical")
 
         self.title("Blokboi")
         self.tk.call(

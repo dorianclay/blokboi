@@ -94,7 +94,10 @@ public:
   std::string relationship() const { return _relationship; }
   std::string objective() const { return _objective; }
   bool success() const { return _success; }
+  const Int2d init_coords() const { return _init_obj_coords; }
+  const Int2d feature_mask() const;
   Char3d array() const { return _data; }
+  Char3d init_data() const { return _init_data; }
   std::string representation();
 
   // setters

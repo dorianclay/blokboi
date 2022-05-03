@@ -37,36 +37,38 @@ class ImageGen:
 
     _skycolor = (90, 192, 236)
 
-    def make_image_from_str(mapstring: str, path: Path, scale: int = 1) -> None:
+    def make_image_from_str(scene, path, scale=1) -> None:
         """
         Generates an image from a string representation
 
         ### Parameters
-        `mapstring : str`:
-            The string representation of a Blokboi map.
+        `scene : Char3d array`:
+            The Blokboi Char3d-representation of a Blokboi map.
         `path : Path`:
             The path to save the image to.
+        `scale : int`:
+            The scale to save images at.
         """
         logger = logging.getLogger("image_gen")
-        lines = mapstring.split("\n")
-        width = len(lines[0]) * 16
-        height = len(lines) * 16
+        unit = 16 * scale
+        width = len(scene) * unit
+        height = len(scene[0]) * unit
         newImage = Image.new("RGB", (width, height), ImageGen._skycolor)
         count_r = 0
-        for row in lines:
+        for row in scene:
             count_c = 0
             for col in row:
                 # TODO: update this key for an unnumbered block
-                region = assets[ImageGen.get_image_path([col, -1], scale)].crop(
-                    (0, 0, 16, 16)
+                region = assets[ImageGen.get_image_path(col, scale)].crop(
+                    (0, 0, unit, unit)
                 )
                 newImage.paste(
                     region,
                     (
-                        count_c * 16,
-                        count_r * 16,
-                        (count_c + 1) * 16,
-                        (count_r + 1) * 16,
+                        count_r * unit,
+                        height - (count_c + 1) * unit,
+                        # (count_c + 1) * unit,
+                        # (count_r + 1) * unit,
                     ),
                     mask=region,
                 )
