@@ -110,7 +110,7 @@ def main(**kwargs):
         {
             "id": "demo",
             "objective": "Put the blue block on top of the 9 block.",
-            "coordinates": [[7, 1], [14, 4]],
+            "coordinates": [[7, 1], [19, 4]],
             "relationship": "on top",
             "features": [[1, 0], [0, 1]],
         },

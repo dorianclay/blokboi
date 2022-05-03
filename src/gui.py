@@ -111,6 +111,7 @@ class ButtonFrame(ttk.Frame):
         self.logger.debug("New Scene clicked")
         self._container._game_instance.newGame()
         self._container.render()
+        self._container.label_frame.update_goal()
 
     def step_heuristic(self):
         self.logger.debug("Stepping heurisitic")
@@ -129,12 +130,15 @@ class LabelFrame(ttk.Frame):
         self.__create_widgets()
 
     def __create_widgets(self):
-        self.update()
+        self.update_goal()
         self.label = ttk.Label(self, textvariable=self.goal)
         self.label.pack()
 
-    def update(self):
+    def update_goal(self):
         self.goal.set("Goal: " + self._container._game_instance.objective())
+
+    def success(self):
+        self.goal.set("SUCCESS!!")
 
 
 class App(tk.Tk):
@@ -196,6 +200,10 @@ class App(tk.Tk):
         self.label_frame = LabelFrame(self)
         self.label_frame.grid(row=0)
 
+    def __check_success(self):
+        if self._game_instance.success():
+            self.label_frame.success()
+
     def __bindings(self):
         self.bind("<Up>", self.__key_up)
         self.bind("<Left>", self.__key_left)
@@ -208,7 +216,7 @@ class App(tk.Tk):
 
     def render(self):
         self.canvas_frame.render()
-        self.label_frame.update()
+        self.__check_success()
         self.update()
 
     def __key_right(self, event):
