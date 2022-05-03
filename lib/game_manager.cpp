@@ -44,8 +44,6 @@ void execute_demo(Game &demo) {
   demo.move(RIGHT);
   demo.move(RIGHT);
   demo.move(RIGHT);
-  debug_break = true;
-  cout << demo.representation() << endl;
   demo.toggle_hold();
 }
 
@@ -63,13 +61,9 @@ int main(int argc, char *argv[]) {
 
   cout << test.representation() << endl;
 
-  // test.move(1);
-  // test.move(-1);
-  // test.toggle_hold();
-  // test.move(1);
-  // test.move(1);
-  // cout << test.representation() << endl;
+  test.resetGame();
 
-  // test.resetGame();
-  // cout << test.representation() << endl;
+  execute_demo(test);
+
+  cout << test.representation() << endl;
 }

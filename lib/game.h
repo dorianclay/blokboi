@@ -13,7 +13,7 @@ private:
 public:
   Game();
   Game(Char3d pregen, std::string objective="");
-  Game(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_matrix);
+  Game(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask);
   void newGame();
   void resetGame();
   int run_heuristic();

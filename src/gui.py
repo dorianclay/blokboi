@@ -106,6 +106,7 @@ class ButtonFrame(ttk.Frame):
         self.logger.debug("Reset clicked")
         self._container._game_instance.resetGame()
         self._container.render()
+        self._container.label_frame.update_goal()
 
     def new_scene_clicked(self):
         self.logger.debug("New Scene clicked")
@@ -118,6 +119,7 @@ class ButtonFrame(ttk.Frame):
         success = self._container._game_instance.run_heuristic()
         self.logger.debug(f"    Got success: {'true' if success == 1 else 'false'}")
         self._container.render()
+        self._container.label_frame.update_goal()
 
 
 class LabelFrame(ttk.Frame):
