@@ -23,10 +23,13 @@ option(VERBOSE_WARN "Show detailed warning information" ON)
 
 # Create the module or executable we'll be using
 option(PYTHON_EXT "Use Pybind11 to generate Python extension module" ON)
+option(PY_GAME_OBJ "Geneate a Python extension module for game objects" OFF)
 if(PYTHON_EXT)
   find_package(pybind11 CONFIG)
   pybind11_add_module(blokboi lib/cgame.cpp ${SOURCE_FILES})
-  pybind11_add_module(game_object lib/cgame_object.cpp ${SOURCE_FILES})
+  if(PY_GAME_OBJ)
+    pybind11_add_module(game_object lib/cgame_object.cpp ${SOURCE_FILES})
+  endif()
 else()
   add_executable(blokboi lib/game_manager.cpp ${SOURCE_FILES})
   install(TARGETS blokboi DESTINATION bin)
@@ -58,9 +61,11 @@ target_link_libraries(blokboi PUBLIC
                       ${CMAKE_THREAD_LIBS_INIT}
                       ${CMAKE_DL_LIBS})
 if(PYTHON_EXT)
-  target_link_libraries(game_object PUBLIC
-                        Loguru
-                        effolkronium_random
-                        ${CMAKE_THREAD_LIBS_INIT}
-                        ${CMAKE_DL_LIBS})
+  if(PY_GAME_OBJ)
+    target_link_libraries(game_object PUBLIC
+                          Loguru
+                          effolkronium_random
+                          ${CMAKE_THREAD_LIBS_INIT}
+                          ${CMAKE_DL_LIBS})
+  endif()
 endif()
