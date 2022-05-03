@@ -51,6 +51,12 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
   DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
 }
 
+bool Game::success() const {
+  bool success = _scene->success();
+  DLOG_IF_F(1, success, "%s", steps_taken().c_str());
+  return success;
+}
+
 
 void Game::newGame() {
   LOG_F(INFO, "Making new game.");
@@ -76,10 +82,14 @@ int Game::move(int direction) {
     throw invalid_argument("Direction must be -1 (left) or 1 (right).");
   }
 
+  _sstream << ((direction == LEFT) ? "l" : "r");
   return _player_controller->move(direction);
 }
 
-int Game::jump() { return _player_controller->jump(); }
+int Game::jump() {
+  _sstream << "j";
+  return _player_controller->jump();
+}
 
 int Game::toggle_hold() {
   if (_player_controller->holding())
@@ -88,13 +98,15 @@ int Game::toggle_hold() {
     return pick_up();
 }
 
-int Game::pick_up() { return _player_controller->pick_up(); }
+int Game::pick_up() {
+  _sstream << "p";
+  return _player_controller->pick_up();
+}
 
-int Game::put_down() { return _player_controller->put_down(); }
-
-string Game::representation() { return _scene->representation(); }
-
-string Game::objective() { return _scene->objective(); }
+int Game::put_down() {
+  _sstream << "p";
+  return _player_controller->put_down();
+}
 
 /**
  * @brief Walk to a column.
