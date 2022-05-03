@@ -62,7 +62,7 @@
       "console": "integratedTerminal",
       "stopOnEntry": true,
       "args": [
-        "--gui"
+        "gui", "-ln", "demo"
       ]
     },
     {

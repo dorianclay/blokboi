@@ -78,7 +78,7 @@ def gui(**kwargs):
     scale = kwargs["scale"]
     if kwargs["loadn"]:
         loader = MapLoader()
-        scene, obj, relation, coords, features = loader.loadn(kwargs["loadn"])
+        scene, obj, relation, coords, features, truth = loader.loadn(kwargs["loadn"])
         app = App(
             game_instance=Game(scene, obj, relation, coords, features),
             width=size[1],

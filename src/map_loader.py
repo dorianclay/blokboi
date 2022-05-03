@@ -26,17 +26,21 @@ class MapLoader:
 
         ### Returns
         `tuple`
-            (scene, objective, coordinates, relationship)
+            (scene, objective, relationship, coordinates, ground truth)
         """
         self.logger.info(f"Loading map {map_key}.")
-        scene = np.load(self.datapath / f"map_{map_key}.npy")
-        with open(self.datapath / f"map_{map_key}.json", "r") as jsonfile:
-            obj_dict = json.load(jsonfile)
+        scene = np.load(self.datapath / "scenes" / f"scene_{map_key:05d}.npy")
+        with open(
+            self.datapath / "objectives" / f"objective_{map_key:05d}.json", "r"
+        ) as jsonfile:
+            objective = json.load(jsonfile)
         return (
             scene,
-            obj_dict["objective"],
-            obj_dict["coordinates"],
-            obj_dict["relationship"],
+            objective["objective"],
+            objective["relationship"],
+            objective["coordinates"],
+            objective["features"],
+            objective["ground truth"],
         )
 
     def loadn(self, map_name: str) -> tuple:
@@ -49,23 +53,29 @@ class MapLoader:
 
         ### Returns
         `tuple`
-            (scene, objective, coordinates, relationship)
+            (scene, objective, relationship, coordinates, ground truth)
         """
         self.logger.info(f"Loading map {map_name}.")
-        scene = np.load(self.datapath / "toy" / "scenes.npy")
-        with open(self.datapath / "toy" / "scenes.json", "r") as jsonfile:
-            objective_arr = json.load(jsonfile)
-        count = 0
-        for item in objective_arr:
-            if item["id"] == map_name:
-                break
-            count += 1
 
-        obj_dict = objective_arr[count]
+        scenenum = -1
+        paths = Path(self.datapath / "toy").glob("**/*.json")
+        for filepath in paths:
+            with open(filepath, "r") as jsonfile:
+                obj_dict = json.load(jsonfile)
+                if obj_dict["id"] == map_name:
+                    objective = obj_dict
+                    scenenum = int(filepath.stem.split("_")[1])
+                    scene = np.load(
+                        self.datapath / "toy/scenes" / f"scene_{scenenum:05d}.npy"
+                    )
+                    break
+            scenenum += 1
+
         return (
-            scene[count],
-            obj_dict["objective"],
-            obj_dict["relationship"],
-            obj_dict["coordinates"],
-            obj_dict["features"],
+            scene,
+            objective["objective"],
+            objective["relationship"],
+            objective["coordinates"],
+            objective["features"],
+            objective["ground truth"],
         )

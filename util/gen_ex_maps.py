@@ -106,13 +106,14 @@ def main(**kwargs):
         # fmt: on
     ]
 
-    obj_dict = [
+    objectives = [
         {
             "id": "demo",
             "objective": "Put the blue block on top of the 9 block.",
             "coordinates": [[7, 1], [19, 4]],
             "relationship": "on top",
             "features": [[1, 0], [0, 1]],
+            "ground truth": "",
         },
         {
             "id": "stacking1",
@@ -120,6 +121,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "above",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking2",
@@ -127,6 +129,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "below",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking3",
@@ -134,6 +137,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "under",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking4",
@@ -141,6 +145,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "on top",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking5",
@@ -148,6 +153,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "beneath",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking6",
@@ -161,6 +167,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "left",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking8",
@@ -168,6 +175,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "off",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking9",
@@ -175,6 +183,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "side",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "stacking10",
@@ -182,6 +191,7 @@ def main(**kwargs):
             "coordinates": [[2, 4], [15, 4]],
             "relationship": "diagonal",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "crates",
@@ -189,6 +199,7 @@ def main(**kwargs):
             "coordinates": [[16, 7], [6, 8]],
             "relationship": "side",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
         {
             "id": "sparse",
@@ -196,16 +207,17 @@ def main(**kwargs):
             "coordinates": [[10, 2], [0, 2]],
             "relationship": "below",
             "features": [[1, 0], [1, 0]],
+            "ground truth": "",
         },
     ]
 
-    savedir = Path(kwargs["path"]) / "toy"
+    jsondir = Path(kwargs["path"]) / "toy" / "objectives"
+    npydir = Path(kwargs["path"]) / "toy" / "scenes"
 
-    if not os.path.exists(savedir):
-        os.makedirs(savedir)
-
-    with open(savedir / "scenes.json", "w") as file:
-        json.dump(obj_dict, file)
+    if not os.path.exists(jsondir):
+        os.makedirs(jsondir)
+    if not os.path.exists(npydir):
+        os.makedirs(npydir)
 
     maps = [
         demomap,
@@ -223,8 +235,12 @@ def main(**kwargs):
         sparse,
     ]
 
-    maparr = np.array(maps)
-    np.save(savedir / "scenes.npy", maparr)
+    for scene in range(len(objectives)):
+        with open(jsondir / f"objective_{scene:05d}.json", "w") as file:
+            json.dump(objectives[scene], file)
+
+        maparr = np.array(maps[scene])
+        np.save(npydir / f"scene_{scene:05d}.npy", maparr)
 
 
 if __name__ == "__main__":
