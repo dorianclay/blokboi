@@ -203,8 +203,8 @@ class App(tk.Tk):
         self.bind("<Right>", self.__key_right)
         self.bind("w", self.__key_up)
         self.bind("a", self.__key_left)
-        self.bind("s", self.__key_right)
-        self.bind("d", self.__key_down)
+        self.bind("s", self.__key_down)
+        self.bind("d", self.__key_right)
 
     def render(self):
         self.canvas_frame.render()
