@@ -175,18 +175,7 @@ void Scene::set_string() {
  */
 
 void Scene::refresh() {
-  Int2d feature_mask;
-  for (int i=0; i< _target_features.size(); i++) {
-    vector<int> temp;
-    for (int j=0; j < _target_features[0].size(); j++) {
-      if (_target_features[i][j] == -1)
-        temp.push_back(0);
-      else
-        temp.push_back(1);
-    }
-    feature_mask.push_back(temp);
-  }
-  generate_from_saved(_init_data, objective(), relationship(), _init_obj_coords, feature_mask);
+  generate_from_saved(_init_data, objective(), relationship(), init_coords(), feature_mask());
 }
 
 void Scene::flush() {
@@ -435,6 +424,21 @@ int Scene::furthest_block_available(int direction) const {
 
 const Block *Scene::targets(int blocknum) const {
   return _targets.at(blocknum);
+}
+
+const Int2d Scene::feature_mask() const {
+  Int2d feature_mask;
+  for (int i=0; i< _target_features.size(); i++) {
+    vector<int> temp;
+    for (int j=0; j < _target_features[0].size(); j++) {
+      if (_target_features[i][j] == -1)
+        temp.push_back(0);
+      else
+        temp.push_back(1);
+    }
+    feature_mask.push_back(temp);
+  }
+  return feature_mask;
 }
 
 void Scene::move(GameObject *object, int dx, int dy) {

@@ -51,7 +51,7 @@ def generate_rand_scenes(**kwargs):  # logger, num, outdir=Path("data")):
         "blokboiImg", detail=kwargs["detail"], suppress_datetime=False, console=True
     )
     logger.info("Beginning generating random scenes...")
-    outdir = kwargs["path"]
+    outdir = Path(kwargs["path"])
 
     found = Path(outdir).glob("**/scene_*.png")
     if found != None:
@@ -76,14 +76,33 @@ def gui(**kwargs):
     logger.debug("Running game app...")
     size = (15, 20)
     scale = kwargs["scale"]
+    loader = MapLoader()
     if kwargs["loadn"]:
-        loader = MapLoader()
         scene, obj, relation, coords, features, truth = loader.loadn(kwargs["loadn"])
         app = App(
             game_instance=Game(scene, obj, relation, coords, features),
             width=size[1],
             height=size[0],
             scale=scale,
+            datapath=Path(kwargs["path"]),
+        )
+    elif kwargs["loadm"]:
+        scene, obj, relation, coords, features, truth = loader.loadm(kwargs["loadm"])
+        app = App(
+            game_instance=Game(scene, obj, relation, coords, features),
+            width=size[1],
+            height=size[0],
+            scale=scale,
+            datapath=Path(kwargs["path"]),
+        )
+    elif kwargs["load"]:
+        scene, obj, relation, coords, features, truth = loader.load(kwargs["load"])
+        app = App(
+            game_instance=Game(scene, obj, relation, coords, features),
+            width=size[1],
+            height=size[0],
+            scale=scale,
+            datapath=Path(kwargs["path"]),
         )
     else:
         app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
@@ -116,7 +135,14 @@ if __name__ == "__main__":
         const="demo",
         type=str,
         metavar="NAME",
-        help="Load the demo scene NAME.",
+        help="Load a toy example scene NAME.",
+    )
+    gui_loadgroup.add_argument(
+        "-lm",
+        "--loadm",
+        type=int,
+        metavar="NUM",
+        help="Load the mechanically-generated scene NUM.",
     )
     gui_loadgroup.add_argument(
         "-l",
@@ -130,8 +156,8 @@ if __name__ == "__main__":
     parser_gui.add_argument(
         "--path",
         type=str,
-        default="assets",
-        help="Path to the assets directory (default: assets).",
+        default="data",
+        help="Path to the data directory (default: data).",
     )
     parser_gui.add_argument(
         "--detail",
