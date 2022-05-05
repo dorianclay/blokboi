@@ -10,6 +10,25 @@ using namespace std;
 #define CHECKSTEPS 10000
 #define WALKATTEMPTS 100
 
+void report(Game &game) {
+  DLOG_F(INFO, "Map generated:");
+  DLOG_F(INFO, " - Targets at (%d, %d) and (%d, %d).",
+      game.scene()->targets(0)->location().x,
+      game.scene()->targets(0)->location().y,
+      game.scene()->targets(1)->location().x,
+      game.scene()->targets(1)->location().y
+  );
+  Int2d temp = game.scene()->feature_mask();
+  DLOG_F(INFO, " - Features: [%c, %c] and [%c, %c].",
+      (temp[0][0] == 0) ? '0' : game.scene()->targets(0)->color(),
+      (temp[0][1] == 0) ? '0' : game.scene()->targets(0)->number(),
+      (temp[1][0] == 0) ? '0' : game.scene()->targets(1)->color(),
+      (temp[1][1] == 0) ? '0' : game.scene()->targets(1)->number()
+  );
+  DLOG_F(INFO, "\n%s", game.representation().c_str());
+}
+
+
 Game::Game() {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    loguru::Verbosity_4);
@@ -21,7 +40,8 @@ Game::Game() {
   _scene = new Scene(20, 15);
   _scene->generate();
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  report(*this);
 }
 
 Game::Game(Char3d pregen, string objective) {
@@ -35,7 +55,8 @@ Game::Game(Char3d pregen, string objective) {
   _scene = new Scene(pregen);
   _player_controller = new PlayerController(_scene, _scene->get_player());
   _scene->objective(objective);
-  DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  report(*this);
 }
 
 Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
@@ -48,7 +69,8 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
 
   _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  report(*this);
 }
 
 bool Game::success() const {
@@ -65,7 +87,8 @@ void Game::newGame() {
   _scene = new Scene(20, 15);
   _scene->generate();
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  DLOG_F(INFO, "New map generated:\n%s", _scene->representation().c_str());
+  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
+  report(*this);
 }
 
 void Game::resetGame() {
