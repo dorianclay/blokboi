@@ -210,9 +210,9 @@ void Scene::generate_heuristical() {
       // If we didn't get either feature, force a decision between one
       if (temp[0] == -1 && temp[1] == -1) {
         if (Random::get<bool>())
-          temp.push_back(_targets[i]->color());
+          temp[0] = _targets[i]->color();
         else
-          temp.push_back(_targets[i]->number());
+          temp[1] = _targets[i]->number();
       }
       _target_features.push_back(temp);
     }
