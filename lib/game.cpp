@@ -215,8 +215,8 @@ int get_to_col(Game &game, int col, int &steps) {
           walk_to(game, game.player_location().x, steps);
           game.toggle_hold();
           steps++;
-        // If it's a cliff, we're already holding a block, so just drop it
-        } else if (game.player_location().y - 1 - game.scene()->get_highest_obj_height(game.player_location().x - dir) == 1) {
+        // Then it's a cliff and we're already holding a block, so just drop it
+        } else {
           game.toggle_hold();
           steps++;
         }
@@ -396,6 +396,9 @@ int Game::run_heuristic() {
       try {
         // Randomly attempt to put the first block either to the right or left of the second
         int side = Random::get<bool>()? 1 : -1;
+        // If that side is out of bounds, use the other
+        if (_scene->targets(1)->location().x + side < 0 || _scene->targets(1)->location().x + side >= width())
+          side = -side;
         bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
         // Put the second block on the first one
         bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x, true, steps);
@@ -407,8 +410,35 @@ int Game::run_heuristic() {
       // TODO: t[0] to the right of t[1]
     } else if (relationship == "left") {
       // TODO: t[0] to the left of t[1]
+      try {
+        // Randomly decide whether to move first or second block
+        int block = Random::get<int>(0,1);
+        if (block == 0) {
+          if (_scene->targets(1)->location().x - 1 < 0)
+            continue;
+          bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x - 1, true, steps);
+        } else {
+          if (_scene->targets(0)->location().x + 1 < 0)
+            continue;
+          bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x + 1, true, steps);
+        }
+      }
+      catch (exception& e) {
+        DLOG_F(ERROR, "Caught exception: %s", e.what());
+      }
     } else if (relationship == "side") {
-      // TODO: t[0] directly beside t[1]
+      // t[0] directly beside t[1]
+      try {
+        // Randomly attempt to put the first block either to the right or left of the second
+        int side = Random::get<bool>()? 1 : -1;
+        // If that side is out of bounds, use the other
+        if (_scene->targets(1)->location().x + side < 0 || _scene->targets(1)->location().x + side >= width())
+          side = -side;
+        bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
+      }
+      catch (exception& e) {
+        DLOG_F(ERROR, "Caught exception: %s", e.what());
+      }
     } else if (relationship == "off") {
       // TODO: t[0] not above t[1]
     } else if (relationship == "diagonal") {
@@ -423,5 +453,6 @@ int Game::run_heuristic() {
     }
   }
 
+  LOG_F(WARNING, "Did not achieve objective in less than %d steps.", CHECKSTEPS);
   return -1;
 }
