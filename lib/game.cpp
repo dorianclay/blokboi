@@ -470,7 +470,22 @@ int Game::run_heuristic() {
       }
     } else if (relationship == "diagonal") {
       // t[0] at an adjacent diagonal to t[1]
-
+      // Randomly pick a side
+      int side = Random::get<bool>()? 1 : -1;
+      const Block *stat = dynamic_cast<const Block*>(_scene->targets(1));
+      const Block *move = dynamic_cast<const Block*>(_scene->targets(0));
+      // See if one of the blocks has blocks next to it
+      if (_scene->targets(0)->location().y <= _scene->get_highest_block_height(_scene->targets(0)->location().x) + 1 ||
+          _scene->targets(0)->location().y <= _scene->get_highest_block_height(_scene->targets(0)->location().x) - 1) {
+            stat = dynamic_cast<const Block*>(_scene->targets(0));
+            move = dynamic_cast<const Block*>(_scene->targets(1));
+          }
+      if (_scene->targets(1)->location().y <= _scene->get_highest_block_height(_scene->targets(1)->location().x) + 1 ||
+          _scene->targets(1)->location().y <= _scene->get_highest_block_height(_scene->targets(1)->location().x) - 1) {
+            stat = dynamic_cast<const Block*>(_scene->targets(1));
+            move = dynamic_cast<const Block*>(_scene->targets(0));
+          }
+      bring_to(*this, *move, stat->location().x + side, true, steps);
     } else {
       LOG_F(INFO, "Handling target relationship '%s' is undefined.", relationship.c_str());
       throw invalid_argument("I don't know how to handle the target relationship.");
