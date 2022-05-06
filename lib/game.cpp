@@ -310,7 +310,11 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
   int dir = game.player_location().x < block.location().x ? 1 : -1;
   int success = 1;
 
+  // Clear a path to the column
+  success = get_to_col(game, col, steps);
+
   // See if we can access the desired block from player-side
+  dir = game.player_location().x < block.location().x ? 1 : -1;
   if (block.location().y > game.scene()->get_highest_obj_height(block.location().x - dir)) {
     success = get_to_col(game, block.location().x - dir, steps);
   // If not, access the block from the other direction
