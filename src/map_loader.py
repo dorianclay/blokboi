@@ -111,6 +111,23 @@ class MapLoader:
             objective["ground truth"],
         )
 
+    def list(self) -> str:
+        """
+        List the available maps.
+
+        ### Returns
+        `str`
+        """
+        self.logger.debug("Listing available maps.")
+        available = []
+
+        paths = Path(self.datapath / "toy").glob("**/*.json")
+        for filepath in paths:
+            with open(filepath, "r") as jsonfile:
+                obj_dict = json.load(jsonfile)
+                available.append(obj_dict["id"])
+        return available
+
     def save(self, game_instance: Game) -> None:
         """
         Save the intial state of a blokboi game.

@@ -14,6 +14,7 @@ from src.gui import *
 from src.map_loader import MapLoader
 from run_tests import LocalTestRunner
 from blokboi import Game
+from src.pycolors import Colors
 
 
 def test(**kwargs):
@@ -77,36 +78,44 @@ def gui(**kwargs):
     size = (15, 20)
     scale = kwargs["scale"]
     loader = MapLoader()
-    if kwargs["loadn"]:
-        scene, obj, relation, coords, features, truth = loader.loadn(kwargs["loadn"])
-        app = App(
-            game_instance=Game(scene, obj, relation, coords, features),
-            width=size[1],
-            height=size[0],
-            scale=scale,
-            datapath=Path(kwargs["path"]),
-        )
-    elif kwargs["loadm"]:
-        scene, obj, relation, coords, features, truth = loader.loadm(kwargs["loadm"])
-        app = App(
-            game_instance=Game(scene, obj, relation, coords, features),
-            width=size[1],
-            height=size[0],
-            scale=scale,
-            datapath=Path(kwargs["path"]),
-        )
-    elif kwargs["load"]:
-        scene, obj, relation, coords, features, truth = loader.load(kwargs["load"])
-        app = App(
-            game_instance=Game(scene, obj, relation, coords, features),
-            width=size[1],
-            height=size[0],
-            scale=scale,
-            datapath=Path(kwargs["path"]),
-        )
+    if kwargs["list"]:
+        print(f"{Colors.underline}Maps available:{Colors.reset}")
+        [print(name) for name in loader.list()]
     else:
-        app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
-    app.mainloop()
+        if kwargs["loadn"]:
+            scene, obj, relation, coords, features, truth = loader.loadn(
+                kwargs["loadn"]
+            )
+            app = App(
+                game_instance=Game(scene, obj, relation, coords, features),
+                width=size[1],
+                height=size[0],
+                scale=scale,
+                datapath=Path(kwargs["path"]),
+            )
+        elif kwargs["loadm"]:
+            scene, obj, relation, coords, features, truth = loader.loadm(
+                kwargs["loadm"]
+            )
+            app = App(
+                game_instance=Game(scene, obj, relation, coords, features),
+                width=size[1],
+                height=size[0],
+                scale=scale,
+                datapath=Path(kwargs["path"]),
+            )
+        elif kwargs["load"]:
+            scene, obj, relation, coords, features, truth = loader.load(kwargs["load"])
+            app = App(
+                game_instance=Game(scene, obj, relation, coords, features),
+                width=size[1],
+                height=size[0],
+                scale=scale,
+                datapath=Path(kwargs["path"]),
+            )
+        else:
+            app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
+        app.mainloop()
 
 
 """
@@ -152,6 +161,9 @@ if __name__ == "__main__":
         type=int,
         metavar="NUM",
         help="Load the demo scene number NUM.",
+    )
+    gui_loadgroup.add_argument(
+        "--list", action="store_true", help="List the named scenes available."
     )
     parser_gui.add_argument(
         "--path",
