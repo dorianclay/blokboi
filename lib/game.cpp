@@ -1,10 +1,12 @@
 #include "game.h"
 #include "player.h"
 #include "scene.h"
+#include "effolkronium/random.hpp"
 #include <iostream>
 #include <loguru.hpp>
 #include <stdexcept>
 
+using Random = effolkronium::random_static;
 using namespace std;
 
 #define CHECKSTEPS 10000
@@ -289,7 +291,16 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
   //   Goal is to the LEFT (-1)
   int dir = game.player_location().x < block.location().x ? 1 : -1;
   int success = 1;
-  success = walk_to(game, block.location().x - dir, steps);
+
+  // See if we can access the desired block from player-side
+  if (block.location().y > game.scene()->get_highest_obj_height(block.location().x - dir)) {
+    success = walk_to(game, block.location().x - dir, steps);
+  // If not, access the block from the other direction
+  } else {
+    success = walk_to(game, block.location().x + dir, steps);
+    walk_to(game, game.player_location().x , steps);
+  }
+
   if (success == 1) {
     game.toggle_hold();
     steps++;
@@ -303,8 +314,12 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
     game.toggle_hold();
     steps++;
   }
+
+
   return success;
 }
+
+int manual = 0;
 
 /**
  * @brief Run the heuristic player
@@ -320,16 +335,24 @@ int Game::run_heuristic() {
 
   int steps = 0;
 
-  // TODO: REMOVE DEBUG COMMANDS
-  try {
-    // get_to_col(*this, width() - 1, steps);
-    bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x, true, steps);
-  }
-  catch (exception& e) {
-    DLOG_F(ERROR, "Caught exception: %s", e.what());
-  }
+  // // TODO: REMOVE DEBUG COMMANDS
+  // try {
+  //   if (manual == 0) {
+  //     // Randomly attempt to put the first block either to the right or left of the second
+  //     int side = Random::get<bool>()? 1 : -1;
+  //     bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
+  //     manual++;
+  //   } else if (manual == 1) {
+  //     // Put the second block on the first one
+  //     bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x, true, steps);
+  //     manual++;
+  //   }
+  // }
+  // catch (exception& e) {
+  //   DLOG_F(ERROR, "Caught exception: %s", e.what());
+  // }
 
-  return 1;
+  // return 1;
 
   while (steps < CHECKSTEPS) {
     // Bring the first target (_targets[0]) to the second target (_targets[1])
@@ -339,9 +362,25 @@ int Game::run_heuristic() {
 
     // Arrange the target blocks as defined by their relationship
     if (relationship == "above" || relationship == "on top") {
-      // TODO: _target[0] on _target[1]
+      // _target[0] on _target[1]
+      try {
+        bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x, true, steps);
+      }
+      catch (exception& e) {
+        DLOG_F(ERROR, "Caught exception: %s", e.what());
+      }
     } else if (relationship == "below" || relationship == "under" || relationship == "beneath") {
-      // TODO: _target[0] under _target[1]
+      // _target[0] under _target[1]
+      try {
+        // Randomly attempt to put the first block either to the right or left of the second
+        int side = Random::get<bool>()? 1 : -1;
+        bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
+        // Put the second block on the first one
+        bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x, true, steps);
+      }
+      catch (exception& e) {
+        DLOG_F(ERROR, "Caught exception: %s", e.what());
+      }
     } else if (relationship == "right") {
       // TODO: t[0] to the right of t[1]
     } else if (relationship == "left") {
@@ -357,7 +396,9 @@ int Game::run_heuristic() {
       throw invalid_argument("I don't know how to handle the target relationship.");
     }
 
-    steps++;
+    if (success()) {
+      return 1;
+    }
   }
 
   return -1;
