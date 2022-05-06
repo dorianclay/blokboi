@@ -9,7 +9,7 @@
 using Random = effolkronium::random_static;
 using namespace std;
 
-#define CHECKSTEPS 10000
+#define CHECKSTEPS 1000
 #define WALKATTEMPTS 100
 #define V_LEVEL_LATEST 5
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
@@ -175,6 +175,7 @@ int walk_to(Game &game, int col, int &steps) {
     }
   } else {
     err_code = game.move(- game.scene()->get_player()->facing());
+    steps++;
   }
   DLOG_F(7, "Map after walking:\n%s", game.representation().c_str());
 
@@ -301,7 +302,7 @@ int get_to_col(Game &game, int col, int &steps) {
  * @return 1 if successful, -1 if unsuccessful.
  */
 int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
-  LOG_SCOPE_FUNCTION(INFO);
+  LOG_SCOPE_FUNCTION(3);
   LOG_IF_F(3, !place, "Bringing block from col %d to %d.", block.location().x, col);
   LOG_IF_F(3, place, "Placing block at col %d on col %d.", block.location().x, col);
   // Get the relative direction of the goal:
@@ -319,6 +320,10 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
     success = get_to_col(game, block.location().x - dir, steps);
   // If not, access the block from the other direction
   } else {
+    int newcol = block.location().x + dir;
+    if (newcol < 0 || newcol >= game.width()) {
+      return -1;
+    }
     success = get_to_col(game, block.location().x + dir, steps);
     get_to_col(game, game.player_location().x , steps);
   }
