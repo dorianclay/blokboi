@@ -70,11 +70,11 @@ def generate(**kwargs):
         for path in files_grabbed:
             os.remove(path)
 
-    game_instance = Game()
     loader = MapLoader()
     count = 0
     while count < kwargs["number"]:
         attempts = 0
+        game_instance = Game()
         while attempts < kwargs["heuristic_limit"]:
             game_instance.newGame()
             if game_instance.run_heuristic() == 1:
@@ -96,29 +96,6 @@ def generate(**kwargs):
                 continue
             else:
                 break
-
-
-def generate_rand_scenes(**kwargs):  # logger, num, outdir=Path("data")):
-    logger = Logger.log_setup(
-        "blokboiImg", detail=kwargs["detail"], suppress_datetime=False, console=True
-    )
-    logger.info("Beginning generating random scenes...")
-    outdir = Path(kwargs["path"])
-
-    found = Path(outdir).glob("**/scene_*.png")
-    if found != None:
-        for path in found:
-            os.remove(path)
-
-    game_instance = Game()
-    count = 0
-    while count < kwargs["number"]:
-        game_instance.newGame()
-        ImageGen.make_image_from_str(
-            game_instance.__repr__(), outdir / f"scene_{count:05d}.png"
-        )
-        count += 1
-    logger.info(f"Finished making {count} scenes.")
 
 
 def gui(**kwargs):
