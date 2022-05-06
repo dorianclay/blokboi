@@ -196,6 +196,8 @@ void Scene::flush() {
   _success = false;
   _relationship = "";
   _objective = "";
+  _init_data.clear();
+  _init_obj_coords.clear();
 }
 
 /**
