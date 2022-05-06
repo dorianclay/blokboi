@@ -1,0 +1,1 @@
+{"objective": "Put the yellow block to the left of the blue block.", "relationship": "left", "coordinates": [[13, 12], [10, 11], [19, 7], [16, 8], [9, 11], [13, 12]], "features": [[1, 0], [1, 0]], "ground truth": "llrprjpllrplprrrlprjp"}
