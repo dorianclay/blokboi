@@ -50,7 +50,7 @@ private:
     "left",
     // "off",
     "side",
-    "diagonal"
+    // "diagonal"
   };
   std::uniform_int_distribution<int> _dist_width;
   std::uniform_int_distribution<int> _dist_height;
