@@ -9,7 +9,7 @@
 using Random = effolkronium::random_static;
 using namespace std;
 
-#define CHECKSTEPS 2500
+#define CHECKSTEPS 1000
 #define WALKATTEMPTS 100
 #define V_LEVEL_LATEST 5
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
@@ -322,6 +322,10 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
   //   Goal is to the RIGHT (1)
   //   Goal is to the LEFT (-1)
   int dir = game.player_location().x < block.location().x ? 1 : -1;
+  if (col == 0)
+    dir = -1;
+  else if (col == game.width() - 1)
+    dir = 1;
   int success = 1;
 
   // Clear a path to the column
@@ -329,8 +333,10 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
 
   // See if we can access the desired block from player-side
   dir = game.player_location().x < block.location().x ? 1 : -1;
-  if (block.location().y > game.scene()->get_highest_obj_height(block.location().x - dir)) {
-    success = get_to_col(game, block.location().x - dir, steps);
+  if (block.location().x - dir >= 0 && block.location().x - dir < game.width()) {
+    if (block.location().y > game.scene()->get_highest_obj_height(block.location().x - dir)) {
+      success = get_to_col(game, block.location().x - dir, steps);
+    }
   // If not, access the block from the other direction
   } else {
     int newcol = block.location().x + dir;
@@ -387,7 +393,7 @@ int Game::run_heuristic() {
         bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x, true, steps);
       }
       catch (exception& e) {
-        DLOG_F(ERROR, "Caught exception: %s", e.what());
+        DLOG_F(4, "Caught exception: %s", e.what());
       }
     } else if (relationship == "below" || relationship == "under" || relationship == "beneath") {
       // _target[0] under _target[1]
@@ -402,7 +408,7 @@ int Game::run_heuristic() {
         bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x, true, steps);
       }
       catch (exception& e) {
-        DLOG_F(ERROR, "Caught exception: %s", e.what());
+        DLOG_F(4, "Caught exception: %s", e.what());
       }
     } else if (relationship == "right") {
       // t[0] to the right of t[1]
@@ -420,7 +426,7 @@ int Game::run_heuristic() {
         }
       }
       catch (exception& e) {
-        DLOG_F(ERROR, "Caught exception: %s", e.what());
+        DLOG_F(4, "Caught exception: %s", e.what());
       }
     } else if (relationship == "left") {
       // t[0] to the left of t[1]
@@ -438,7 +444,7 @@ int Game::run_heuristic() {
         }
       }
       catch (exception& e) {
-        DLOG_F(ERROR, "Caught exception: %s", e.what());
+        DLOG_F(4, "Caught exception: %s", e.what());
       }
     } else if (relationship == "side") {
       // t[0] directly beside t[1]
@@ -451,7 +457,7 @@ int Game::run_heuristic() {
         bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
       }
       catch (exception& e) {
-        DLOG_F(ERROR, "Caught exception: %s", e.what());
+        DLOG_F(4, "Caught exception: %s", e.what());
       }
     } else if (relationship == "off") {
       // t[0] not above t[1]
@@ -464,7 +470,7 @@ int Game::run_heuristic() {
         bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
       }
       catch (exception& e) {
-        DLOG_F(ERROR, "Caught exception: %s", e.what());
+        DLOG_F(4, "Caught exception: %s", e.what());
       }
     } else if (relationship == "diagonal") {
       // t[0] at an adjacent diagonal to t[1]

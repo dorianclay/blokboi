@@ -189,14 +189,13 @@ void Scene::flush() {
   }
   // Clean out _blocks, _player, _valid, _success, _realtionship
   _blocks.clear();
-  _init_data.clear();
   _targets.clear();
   _target_features.clear();
   _valid.clear();
   _success = false;
   _relationship = "";
   _objective = "";
-  _init_data.clear();
+  // _init_data.clear();
   _init_obj_coords.clear();
 }
 
