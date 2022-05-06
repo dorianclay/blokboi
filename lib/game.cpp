@@ -407,9 +407,25 @@ int Game::run_heuristic() {
         DLOG_F(ERROR, "Caught exception: %s", e.what());
       }
     } else if (relationship == "right") {
-      // TODO: t[0] to the right of t[1]
+      // t[0] to the right of t[1]
+      try {
+        // Randomly decide whether to move first or second block
+        int block = Random::get<int>(0,1);
+        if (block == 0) {
+          if (_scene->targets(1)->location().x + 1 < 0)
+            continue;
+          bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + 1, true, steps);
+        } else {
+          if (_scene->targets(0)->location().x - 1 < 0)
+            continue;
+          bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x - 1, true, steps);
+        }
+      }
+      catch (exception& e) {
+        DLOG_F(ERROR, "Caught exception: %s", e.what());
+      }
     } else if (relationship == "left") {
-      // TODO: t[0] to the left of t[1]
+      // t[0] to the left of t[1]
       try {
         // Randomly decide whether to move first or second block
         int block = Random::get<int>(0,1);
@@ -440,9 +456,21 @@ int Game::run_heuristic() {
         DLOG_F(ERROR, "Caught exception: %s", e.what());
       }
     } else if (relationship == "off") {
-      // TODO: t[0] not above t[1]
+      // t[0] not above t[1]
+      try {
+        // Randomly attempt to put the first block either to the right or left of the second
+        int side = Random::get<bool>()? 1 : -1;
+        // If that side is out of bounds, use the other
+        if (_scene->targets(1)->location().x + side < 0 || _scene->targets(1)->location().x + side >= width())
+          side = -side;
+        bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
+      }
+      catch (exception& e) {
+        DLOG_F(ERROR, "Caught exception: %s", e.what());
+      }
     } else if (relationship == "diagonal") {
-      // TODO: t[0] at an adjacent diagonal to t[1]
+      // t[0] at an adjacent diagonal to t[1]
+
     } else {
       LOG_F(INFO, "Handling target relationship '%s' is undefined.", relationship.c_str());
       throw invalid_argument("I don't know how to handle the target relationship.");
