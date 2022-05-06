@@ -206,12 +206,54 @@ int get_to_col(Game &game, int col, int &steps) {
       // See if we can't go further because it's a wall or a cliff
       int missedheight = game.scene()->get_highest_obj_height(game.player_location().x + dir);
       int nextcol = game.player_location().x;
-      // If it's a wall, we need to place the block where we're currently standing...
-      if (missedheight > game.player_location().y) {
-        nextcol = game.player_location().x - dir;
-      // If it's a cliff, check first if we are standing on a block we can pick up
-      } else if (game.player_location().y - 1 - game.scene()->get_highest_obj_height(game.player_location().x - dir) == 1) {
-        if (game.scene()->get_object(nextcol, game.player_location().y - 1)->isBlock()) {
+      // See if we're already holding a block
+      if (game.holding()) {
+        // If it's a wall, we need to place the block where we're currently standing...
+        if (missedheight > game.player_location().y) {
+          nextcol = game.player_location().x - dir;
+          walk_to(game, nextcol, steps);
+          walk_to(game, game.player_location().x, steps);
+          game.toggle_hold();
+          steps++;
+        // If it's a cliff, we're already holding a block, so just drop it
+        } else if (game.player_location().y - 1 - game.scene()->get_highest_obj_height(game.player_location().x - dir) == 1) {
+          game.toggle_hold();
+          steps++;
+        }
+      // If we're not holding a block, we'll need to find one:
+      } else {
+        // If it's a wall, we need to place the block where we're currently standing...
+        if (missedheight > game.player_location().y) {
+          nextcol = game.player_location().x - dir;
+        // If it's a cliff, check first if we are standing on a block we can pick up
+        } else if (game.player_location().y - 1 - game.scene()->get_highest_obj_height(game.player_location().x - dir) == 1) {
+          if (game.scene()->get_object(nextcol, game.player_location().y - 1)->isBlock()) {
+            walk_to(game, game.player_location().x - dir, steps);
+            walk_to(game, game.player_location().x, steps);
+            game.toggle_hold();
+            steps++;
+            // walk_to(game, nextcol, steps);
+            // game.toggle_hold();
+            // steps++;
+            continue;
+          }
+        }
+
+        // If we didn't get to the column desired, turn around, get a block, and put it there
+        int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
+        DLOG_F(3, "I want a building block at column %d.", buildblock);
+        // If furthest block was invalid
+        if (buildblock < 0)
+          break;
+        int bbheight = game.scene()->get_highest_obj_height(buildblock);
+        int bbcloseheight = game.scene()->get_highest_obj_height(buildblock + dir);
+        if (game.scene()->get_object(buildblock + dir, bbcloseheight) == game.scene()->get_player())
+          bbcloseheight -= 1;
+        int bbfarheight = game.scene()->get_highest_obj_height(buildblock - dir);
+        if (game.scene()->get_object(buildblock - dir, bbfarheight) == game.scene()->get_player())
+          bbcloseheight -= 1;
+        // If we're standing on the block we need
+        else if (buildblock == game.player_location().x) {
           walk_to(game, game.player_location().x - dir, steps);
           walk_to(game, game.player_location().x, steps);
           game.toggle_hold();
@@ -219,52 +261,27 @@ int get_to_col(Game &game, int col, int &steps) {
           walk_to(game, nextcol, steps);
           game.toggle_hold();
           steps++;
-          continue;
+        // If we walk straight to the block
+        } else if (bbheight - bbcloseheight == 1) {
+          walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
+          game.toggle_hold();
+          steps++;
+          walk_to(game, nextcol, steps);
+          game.toggle_hold();
+          steps++;
+        // If we need to cut back to pick up
+        } else if (bbheight - bbfarheight == 1) {
+          walk_to(game, buildblock - dir, steps);
+          walk_to(game, game.player_location().x, steps);
+          game.toggle_hold();
+          steps++;
+          walk_to(game, nextcol, steps);
+          game.toggle_hold();
+          steps++;
+        // None above seems to be true...
+        } else {
+          throw runtime_error("Not sure how to proceed...It appears I am trying to navigate to a building block I can't access.");
         }
-      }
-
-      // If we didn't get to the column desired, turn around, get a block, and put it there
-      int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
-      DLOG_F(3, "I want a building block at column %d.", buildblock);
-      // If furthest block was invalid
-      if (buildblock < 0)
-        break;
-      int bbheight = game.scene()->get_highest_obj_height(buildblock);
-      int bbcloseheight = game.scene()->get_highest_obj_height(buildblock + dir);
-      if (game.scene()->get_object(buildblock + dir, bbcloseheight) == game.scene()->get_player())
-        bbcloseheight -= 1;
-      int bbfarheight = game.scene()->get_highest_obj_height(buildblock - dir);
-      if (game.scene()->get_object(buildblock - dir, bbfarheight) == game.scene()->get_player())
-        bbcloseheight -= 1;
-      // If we're standing on the block we need
-      else if (buildblock == game.player_location().x) {
-        walk_to(game, game.player_location().x - dir, steps);
-        walk_to(game, game.player_location().x, steps);
-        game.toggle_hold();
-        steps++;
-        walk_to(game, nextcol, steps);
-        game.toggle_hold();
-        steps++;
-      // If we walk straight to the block
-      } else if (bbheight - bbcloseheight == 1) {
-        walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
-        game.toggle_hold();
-        steps++;
-        walk_to(game, nextcol, steps);
-        game.toggle_hold();
-        steps++;
-      // If we need to cut back to pick up
-      } else if (bbheight - bbfarheight == 1) {
-        walk_to(game, buildblock - dir, steps);
-        walk_to(game, game.player_location().x, steps);
-        game.toggle_hold();
-        steps++;
-        walk_to(game, nextcol, steps);
-        game.toggle_hold();
-        steps++;
-      // None above seems to be true...
-      } else {
-        throw runtime_error("Not sure how to proceed...It appears I am trying to navigate to a building block I can't access.");
       }
     }
   }
@@ -284,6 +301,7 @@ int get_to_col(Game &game, int col, int &steps) {
  * @return 1 if successful, -1 if unsuccessful.
  */
 int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
+  LOG_SCOPE_FUNCTION(INFO);
   LOG_IF_F(3, !place, "Bringing block from col %d to %d.", block.location().x, col);
   LOG_IF_F(3, place, "Placing block at col %d on col %d.", block.location().x, col);
   // Get the relative direction of the goal:
@@ -294,11 +312,11 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
 
   // See if we can access the desired block from player-side
   if (block.location().y > game.scene()->get_highest_obj_height(block.location().x - dir)) {
-    success = walk_to(game, block.location().x - dir, steps);
+    success = get_to_col(game, block.location().x - dir, steps);
   // If not, access the block from the other direction
   } else {
-    success = walk_to(game, block.location().x + dir, steps);
-    walk_to(game, game.player_location().x , steps);
+    success = get_to_col(game, block.location().x + dir, steps);
+    get_to_col(game, game.player_location().x , steps);
   }
 
   if (success == 1) {
@@ -306,9 +324,9 @@ int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
     steps++;
     dir = game.player_location().x < col ? 1 : -1;
     if (place)
-      success = walk_to(game, col - dir, steps);
+      success = get_to_col(game, col - dir, steps);
     else
-      success = walk_to(game, col, steps);
+      success = get_to_col(game, col, steps);
   }
   if (success == 1 && place) {
     game.toggle_hold();
