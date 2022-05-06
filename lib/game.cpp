@@ -10,6 +10,7 @@ using Random = effolkronium::random_static;
 using namespace std;
 
 #define CHECKSTEPS 1000
+#define INSURANCESTEPS CHECKSTEPS * 10
 #define WALKATTEMPTS 100
 #ifdef NDEBUG
   #define V_LEVEL_LATEST loguru::Verbosity_INFO
@@ -18,6 +19,9 @@ using namespace std;
 #endif
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
 #define V_LEVEL_STDERR loguru::Verbosity_OFF
+
+int argc = 1;
+char *argv[] = {"blokboi"};
 
 void report(Game &game) {
   DLOG_F(INFO, "Map generated:");
@@ -39,7 +43,7 @@ void report(Game &game) {
 
 
 Game::Game() {
-
+  loguru::init(argc, argv);
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -54,6 +58,7 @@ Game::Game() {
 }
 
 Game::Game(Char3d pregen, string objective) {
+  loguru::init(argc, argv);
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -68,6 +73,7 @@ Game::Game(Char3d pregen, string objective) {
 }
 
 Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
+  loguru::init(argc, argv);
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -378,19 +384,15 @@ int manual = 0;
  * @return int: the number of steps taken. (-1 if heuristic failed)
  */
 int Game::run_heuristic() {
-  LOG_SCOPE_FUNCTION(INFO);
+  LOG_SCOPE_FUNCTION(3);
 
   string relationship = _scene->relationship();
   DLOG_F(2, "Running heurisitic for relationship: %s", relationship.c_str());
 
-  int steps = 0;
+  int steps = 0, insurance = 0;
 
-  while (steps < CHECKSTEPS) {
-    // Bring the first target (_targets[0]) to the second target (_targets[1])
-      // If can't reach the target, turn around and pick up the farthest available block
-
-      // Place the block at the obstacle, and try to walk towards the first target again
-
+  while (steps < CHECKSTEPS && insurance < INSURANCESTEPS) {
+    insurance++;
     // Arrange the target blocks as defined by their relationship
     if (relationship == "above" || relationship == "on top") {
       // _target[0] on _target[1]
@@ -505,6 +507,9 @@ int Game::run_heuristic() {
     }
   }
 
-  LOG_F(WARNING, "Did not achieve objective in less than %d steps.", CHECKSTEPS);
+  if (steps == CHECKSTEPS)
+    LOG_F(WARNING, "Did not achieve objective in less than %d steps.", CHECKSTEPS);
+  else
+    LOG_F(WARNING, "Did not achieve objective in less than %d insurance steps.", INSURANCESTEPS);
   return -1;
 }
