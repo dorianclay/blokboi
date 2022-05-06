@@ -80,7 +80,7 @@ def gui(**kwargs):
     loader = MapLoader()
     if kwargs["list"]:
         print(f"{Colors.underline}Maps available:{Colors.reset}")
-        [print(name) for name in loader.list()]
+        [print(name) for name in sorted(loader.list())]
     else:
         if kwargs["loadn"]:
             scene, obj, relation, coords, features, truth = loader.loadn(
