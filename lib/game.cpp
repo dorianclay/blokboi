@@ -40,7 +40,6 @@ Game::Game() {
   _scene = new Scene(20, 15);
   _scene->generate();
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
   report(*this);
 }
 
@@ -55,7 +54,6 @@ Game::Game(Char3d pregen, string objective) {
   _scene = new Scene(pregen);
   _player_controller = new PlayerController(_scene, _scene->get_player());
   _scene->objective(objective);
-  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
   report(*this);
 }
 
@@ -69,7 +67,6 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
 
   _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
   report(*this);
 }
 
@@ -87,7 +84,6 @@ void Game::newGame() {
   _scene = new Scene(20, 15);
   _scene->generate();
   _player_controller = new PlayerController(_scene, _scene->get_player());
-  // DLOG_F(INFO, "Map generated:\n%s", _scene->representation().c_str());
   report(*this);
 }
 
