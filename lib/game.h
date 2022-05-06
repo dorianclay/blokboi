@@ -22,6 +22,7 @@ public:
   int width() const { return _scene->width(); }
   int height() const { return _scene->height(); }
   Scene *scene() const { return _scene; }
+  bool holding() const { return _player_controller->holding(); }
   const LOCATION player_location() const { return _scene->get_player()->location(); }
   Char3d array() const { return _scene->array(); }
   Char3d init_data() const { return _scene->init_data(); }
