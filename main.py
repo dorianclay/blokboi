@@ -47,6 +47,57 @@ def test(**kwargs):
     ImageGen.make_image_from_str(game_instance.__repr__(), Path("imagetest.png"))
 
 
+def generate(**kwargs):
+    logger = Logger.log_setup(
+        "blokboiGen", detail=kwargs["detail"], suppress_datetime=False, console=True
+    )
+    logger.info("Beginning generating random scenes...")
+    datapath = Path(kwargs["path"])
+
+    files_grabbed = []
+    [
+        files_grabbed.extend(Path(datapath).glob(f"*/*.{ext}"))
+        for ext in MapLoader.filetypes()
+    ]
+    if files_grabbed != None:
+        if kwargs["yes"]:
+            confirmation = "yes"
+        else:
+            confirmation = input("Overwrite existing files? [Y/n]: ")
+        if confirmation not in ["y", "yes", "Yes", "yes", ""]:
+            print("Exiting.")
+            exit()
+        for path in files_grabbed:
+            os.remove(path)
+
+    game_instance = Game()
+    loader = MapLoader()
+    count = 0
+    while count < kwargs["number"]:
+        attempts = 0
+        while attempts < kwargs["heuristic_limit"]:
+            game_instance.newGame()
+            if game_instance.run_heuristic() == 1:
+                loader.save(game_instance)
+                count += 1
+                logger.info(f"Finished making {count} scenes.")
+                break
+
+        if attempts >= kwargs["heuristic_limit"]:
+            logger.info(f"Failed to make a playable scene. Asking for input...")
+            if kwargs["yes"]:
+                confirmation = "yes"
+            else:
+                confirmation = input(
+                    "Failed to make a playable scene. Would you like to continue? [y/N]: "
+                )
+            if confirmation in ["yes", "Yes", "y", "Y"]:
+                logger.info("...Continuing.")
+                continue
+            else:
+                break
+
+
 def generate_rand_scenes(**kwargs):  # logger, num, outdir=Path("data")):
     logger = Logger.log_setup(
         "blokboiImg", detail=kwargs["detail"], suppress_datetime=False, console=True
@@ -190,24 +241,39 @@ if __name__ == "__main__":
     )
     parser_test.set_defaults(func=test)
 
-    parser_img = subparsers.add_parser(
-        "img", description="Generate scene images.", help="Generate images."
+    parser_gen = subparsers.add_parser(
+        "generate",
+        description="Generate scene dataset.",
+        help="Generate scene dataset.",
     )
-    parser_img.add_argument(
-        "number", type=int, default=5000, help="The number of images to generate."
+    parser_gen.add_argument(
+        "number", type=int, default=5000, help="The number of scenes to generate."
     )
-    parser_img.add_argument(
+    parser_gen.add_argument(
+        "--image_only", action="store_true", help="Only generate images."
+    )
+    parser_gen.add_argument(
         "--path",
         type=str,
-        default="assets",
-        help="Path to the assets directory (default: assets).",
+        default="data",
+        help="Path to the data directory (default: data).",
     )
-    parser_img.add_argument(
+    parser_gen.add_argument(
         "--detail",
         default="debug",
         choices=["debug", "info", "warning", "error", "critical"],
         help="Level of detail to python log (default: info).",
     )
-    parser_img.set_defaults(func=generate_rand_scenes)
+    parser_gen.add_argument(
+        "--heuristic_limit",
+        default=100,
+        type=int,
+        metavar="NUM",
+        help="The number of times to try building a playable scene.",
+    )
+    parser_gen.add_argument(
+        "-y", "--yes", action="store_true", help="Yes to all prompts."
+    )
+    parser_gen.set_defaults(func=generate)
     args = parser.parse_args()
     args.func(**vars(args))
