@@ -108,20 +108,17 @@ class ButtonFrame(ttk.Frame):
         self.logger.debug("Reset clicked")
         self._container._game_instance.resetGame()
         self._container.render()
-        self._container.label_frame.update_goal()
 
     def new_scene_clicked(self):
         self.logger.debug("New Scene clicked")
         self._container._game_instance.newGame()
         self._container.render()
-        self._container.label_frame.update_goal()
 
     def step_heuristic(self):
         self.logger.debug("Stepping heurisitic")
         success = self._container._game_instance.run_heuristic()
         self.logger.debug(f"    Got success: {'true' if success == 1 else 'false'}")
         self._container.render()
-        self._container.label_frame.update_goal()
 
     def save_scene(self):
         self.logger.debug("Saving scene")
@@ -228,6 +225,7 @@ class App(tk.Tk):
 
     def render(self):
         self.canvas_frame.render()
+        self.label_frame.update_goal()
         self.__check_success()
         self.update()
 
