@@ -11,8 +11,13 @@ using namespace std;
 
 #define CHECKSTEPS 1000
 #define WALKATTEMPTS 100
-#define V_LEVEL_LATEST 5
+#ifdef NDEBUG
+  #define V_LEVEL_LATEST loguru::Verbosity_INFO
+#else
+  #define V_LEVEL_LATEST 5
+#endif
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
+#define V_LEVEL_STDERR loguru::Verbosity_OFF
 
 void report(Game &game) {
   DLOG_F(INFO, "Map generated:");
@@ -39,7 +44,7 @@ Game::Game() {
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
                    V_LEVEL_ROLLING);
-  loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
+  loguru::g_stderr_verbosity = V_LEVEL_STDERR;
   LOG_F(INFO, "Beginning a new game.");
 
   _scene = new Scene(20, 15);
@@ -53,7 +58,7 @@ Game::Game(Char3d pregen, string objective) {
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
                    V_LEVEL_ROLLING);
-  loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
+  loguru::g_stderr_verbosity = V_LEVEL_STDERR;
   LOG_F(INFO, "Building game from pre-generated map.");
 
   _scene = new Scene(pregen);
@@ -67,7 +72,7 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
                    V_LEVEL_ROLLING);
-  loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
+  loguru::g_stderr_verbosity = V_LEVEL_STDERR;
   LOG_F(INFO, "Building game from pre-generated map.");
 
   _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
@@ -316,8 +321,8 @@ int get_to_col(Game &game, int col, int &steps) {
  */
 int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
   LOG_SCOPE_FUNCTION(3);
-  LOG_IF_F(3, !place, "Bringing block from col %d to %d.", block.location().x, col);
-  LOG_IF_F(3, place, "Placing block at col %d on col %d.", block.location().x, col);
+  DLOG_IF_F(3, !place, "Bringing block from col %d to %d.", block.location().x, col);
+  DLOG_IF_F(3, place, "Placing block at col %d on col %d.", block.location().x, col);
   // Get the relative direction of the goal:
   //   Goal is to the RIGHT (1)
   //   Goal is to the LEFT (-1)
