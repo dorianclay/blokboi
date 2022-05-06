@@ -9,6 +9,8 @@ using namespace std;
 
 #define CHECKSTEPS 10000
 #define WALKATTEMPTS 100
+#define V_LEVEL_LATEST 5
+#define V_LEVEL_ROLLING loguru::Verbosity_INFO
 
 void report(Game &game) {
   DLOG_F(INFO, "Map generated:");
@@ -30,10 +32,11 @@ void report(Game &game) {
 
 
 Game::Game() {
+
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
-                   loguru::Verbosity_4);
+                   V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
-                   loguru::Verbosity_INFO);
+                   V_LEVEL_ROLLING);
   loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
   LOG_F(INFO, "Beginning a new game.");
 
@@ -45,9 +48,9 @@ Game::Game() {
 
 Game::Game(Char3d pregen, string objective) {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
-                   loguru::Verbosity_9);
+                   V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
-                   loguru::Verbosity_INFO);
+                   V_LEVEL_ROLLING);
   loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
   LOG_F(INFO, "Building game from pre-generated map.");
 
@@ -59,9 +62,9 @@ Game::Game(Char3d pregen, string objective) {
 
 Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
-                   loguru::Verbosity_9);
+                   V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
-                   loguru::Verbosity_INFO);
+                   V_LEVEL_ROLLING);
   loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;
   LOG_F(INFO, "Building game from pre-generated map.");
 
@@ -151,6 +154,7 @@ int walk_to(Game &game, int col, int &steps) {
       err_code = game.move(1);
       if (err_code == -1) {
         err_code = game.jump();
+        steps++;
       }
       if (err_code < 0 || game.player_location().x == col)
         break;
@@ -162,6 +166,7 @@ int walk_to(Game &game, int col, int &steps) {
       err_code = game.move(-1);
       if (err_code == -1) {
         err_code = game.jump();
+        steps++;
       }
       if (err_code < 0 || game.player_location().x == col)
         break;
@@ -175,10 +180,6 @@ int walk_to(Game &game, int col, int &steps) {
     return 1;
   else
     return err_code;
-  // if (game.player_location().x == col)
-  //   return 1;
-  // else
-  //   return -1;
 }
 
 /**
@@ -212,13 +213,13 @@ int get_to_col(Game &game, int col, int &steps) {
           walk_to(game, game.player_location().x - dir, steps);
           walk_to(game, game.player_location().x, steps);
           game.toggle_hold();
+          steps++;
           walk_to(game, nextcol, steps);
           game.toggle_hold();
+          steps++;
           continue;
         }
       }
-
-
 
       // If we didn't get to the column desired, turn around, get a block, and put it there
       int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
@@ -238,21 +239,27 @@ int get_to_col(Game &game, int col, int &steps) {
         walk_to(game, game.player_location().x - dir, steps);
         walk_to(game, game.player_location().x, steps);
         game.toggle_hold();
+        steps++;
         walk_to(game, nextcol, steps);
         game.toggle_hold();
+        steps++;
       // If we walk straight to the block
       } else if (bbheight - bbcloseheight == 1) {
         walk_to(game, buildblock + (game.player_location().x > buildblock ? 1 : -1), steps);
         game.toggle_hold();
+        steps++;
         walk_to(game, nextcol, steps);
         game.toggle_hold();
+        steps++;
       // If we need to cut back to pick up
       } else if (bbheight - bbfarheight == 1) {
         walk_to(game, buildblock - dir, steps);
         walk_to(game, game.player_location().x, steps);
         game.toggle_hold();
+        steps++;
         walk_to(game, nextcol, steps);
         game.toggle_hold();
+        steps++;
       // None above seems to be true...
       } else {
         throw runtime_error("Not sure how to proceed...It appears I am trying to navigate to a building block I can't access.");
@@ -262,6 +269,41 @@ int get_to_col(Game &game, int col, int &steps) {
 
   LOG_F(WARNING, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
   return -1;
+}
+
+/**
+ * @brief Bring a specific block to a column.
+ *
+ * @param game reference to the game
+ * @param block const reference to the block to be moved
+ * @param col the column to move to
+ * @param steps reference to the step counter
+ *
+ * @return 1 if successful, -1 if unsuccessful.
+ */
+int bring_to(Game &game, const Block &block, int col, bool place, int &steps) {
+  LOG_IF_F(3, !place, "Bringing block from col %d to %d.", block.location().x, col);
+  LOG_IF_F(3, place, "Placing block at col %d on col %d.", block.location().x, col);
+  // Get the relative direction of the goal:
+  //   Goal is to the RIGHT (1)
+  //   Goal is to the LEFT (-1)
+  int dir = game.player_location().x < block.location().x ? 1 : -1;
+  int success = 1;
+  success = walk_to(game, block.location().x - dir, steps);
+  if (success == 1) {
+    game.toggle_hold();
+    steps++;
+    dir = game.player_location().x < col ? 1 : -1;
+    if (place)
+      success = walk_to(game, col - dir, steps);
+    else
+      success = walk_to(game, col, steps);
+  }
+  if (success == 1 && place) {
+    game.toggle_hold();
+    steps++;
+  }
+  return success;
 }
 
 /**
@@ -280,7 +322,8 @@ int Game::run_heuristic() {
 
   // TODO: REMOVE DEBUG COMMANDS
   try {
-    get_to_col(*this, width() - 1, steps);
+    // get_to_col(*this, width() - 1, steps);
+    bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x, true, steps);
   }
   catch (exception& e) {
     DLOG_F(ERROR, "Caught exception: %s", e.what());
