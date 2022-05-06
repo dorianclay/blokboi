@@ -196,6 +196,11 @@ int walk_to(Game &game, int col, int &steps) {
 int get_to_col(Game &game, int col, int &steps) {
   int attempts = 0;
   int dir = game.player_location().x < col ? 1 : -1;
+  if (col == 0)
+    dir = -1;
+  else if (col == game.width() - 1)
+    dir = 1;
+
   while (attempts < WALKATTEMPTS) {
     attempts++;
 
@@ -242,19 +247,21 @@ int get_to_col(Game &game, int col, int &steps) {
 
         // If we didn't get to the column desired, turn around, get a block, and put it there
         int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
+        int blockclose = buildblock + dir;
+        int blockfar = buildblock - dir;
+
         DLOG_F(3, "I want a building block at column %d.", buildblock);
         // If furthest block was invalid
-        if (buildblock < 0 || buildblock > game.width())
+        if (buildblock < 0 || buildblock >= game.width())
           break;
+
+        // Get the height of the relevant blocks
         int bbheight = game.scene()->get_highest_obj_height(buildblock);
         int bbcloseheight = game.scene()->get_highest_obj_height(buildblock + dir);
         if (game.scene()->get_player() == game.scene()->get_object(buildblock + dir, bbcloseheight))
           bbcloseheight -= 1;
-        int bbfarheight = game.scene()->get_highest_obj_height(buildblock - dir);
-        if (game.scene()->get_player() == game.scene()->get_object(buildblock - dir, bbfarheight))
-          bbcloseheight -= 1;
         // If we're standing on the block we need
-        else if (buildblock == game.player_location().x) {
+        if (buildblock == game.player_location().x) {
           walk_to(game, game.player_location().x - dir, steps);
           walk_to(game, game.player_location().x, steps);
           game.toggle_hold();
@@ -271,14 +278,20 @@ int get_to_col(Game &game, int col, int &steps) {
           game.toggle_hold();
           steps++;
         // If we need to cut back to pick up
-        } else if (bbheight - bbfarheight == 1) {
-          walk_to(game, buildblock - dir, steps);
-          walk_to(game, game.player_location().x, steps);
-          game.toggle_hold();
-          steps++;
-          walk_to(game, nextcol, steps);
-          game.toggle_hold();
-          steps++;
+        // - check for cutting back only if the block we want isn't at the end of the map
+        } else if (blockfar >= 0 && blockfar < game.width()) {
+          int bbfarheight = game.scene()->get_highest_obj_height(buildblock - dir);
+          if (game.scene()->get_player() == game.scene()->get_object(buildblock - dir, bbfarheight))
+            bbcloseheight -= 1;
+          if (bbheight - bbfarheight == 1) {
+            walk_to(game, buildblock - dir, steps);
+            walk_to(game, game.player_location().x, steps);
+            game.toggle_hold();
+            steps++;
+            walk_to(game, nextcol, steps);
+            game.toggle_hold();
+            steps++;
+          }
         // None above seems to be true...
         } else {
           throw runtime_error("Not sure how to proceed...It appears I am trying to navigate to a building block I can't access.");
@@ -287,7 +300,7 @@ int get_to_col(Game &game, int col, int &steps) {
     }
   }
 
-  LOG_F(WARNING, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
+  DLOG_F(WARNING, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
   return -1;
 }
 
