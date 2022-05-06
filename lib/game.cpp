@@ -9,7 +9,7 @@
 using Random = effolkronium::random_static;
 using namespace std;
 
-#define CHECKSTEPS 1000
+#define CHECKSTEPS 2500
 #define WALKATTEMPTS 100
 #define V_LEVEL_LATEST 5
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
@@ -244,14 +244,14 @@ int get_to_col(Game &game, int col, int &steps) {
         int buildblock = game.scene()->furthest_block_available(-game.scene()->get_player()->facing());
         DLOG_F(3, "I want a building block at column %d.", buildblock);
         // If furthest block was invalid
-        if (buildblock < 0)
+        if (buildblock < 0 || buildblock > game.width())
           break;
         int bbheight = game.scene()->get_highest_obj_height(buildblock);
         int bbcloseheight = game.scene()->get_highest_obj_height(buildblock + dir);
-        if (game.scene()->get_object(buildblock + dir, bbcloseheight) == game.scene()->get_player())
+        if (game.scene()->get_player() == game.scene()->get_object(buildblock + dir, bbcloseheight))
           bbcloseheight -= 1;
         int bbfarheight = game.scene()->get_highest_obj_height(buildblock - dir);
-        if (game.scene()->get_object(buildblock - dir, bbfarheight) == game.scene()->get_player())
+        if (game.scene()->get_player() == game.scene()->get_object(buildblock - dir, bbfarheight))
           bbcloseheight -= 1;
         // If we're standing on the block we need
         else if (buildblock == game.player_location().x) {
@@ -359,27 +359,7 @@ int Game::run_heuristic() {
   string relationship = _scene->relationship();
   DLOG_F(2, "Running heurisitic for relationship: %s", relationship.c_str());
 
-
   int steps = 0;
-
-  // // TODO: REMOVE DEBUG COMMANDS
-  // try {
-  //   if (manual == 0) {
-  //     // Randomly attempt to put the first block either to the right or left of the second
-  //     int side = Random::get<bool>()? 1 : -1;
-  //     bring_to(*this, *_scene->targets(0), _scene->targets(1)->location().x + side, true, steps);
-  //     manual++;
-  //   } else if (manual == 1) {
-  //     // Put the second block on the first one
-  //     bring_to(*this, *_scene->targets(1), _scene->targets(0)->location().x, true, steps);
-  //     manual++;
-  //   }
-  // }
-  // catch (exception& e) {
-  //   DLOG_F(ERROR, "Caught exception: %s", e.what());
-  // }
-
-  // return 1;
 
   while (steps < CHECKSTEPS) {
     // Bring the first target (_targets[0]) to the second target (_targets[1])

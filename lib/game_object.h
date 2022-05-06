@@ -35,12 +35,16 @@ public:
     return ! (*this == other);
   }
   bool operator==(const GameObject& other) const {
+    if (other == nullptr)
+      return false;
     if (_location.x == other.location().x && _location.y == other.location().y) {
       return true;
     }
     return false;
   }
   bool operator==(const GameObject* other) const {
+    if (other == nullptr)
+      return false;
     if (_location.x == other->location().x && _location.y == other->location().y) {
       return true;
     }
