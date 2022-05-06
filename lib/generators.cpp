@@ -162,6 +162,7 @@ void Scene::generate_heuristical() {
       buffer = count_blocks(player_col + 1) - player_height;
       player_height = count_blocks(player_col + 1);
     }
+
     // Fill in the area now below player (if any)
     for (int i = 0; i < buffer; i++) {
       int buffheight = player_height - i - 1;
@@ -169,11 +170,16 @@ void Scene::generate_heuristical() {
       _space[player_col][buffheight] = _blocks.back();
       update_array(player_col, buffheight);
     }
+
     // Place the player
     _player = new Player(player_col, player_height);
     _space[player_col][player_height] = _player;
     update_array(player_col, player_height);
 
+    // Make sure we have at least 2 blocks. If not, generate fresh
+    if (_blocks.size() < 2) {
+      continue;
+    }
     // Pick objective (target) blocks
     int target1 = Random::get(0, (int) _blocks.size() - 1);
     int target2;
@@ -187,9 +193,11 @@ void Scene::generate_heuristical() {
     if (target1 == target2) {
       continue;
     }
+
     _targets.push_back(_blocks.at(target1));
     _targets.push_back(_blocks.at(target2));
     _relationship = relations.at(Random::get(0, (int) relations.size() - 1));
+
     // For each of the two targets...
     for (int i=0; i < 2; i++) {
       // Save their starting location
@@ -207,6 +215,7 @@ void Scene::generate_heuristical() {
       } else {
         temp.push_back(-1);
       }
+
       // If we didn't get either feature, force a decision between one
       if (temp[0] == -1 && temp[1] == -1) {
         if (Random::get<bool>())
@@ -214,11 +223,14 @@ void Scene::generate_heuristical() {
         else
           temp[1] = _targets[i]->number();
       }
+
       _target_features.push_back(temp);
     }
 
+
     set_valid();
     set_string();
+
 
     if (check_scene()) {
       LOG_F(INFO, "Generated a scene after %d tries.", attempts);

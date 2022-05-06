@@ -103,23 +103,27 @@ int PlayerController::pick_up() {
   LOCATION current = _player->location();
   int facing = _player->facing();
 
+  if (current.x + facing < 0 || current.x + facing >= _scene->width()) {
+    DLOG_F(2, "Can't pick up off the map.");
+    return -1;
+  }
   GameObject *spot = _scene->get_object(current.x + facing, current.y);
 
   // See if there's a block that we're facing
   if (spot == nullptr) {
-    DLOG_F(1, "Can't pick up air.");
+    DLOG_F(2, "Can't pick up air.");
     return -1;
   }
 
   // If the block we're facing isn't movable, don't try to pick it up
   if (!spot->movable()) {
-    DLOG_F(1, "Block on isn't movable.");
+    DLOG_F(2, "Block on isn't movable.");
     return -1;
   }
 
   // If the block is buried, we can't pick it up
   if (spot->location().y != _scene->get_highest_obj_height(spot->location().x)) {
-    DLOG_F(1, "Block is buried.");
+    DLOG_F(2, "Block is buried.");
     return -1;
   }
 
