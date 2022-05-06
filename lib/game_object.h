@@ -40,6 +40,12 @@ public:
     }
     return false;
   }
+  bool operator==(const GameObject* other) const {
+    if (_location.x == other->location().x && _location.y == other->location().y) {
+      return true;
+    }
+    return false;
+  }
 };
 
 #endif /* GAME_OBJECT_H */

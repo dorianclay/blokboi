@@ -381,10 +381,10 @@ int Scene::get_lowest_obj_height(int col) const {
 }
 
 /**
- * @brief Get the furthest block that can be picked up
+ * @brief Get the column of the furthest block that can be picked up.
  *
- * @param direction
- * @return int
+ * @param direction The side to search (1 = right, -1 = left)
+ * @return int: The column of the furthest block available.
  */
 int Scene::furthest_block_available(int direction) const {
   if (direction != 1 && direction != -1) {
@@ -393,6 +393,7 @@ int Scene::furthest_block_available(int direction) const {
   }
   int i = _player->location().x;
   int available = -1;
+  Block* blockavail = nullptr;
   int lastheight = _player->location().y - 1;
 
   // While we're in map bounds...
@@ -401,26 +402,43 @@ int Scene::furthest_block_available(int direction) const {
     int thisheight = get_highest_obj_height(thiscol);
     // If this block is more than one block below the last, we just went off a cliff
     if (abs(lastheight - thisheight) > 1) {
+      if (available == -1 && blockavail != nullptr)
+        return blockavail->location().x;
       return available;
     }
     // If this block is one higher than the last block...
     if (thisheight - lastheight == 1) {
       // Check if it's a playable block
-      if (get_object(thiscol, thisheight)->isBlock()) {
-        available = thiscol;
+      GameObject *temp = get_object(thiscol, thisheight);
+      if (temp->isBlock()) {
+        // See if this block is one of the targets
+        if (temp == _targets[0] || temp == _targets[1]) {
+          blockavail = dynamic_cast<Block*>(temp);
+        } else {
+          available = thiscol;
+        }
       }
     // If this block is one lower than the last block...
     } else if (lastheight - thisheight == 1) {
       // Check if the prior block was a playable block
-      if (get_object(thiscol - direction, lastheight)->isBlock()) {
+      GameObject *temp = get_object(thiscol - direction, lastheight);
+      if (temp->isBlock()) {
         // And pick it up only if we won't make a wall
-        if (get_highest_block_height(thiscol - 2*direction) - get_object(thiscol - direction, lastheight)->location().y != 1)
-          available = thiscol - direction;
+        if (get_highest_block_height(thiscol - 2*direction) - temp->location().y != 1) {
+          // See if this block is one of the targets
+          if (temp == _targets[0] || temp == _targets[1]) {
+            blockavail = dynamic_cast<Block*>(temp);
+          } else {
+            available = thiscol - direction;
+          }
+        }
       }
     }
     lastheight = thisheight;
     i = thiscol;
   }
+  if (available == -1 && blockavail != nullptr)
+    return blockavail->location().x;
   return available;
 }
 
