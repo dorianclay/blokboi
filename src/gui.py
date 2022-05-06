@@ -187,6 +187,7 @@ class App(tk.Tk):
 
         self.__create_widgets()
         self.__bindings()
+        self._interrupt = False
 
     def __center(self, width=None, height=None):
         if width is None or height is None:
@@ -222,6 +223,7 @@ class App(tk.Tk):
         self.bind("a", self.__key_left)
         self.bind("s", self.__key_down)
         self.bind("d", self.__key_right)
+        self.bind("<Control-c>", self.__key_interrupt)
 
     def render(self):
         self.canvas_frame.render()
@@ -230,24 +232,34 @@ class App(tk.Tk):
         self.update()
 
     def __key_right(self, event):
+        self._interrupt = False
         self.logger.debug(event)
         self._game_instance.move(RIGHT)
         self.render()
 
     def __key_left(self, event):
+        self._interrupt = False
         self.logger.debug(event)
         self._game_instance.move(LEFT)
         self.render()
 
     def __key_up(self, event):
+        self._interrupt = False
         self.logger.debug(event)
         self._game_instance.jump()
         self.render()
 
     def __key_down(self, event):
+        self._interrupt = False
         self.logger.debug(event)
         self._game_instance.toggle_hold()
         self.render()
+
+    def __key_interrupt(self, event):
+        self.logger.debug(event)
+        if self._interrupt:
+            exit()
+        self._interrupt = True
 
 
 if __name__ == "__main__":
