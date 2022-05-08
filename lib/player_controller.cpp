@@ -34,6 +34,10 @@ int PlayerController::move(int direction) {
 
   // Otherwise, we're facing the right way, so try to move one block over
   // See if the spot at same height is occupied.
+  if (current.x + direction < 0 || current.x + direction >= _scene->width()) {
+    DLOG_F(2, "Can't move to a location off the map.");
+    return -1;
+  }
   GameObject *spot = _scene->get_object(current.x + direction, current.y);
   if (spot != nullptr) {
     DLOG_F(1, "Attempted to move to occupied location.");
@@ -74,11 +78,26 @@ int PlayerController::jump() {
   int facing = _player->facing();
   int hasblock = 0;
 
+  if (current.x + facing < 0 || current.x + facing >= _scene->width()) {
+    DLOG_F(2, "Can't jump off the map.");
+    return -1;
+  }
   GameObject *spot = _scene->get_object(current.x + facing, current.y);
 
   // See if there's even an object to jump onto
   if (spot == nullptr) {
     DLOG_F(1, "Can't jump onto thin air.");
+    return -1;
+  }
+
+  // If we're in the top row, we can't jump
+  if (current.y + 1 >= _scene->height()) {
+    DLOG_F(2, "Can't jump in the clouds. (on top row)");
+    return -1;
+  }
+  // If we're in the second to top row, we can't jump if we have a block
+  if (current.y + 1 == _scene->height() - 1 && _player->held() != nullptr) {
+    DLOG_F(2, "Can't jump in second to top row when holding a block.");
     return -1;
   }
 
@@ -105,6 +124,10 @@ int PlayerController::pick_up() {
 
   if (current.x + facing < 0 || current.x + facing >= _scene->width()) {
     DLOG_F(2, "Can't pick up off the map.");
+    return -1;
+  }
+  if (current.y == _scene->height() - 1) {
+    DLOG_F(2, "Can't pick up when on the top row.");
     return -1;
   }
   GameObject *spot = _scene->get_object(current.x + facing, current.y);

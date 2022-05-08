@@ -38,7 +38,8 @@ class MapLoader:
             (scene, objective, relationship, coordinates, ground truth)
         """
         self.logger.info(f"Loading map {map_key}.")
-        scene = np.load(self.datapath / "scenes" / f"scene_{map_key:05d}.npy")
+        with open(self.datapath / "scenes" / f"scene_{map_key:05d}.npy") as npyfile:
+            scene = np.load(npyfile)
         with open(
             self.datapath / "objectives" / f"objective_{map_key:05d}.json", "r"
         ) as jsonfile:
@@ -65,9 +66,10 @@ class MapLoader:
             (scene, objective, relationship, coordinates, ground truth)
         """
         self.logger.info(f"Loading map {map_key}.")
-        scene = np.load(
+        with open(
             self.datapath / "mechanical" / "scenes" / f"scene_{map_key:05d}.npy"
-        )
+        ) as npyfile:
+            scene = np.load(npyfile)
         with open(
             self.datapath
             / "mechanical"
@@ -108,9 +110,10 @@ class MapLoader:
                 if obj_dict["id"] == map_name:
                     objective = obj_dict
                     scenenum = int(filepath.stem.split("_")[1])
-                    scene = np.load(
+                    with open(
                         self.datapath / "toy/scenes" / f"scene_{scenenum:05d}.npy"
-                    )
+                    ) as npyfile:
+                        scene = np.load(npyfile)
                     found = True
                     break
             scenenum += 1
@@ -188,9 +191,11 @@ class MapLoader:
         else:
             newnum = max(existing) + 1
 
-        with open(jsondir / f"objective_{newnum:05d}.json", "w") as file:
-            json.dump(objective, file)
-        np.save(npydir / f"scene_{newnum:05d}.npy", scene)
+        with open(jsondir / f"objective_{newnum:05d}.json", "w") as jsonfile, open(
+            npydir / f"scene_{newnum:05d}.npy", "wb"
+        ) as npyfile:
+            json.dump(objective, jsonfile)
+            np.save(npyfile, scene)
         ImageGen.make_image_from_str(
             game_instance.init_data(), imgdir / f"image_{newnum:05d}.png"
         )

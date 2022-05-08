@@ -70,20 +70,14 @@ def generate(**kwargs):
         for path in files_grabbed:
             os.remove(path)
 
-    game_instance = Game()
     loader = MapLoader()
     count = 0
+    game_instance = Game()
     while count < kwargs["number"]:
-        attempts = 0
-        while attempts < kwargs["heuristic_limit"]:
+        try:
             game_instance.newGame()
-            if game_instance.run_heuristic() == 1:
-                loader.save(game_instance)
-                count += 1
-                logger.info(f"Finished making {count} scenes.")
-                break
-
-        if attempts >= kwargs["heuristic_limit"]:
+        except RuntimeError:
+            logger.exception()
             logger.info(f"Failed to make a playable scene. Asking for input...")
             if kwargs["yes"]:
                 confirmation = "yes"
@@ -96,29 +90,10 @@ def generate(**kwargs):
                 continue
             else:
                 break
-
-
-def generate_rand_scenes(**kwargs):  # logger, num, outdir=Path("data")):
-    logger = Logger.log_setup(
-        "blokboiImg", detail=kwargs["detail"], suppress_datetime=False, console=True
-    )
-    logger.info("Beginning generating random scenes...")
-    outdir = Path(kwargs["path"])
-
-    found = Path(outdir).glob("**/scene_*.png")
-    if found != None:
-        for path in found:
-            os.remove(path)
-
-    game_instance = Game()
-    count = 0
-    while count < kwargs["number"]:
-        game_instance.newGame()
-        ImageGen.make_image_from_str(
-            game_instance.__repr__(), outdir / f"scene_{count:05d}.png"
-        )
-        count += 1
-    logger.info(f"Finished making {count} scenes.")
+        else:
+            loader.save(game_instance)
+            count += 1
+            logger.info(f"Finished making {count} scenes.")
 
 
 def gui(**kwargs):
@@ -247,7 +222,10 @@ if __name__ == "__main__":
         help="Generate scene dataset.",
     )
     parser_gen.add_argument(
-        "number", type=int, default=5000, help="The number of scenes to generate."
+        "number",
+        type=int,
+        default=5000,
+        help="The number of scenes to generate. (default: 5000)",
     )
     parser_gen.add_argument(
         "--image_only", action="store_true", help="Only generate images."
@@ -269,7 +247,7 @@ if __name__ == "__main__":
         default=100,
         type=int,
         metavar="NUM",
-        help="The number of times to try building a playable scene.",
+        help="The number of times to try building a playable scene. (default: 100)",
     )
     parser_gen.add_argument(
         "-y", "--yes", action="store_true", help="Yes to all prompts."

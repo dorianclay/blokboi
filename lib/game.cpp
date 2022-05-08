@@ -5,12 +5,15 @@
 #include <iostream>
 #include <loguru.hpp>
 #include <stdexcept>
+#include <string.h>
 
 using Random = effolkronium::random_static;
 using namespace std;
 
 #define CHECKSTEPS 1000
+#define INSURANCESTEPS CHECKSTEPS * 10
 #define WALKATTEMPTS 100
+#define HEURISTICLIMIT 100
 #ifdef NDEBUG
   #define V_LEVEL_LATEST loguru::Verbosity_INFO
 #else
@@ -18,6 +21,10 @@ using namespace std;
 #endif
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
 #define V_LEVEL_STDERR loguru::Verbosity_OFF
+
+
+int argc = 1;
+char *argv[] = {strdup("blokboi")};
 
 void report(Game &game) {
   DLOG_F(INFO, "Map generated:");
@@ -39,7 +46,7 @@ void report(Game &game) {
 
 
 Game::Game() {
-
+  loguru::init(argc, argv);
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -48,12 +55,16 @@ Game::Game() {
   LOG_F(INFO, "Beginning a new game.");
 
   _scene = new Scene(20, 15);
-  _scene->generate();
-  _player_controller = new PlayerController(_scene, _scene->get_player());
-  report(*this);
+  bool generated = ensure_playable();
+  if (generated) {
+    report(*this);
+  }
+  else
+    throw runtime_error("Could not generate a valid scene in " + to_string(HEURISTICLIMIT) + " attempts.");
 }
 
 Game::Game(Char3d pregen, string objective) {
+  loguru::init(argc, argv);
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -68,6 +79,7 @@ Game::Game(Char3d pregen, string objective) {
 }
 
 Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
+  loguru::init(argc, argv);
   loguru::add_file("logs/blokboi_latest.log", loguru::Truncate,
                    V_LEVEL_LATEST);
   loguru::add_file("logs/blokboi_all.log", loguru::Append,
@@ -78,6 +90,23 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
   _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
   _player_controller = new PlayerController(_scene, _scene->get_player());
   report(*this);
+}
+
+Game::~Game() {
+  delete _scene;
+}
+
+bool Game::ensure_playable() {
+  for (int attempts=0; attempts < HEURISTICLIMIT; attempts++) {
+    _scene->generate();
+    _player_controller = new PlayerController(_scene, _scene->get_player());
+
+    if (run_heuristic() == 1) {
+      resetGame();
+      return true;
+    }
+  }
+  return false;
 }
 
 bool Game::success() const {
@@ -92,9 +121,11 @@ void Game::newGame() {
   delete _scene;
   delete _player_controller;
   _scene = new Scene(20, 15);
-  _scene->generate();
-  _player_controller = new PlayerController(_scene, _scene->get_player());
-  report(*this);
+  bool generated = ensure_playable();
+  if (generated)
+    report(*this);
+  else
+    throw runtime_error("Could not generate a valid scene in " + to_string(HEURISTICLIMIT) + " attempts.");
 }
 
 void Game::resetGame() {
@@ -305,7 +336,7 @@ int get_to_col(Game &game, int col, int &steps) {
     }
   }
 
-  DLOG_F(WARNING, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
+  DLOG_F(1, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
   return -1;
 }
 
@@ -378,19 +409,15 @@ int manual = 0;
  * @return int: the number of steps taken. (-1 if heuristic failed)
  */
 int Game::run_heuristic() {
-  LOG_SCOPE_FUNCTION(INFO);
+  LOG_SCOPE_FUNCTION(3);
 
   string relationship = _scene->relationship();
   DLOG_F(2, "Running heurisitic for relationship: %s", relationship.c_str());
 
-  int steps = 0;
+  int steps = 0, insurance = 0;
 
-  while (steps < CHECKSTEPS) {
-    // Bring the first target (_targets[0]) to the second target (_targets[1])
-      // If can't reach the target, turn around and pick up the farthest available block
-
-      // Place the block at the obstacle, and try to walk towards the first target again
-
+  while (steps < CHECKSTEPS && insurance < INSURANCESTEPS) {
+    insurance++;
     // Arrange the target blocks as defined by their relationship
     if (relationship == "above" || relationship == "on top") {
       // _target[0] on _target[1]
@@ -505,6 +532,9 @@ int Game::run_heuristic() {
     }
   }
 
-  LOG_F(WARNING, "Did not achieve objective in less than %d steps.", CHECKSTEPS);
+  if (steps == CHECKSTEPS)
+    LOG_F(WARNING, "Did not achieve objective in less than %d steps.", CHECKSTEPS);
+  else
+    LOG_F(WARNING, "Did not achieve objective in less than %d insurance steps.", INSURANCESTEPS);
   return -1;
 }

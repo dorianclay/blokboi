@@ -73,6 +73,14 @@ Scene::Scene(Char3d pregen, std::string objective, std::string relationship, Int
   generate_from_saved(pregen, objective, relationship, obj_coords, feature_mask);
 }
 
+Scene::~Scene() {
+  for (int i = 0; i < _width; i++) {
+    for (int j = 0; j < _height; j++) {
+      delete _space[i][j];
+    }
+  }
+}
+
 LOCATION *Scene::findObject(GameObject *object) {
   for (int i = 0; i < _width; i++) {
     for (int j = 0; j < _height; j++) {

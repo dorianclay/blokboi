@@ -74,13 +74,16 @@ private:
   void flush();
 
 public:
-  // constructors
+  // Constructors
   Scene();
   Scene(int x, int y);
   Scene(Char3d pregen);
   Scene(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask);
 
-  // getters
+  // Destructors
+  ~Scene();
+
+  // Getters
   int height() const { return _height; }
   int width() const { return _width; }
   GameObject *get_object(int x, int y) const ;
@@ -100,12 +103,12 @@ public:
   Char3d init_data() const { return _init_data; }
   std::string representation();
 
-  // setters
+  // Setters
   void targets(Int2d coords, Int2d feature_mask);
   void relate(std::string relationship) { _relationship = relationship; }
   void objective(std::string objective) { _objective = objective; }
 
-  // mutators
+  // Mutators
   void generate();
   void generate_modular();
   void generate_heuristical();

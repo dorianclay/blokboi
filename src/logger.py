@@ -24,6 +24,10 @@ class Logger:
             "critical": 1,
         }
 
+        # See if the folder exists
+        if not os.path.exists("logs"):
+            os.makedirs("logs")
+
         # Create clean log files:
         if cleanLogs:
             if os.path.exists(file_output):

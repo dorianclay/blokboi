@@ -11,12 +11,16 @@ private:
   Scene *_scene;
   PlayerController *_player_controller;
   std::stringstream _sstream;
+  bool ensure_playable();
 
 public:
   // Constructors
   Game();
   Game(Char3d pregen, std::string objective="");
   Game(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask);
+
+  // Destructor
+  ~Game();
 
   // Getters
   int width() const { return _scene->width(); }
