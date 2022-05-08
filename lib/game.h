@@ -18,6 +18,9 @@ public:
   Game(Char3d pregen, std::string objective="");
   Game(Char3d pregen, std::string objective, std::string relationship, Int2d obj_coords, Int2d feature_mask);
 
+  // Destructor
+  ~Game();
+
   // Getters
   int width() const { return _scene->width(); }
   int height() const { return _scene->height(); }

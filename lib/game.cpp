@@ -5,6 +5,7 @@
 #include <iostream>
 #include <loguru.hpp>
 #include <stdexcept>
+#include <string.h>
 
 using Random = effolkronium::random_static;
 using namespace std;
@@ -21,7 +22,7 @@ using namespace std;
 #define V_LEVEL_STDERR loguru::Verbosity_OFF
 
 int argc = 1;
-char *argv[] = {"blokboi"};
+char *argv[] = {strdup("blokboi")};
 
 void report(Game &game) {
   DLOG_F(INFO, "Map generated:");
@@ -84,6 +85,10 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
   _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
   _player_controller = new PlayerController(_scene, _scene->get_player());
   report(*this);
+}
+
+Game::~Game() {
+  delete _scene;
 }
 
 bool Game::success() const {
