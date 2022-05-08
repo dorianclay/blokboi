@@ -72,9 +72,9 @@ def generate(**kwargs):
 
     loader = MapLoader()
     count = 0
+    game_instance = Game()
     while count < kwargs["number"]:
         attempts = 0
-        game_instance = Game()
         while attempts < kwargs["heuristic_limit"]:
             game_instance.newGame()
             if game_instance.run_heuristic() == 1:
