@@ -336,7 +336,7 @@ int get_to_col(Game &game, int col, int &steps) {
     }
   }
 
-  DLOG_F(WARNING, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
+  DLOG_F(1, "Did not build and get to the column desired in less than %d attempts.", WALKATTEMPTS);
   return -1;
 }
 

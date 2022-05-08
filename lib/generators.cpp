@@ -2,6 +2,7 @@
 #include "effolkronium/random.hpp"
 #include <loguru.hpp>
 #include <stdexcept>
+#include <sstream>
 
 using Random = effolkronium::random_static;
 
@@ -12,6 +13,15 @@ using namespace std;
 
 uniform_int_distribution<int> dist_heightdiff(-2, 2);
 uniform_int_distribution<int> dist_heightdiff_restrict(-1, 1);
+
+void log_scene(int loglevel, string repr) {
+  stringstream repr_stream = stringstream(repr);
+  string row;
+
+  while (getline(repr_stream, row, '\n')) {
+    VLOG_F(loglevel, row.c_str());
+  }
+}
 
 /**
  * @brief Generate a scene using the default generator.
@@ -234,6 +244,7 @@ void Scene::generate_heuristical() {
 
     if (check_scene()) {
       LOG_F(INFO, "Generated a scene after %d tries.", attempts);
+      log_scene(1, representation());
       break;
     }
   }
