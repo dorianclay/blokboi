@@ -11,6 +11,7 @@ private:
   Scene *_scene;
   PlayerController *_player_controller;
   std::stringstream _sstream;
+  bool ensure_playable();
 
 public:
   // Constructors

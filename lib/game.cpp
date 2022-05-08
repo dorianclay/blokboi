@@ -13,6 +13,7 @@ using namespace std;
 #define CHECKSTEPS 1000
 #define INSURANCESTEPS CHECKSTEPS * 10
 #define WALKATTEMPTS 100
+#define HEURISTICLIMIT 100
 #ifdef NDEBUG
   #define V_LEVEL_LATEST loguru::Verbosity_INFO
 #else
@@ -20,6 +21,7 @@ using namespace std;
 #endif
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
 #define V_LEVEL_STDERR loguru::Verbosity_OFF
+
 
 int argc = 1;
 char *argv[] = {strdup("blokboi")};
@@ -53,9 +55,12 @@ Game::Game() {
   LOG_F(INFO, "Beginning a new game.");
 
   _scene = new Scene(20, 15);
-  _scene->generate();
-  _player_controller = new PlayerController(_scene, _scene->get_player());
-  report(*this);
+  bool generated = ensure_playable();
+  if (generated) {
+    report(*this);
+  }
+  else
+    throw runtime_error("Could not generate a valid scene in " + to_string(HEURISTICLIMIT) + " attempts.");
 }
 
 Game::Game(Char3d pregen, string objective) {
@@ -91,6 +96,19 @@ Game::~Game() {
   delete _scene;
 }
 
+bool Game::ensure_playable() {
+  for (int attempts=0; attempts < HEURISTICLIMIT; attempts++) {
+    _scene->generate();
+    _player_controller = new PlayerController(_scene, _scene->get_player());
+
+    if (run_heuristic() == 1) {
+      resetGame();
+      return true;
+    }
+  }
+  return false;
+}
+
 bool Game::success() const {
   bool success = _scene->success();
   DLOG_IF_F(1, success, "%s", steps_taken().c_str());
@@ -103,9 +121,11 @@ void Game::newGame() {
   delete _scene;
   delete _player_controller;
   _scene = new Scene(20, 15);
-  _scene->generate();
-  _player_controller = new PlayerController(_scene, _scene->get_player());
-  report(*this);
+  bool generated = ensure_playable();
+  if (generated)
+    report(*this);
+  else
+    throw runtime_error("Could not generate a valid scene in " + to_string(HEURISTICLIMIT) + " attempts.");
 }
 
 void Game::resetGame() {
