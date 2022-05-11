@@ -4,6 +4,7 @@ import io
 import json
 from pathlib import Path
 from contextlib import redirect_stderr
+from pydoc import describe
 from sqlite3 import paramstyle
 import numpy as np
 
@@ -12,6 +13,7 @@ from src.logger import Logger
 from src.image_gen import ImageGen
 from src.gui import *
 from src.map_loader import MapLoader
+from util.gen_ex_maps import generate_toys
 from run_tests import LocalTestRunner
 from blokboi import Game
 from src.pycolors import Colors
@@ -253,5 +255,23 @@ if __name__ == "__main__":
         "-y", "--yes", action="store_true", help="Yes to all prompts."
     )
     parser_gen.set_defaults(func=generate)
+
+    parser_util = subparsers.add_parser(
+        "util", description="Utility commands.", help="Utility commands."
+    )
+    util_parsers = parser_util.add_subparsers(title="utilities")
+    parser_toy = util_parsers.add_parser(
+        "toygen",
+        description="Generate toy examples scenes.",
+        help="Generate toy example scenes.",
+    )
+    parser_toy.add_argument(
+        "--path",
+        type=str,
+        default="data",
+        help="Path to the data directory (default: data).",
+    )
+    parser_toy.set_defaults(func=generate_toys)
+
     args = parser.parse_args()
     args.func(**vars(args))

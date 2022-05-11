@@ -8,7 +8,7 @@ from blokboi import Game
 from src.map_loader import MapLoader
 
 
-def main(**kwargs):
+def generate_toys(**kwargs):
     demomap = [
         # fmt: off
         [['@', 'X'],['@', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X'],['.', 'X']],
@@ -290,12 +290,12 @@ def main(**kwargs):
         sparse,
     ]
 
-    loader = MapLoader()
+    loader = MapLoader(Path(kwargs["path"]) / "toy")
 
     for scene in range(len(objectives)):
         obj = objectives[scene]
         game_instance = Game(
-            scene,
+            maps[scene],
             obj["objective"],
             obj["relationship"],
             obj["coordinates"],
@@ -319,4 +319,4 @@ if __name__ == "__main__":
         help="The location of the data directory (default: data).",
     )
     args = parser.parse_args()
-    main(**vars(args))
+    generate_toys(**vars(args))
