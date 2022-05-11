@@ -4,6 +4,9 @@ from pathlib import Path
 import argparse
 import os
 
+from blokboi import Game
+from src.map_loader import MapLoader
+
 
 def main(**kwargs):
     demomap = [
@@ -287,12 +290,24 @@ def main(**kwargs):
         sparse,
     ]
 
-    for scene in range(len(objectives)):
-        with open(jsondir / f"objective_{scene:05d}.json", "w") as file:
-            json.dump(objectives[scene], file)
+    loader = MapLoader()
 
-        maparr = np.array(maps[scene])
-        np.save(npydir / f"scene_{scene:05d}.npy", maparr)
+    for scene in range(len(objectives)):
+        obj = objectives[scene]
+        game_instance = Game(
+            scene,
+            obj["objective"],
+            obj["relationship"],
+            obj["coordinates"],
+            obj["features"],
+        )
+
+        loader.save(game_instance)
+        # with open(jsondir / f"objective_{scene:05d}.json", "w") as file:
+        #     json.dump(objectives[scene], file)
+
+        # maparr = np.array(maps[scene])
+        # np.save(npydir / f"scene_{scene:05d}.npy", maparr)
 
 
 if __name__ == "__main__":
