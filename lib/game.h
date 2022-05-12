@@ -52,6 +52,7 @@ public:
   int toggle_hold();
   int pick_up();
   int put_down();
+  int verify(std::string solution);
 };
 
 #endif /* GAME_H */

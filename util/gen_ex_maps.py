@@ -1,3 +1,4 @@
+import shutil
 import numpy as np
 import json
 from pathlib import Path
@@ -166,7 +167,7 @@ def generate_toys(**kwargs):
             "coordinates": [[7, 1], [19, 4]],
             "relationship": "on top",
             "features": [[1, 0], [0, 1]],
-            "ground truth": "",
+            "ground truth": "lprrrprlprprprrrjrjplllllprrrjrjrjjrrrrp",
         },
         {
             "id": "stacking1",
@@ -174,7 +175,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "above",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrp",
         },
         {
             "id": "stacking2",
@@ -182,7 +183,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "below",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrlprplprrrrrrrplllllllllllp",
         },
         {
             "id": "stacking3",
@@ -190,7 +191,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "under",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrlprplprrrrrrrplllllllllllp",
         },
         {
             "id": "stacking4",
@@ -198,7 +199,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "on top",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrp",
         },
         {
             "id": "stacking5",
@@ -206,7 +207,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "beneath",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrlprplprrrrrrrplllllllllllp",
         },
         {
             "id": "stacking6",
@@ -214,7 +215,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "right",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrjp",
         },
         {
             "id": "stacking7",
@@ -222,7 +223,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "left",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrp",
         },
         {
             "id": "stacking8",
@@ -230,7 +231,7 @@ def generate_toys(**kwargs):
             "coordinates": [[14, 5], [14, 4]],
             "relationship": "off",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrpjplp",
         },
         {
             "id": "stacking9",
@@ -238,7 +239,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "side",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrp",
         },
         {
             "id": "stacking10",
@@ -246,7 +247,7 @@ def generate_toys(**kwargs):
             "coordinates": [[2, 4], [14, 4]],
             "relationship": "diagonal",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "llllprrrrrrrrrrrjp",
         },
         {
             "id": "crates",
@@ -254,7 +255,7 @@ def generate_toys(**kwargs):
             "coordinates": [[16, 7], [6, 8]],
             "relationship": "side",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "lllrprjpllrprprlprrjjplllprjjrrprjplljjjlllp",
         },
         {
             "id": "sparse",
@@ -262,12 +263,16 @@ def generate_toys(**kwargs):
             "coordinates": [[10, 2], [0, 2]],
             "relationship": "below",
             "features": [[1, 0], [1, 0]],
-            "ground truth": "",
+            "ground truth": "rlprrpjjjrprprrpljjljlllprplp",
         },
     ]
 
-    jsondir = Path(kwargs["path"]) / "toy" / "objectives"
-    npydir = Path(kwargs["path"]) / "toy" / "scenes"
+    jsondir = Path(kwargs["datapath"]) / "toy" / "objectives"
+    npydir = Path(kwargs["datapath"]) / "toy" / "scenes"
+    toydir = Path(kwargs["datapath"]) / "toy"
+
+    if os.path.exists(toydir):
+        shutil.rmtree(toydir)
 
     if not os.path.exists(jsondir):
         os.makedirs(jsondir)
@@ -290,7 +295,7 @@ def generate_toys(**kwargs):
         sparse,
     ]
 
-    loader = MapLoader(Path(kwargs["path"]) / "toy")
+    loader = MapLoader(Path(kwargs["datapath"]) / "toy")
 
     for scene in range(len(objectives)):
         obj = objectives[scene]
@@ -302,7 +307,7 @@ def generate_toys(**kwargs):
             obj["features"],
         )
 
-        loader.save(game_instance)
+        loader.save(game_instance, ground_truth=obj["ground truth"], id=obj["id"])
         # with open(jsondir / f"objective_{scene:05d}.json", "w") as file:
         #     json.dump(objectives[scene], file)
 

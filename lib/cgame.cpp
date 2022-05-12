@@ -33,5 +33,6 @@ PYBIND11_MODULE(blokboi, m) {
       .def("toggle_hold", &Game::toggle_hold)
       .def("pick_up", &Game::pick_up)
       .def("put_down", &Game::put_down)
+      .def("verify", &Game::verify)
       .def("__repr__", [](Game &a) { return a.representation(); });
 }

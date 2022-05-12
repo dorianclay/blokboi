@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from sys import get_coroutine_origin_tracking_depth
 from tkinter import Image
 import numpy as np
 import logging
@@ -37,6 +38,7 @@ class MapLoader:
         `tuple`
             (scene, objective, relationship, coordinates, ground truth)
         """
+        map_key = int(map_key)
         self.logger.info(f"Loading map {map_key}.")
         with open(
             self.datapath / "scenes" / f"scene_{map_key:05d}.npy", "rb"
@@ -150,7 +152,9 @@ class MapLoader:
                 available.append(obj_dict["id"])
         return available
 
-    def save(self, game_instance: Game, id: str = None) -> None:
+    def save(
+        self, game_instance: Game, ground_truth: str = None, id: str = None
+    ) -> None:
         """
         Save the intial state of a blokboi game.
 
@@ -191,7 +195,10 @@ class MapLoader:
         objective["relationship"] = game_instance.relationship()
         objective["coordinates"] = game_instance.init_coords()
         objective["features"] = game_instance.feature_mask()
-        objective["ground truth"] = game_instance.steps_taken()
+        if ground_truth is not None:
+            objective["ground truth"] = ground_truth
+        else:
+            objective["ground truth"] = game_instance.steps_taken()
         if id is not None:
             objective["id"] = id
         else:

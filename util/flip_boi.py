@@ -6,9 +6,9 @@ import os
 
 
 def main(**kwargs):
-    assetspath = Path(kwargs["path"])
+    assetpath = Path(kwargs["assetpath"])
 
-    paths = assetspath.glob("**/boi*.png")
+    paths = assetpath.glob("**/boi*.png")
     for path in paths:
         orig = Image.open(path)
         out = orig.transpose(Image.FLIP_LEFT_RIGHT)

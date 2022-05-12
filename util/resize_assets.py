@@ -8,24 +8,24 @@ import argparse
 def main(**kwargs):
     ratio = kwargs["ratio"]
 
-    assetspath = Path(kwargs["path"])
+    assetpath = Path(kwargs["assetpath"])
 
-    if os.path.exists(assetspath / f"{ratio}x"):
-        shutil.rmtree(assetspath / f"{ratio}x")
+    if os.path.exists(assetpath / f"{ratio}x"):
+        shutil.rmtree(assetpath / f"{ratio}x")
 
-    os.mkdir(assetspath / f"{ratio}x")
-    os.mkdir(assetspath / f"{ratio}x" / "blocks")
+    os.mkdir(assetpath / f"{ratio}x")
+    os.mkdir(assetpath / f"{ratio}x" / "blocks")
 
-    paths = (assetspath / "1x").glob(f"**/*.png")
+    paths = (assetpath / "1x").glob(f"**/*.png")
     for path in paths:
         orig = Image.open(path)
-        relevant = path.relative_to(assetspath / "1x")
+        relevant = path.relative_to(assetpath / "1x")
 
         size = [x * ratio for x in orig.size]
 
         out = orig.resize(size, resample=Image.NEAREST)
 
-        out.save(assetspath / f"{ratio}x" / relevant)
+        out.save(assetpath / f"{ratio}x" / relevant)
 
 
 if __name__ == "__main__":

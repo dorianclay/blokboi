@@ -22,6 +22,11 @@ using namespace std;
 #define V_LEVEL_ROLLING loguru::Verbosity_INFO
 #define V_LEVEL_STDERR loguru::Verbosity_OFF
 
+#define SCORE_UNDEFINED_STEP    1000000000
+#define SCORE_INVALID_SOLUTION  1000000
+#define SCORE_ERROR             100
+#define SCORE_STEP              1
+
 
 int argc = 1;
 char *argv[] = {strdup("blokboi")};
@@ -537,4 +542,47 @@ int Game::run_heuristic() {
   else
     LOG_F(WARNING, "Did not achieve objective in less than %d insurance steps.", INSURANCESTEPS);
   return -1;
+}
+
+/**
+ * @brief Verifier for blokboi that scores solutions.
+ *
+ * @param solution the string of actions taken.
+ * @return int: The score (lower is better).
+ */
+int Game::verify(string solution) {
+  LOG_F(2, "Scoring a solution.");
+  _sstream.str(solution);
+
+  int score = 0;
+  char s;
+  while (_sstream.peek() != EOF) {
+    DLOG_F(1, "Read a character: %c", s);
+    _sstream.get(s);
+    int result;
+    if (s == 'l')
+      result = move(LEFT);
+    else if (s == 'r')
+      result = move(RIGHT);
+    else if (s == 'j')
+      result = jump();
+    else if (s == 'p')
+      result = toggle_hold();
+    else {
+      throw runtime_error("'" + to_string(s) + "' is not a defined action.");
+      return SCORE_UNDEFINED_STEP;
+    }
+
+    score += SCORE_STEP;
+
+    if (result < 0) {
+      score += SCORE_ERROR;
+    }
+  }
+
+  if (_scene->verify()) {
+    return score;
+  } else {
+    return SCORE_INVALID_SOLUTION;
+  }
 }

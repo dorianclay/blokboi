@@ -7,15 +7,17 @@ from contextlib import redirect_stderr
 from pydoc import describe
 from sqlite3 import paramstyle
 import numpy as np
+from yaml import parse
 
 
+from blokboi import Game
 from src.logger import Logger
 from src.image_gen import ImageGen
 from src.gui import *
 from src.map_loader import MapLoader
 from util.gen_ex_maps import generate_toys
+from util.score_heuristic import score_heuristic
 from run_tests import LocalTestRunner
-from blokboi import Game
 from src.pycolors import Colors
 
 
@@ -54,7 +56,7 @@ def generate(**kwargs):
         "blokboiGen", detail=kwargs["detail"], suppress_datetime=False, console=True
     )
     logger.info("Beginning generating random scenes...")
-    datapath = Path(kwargs["path"])
+    datapath = Path(kwargs["datapath"])
 
     files_grabbed = []
     [
@@ -119,7 +121,7 @@ def gui(**kwargs):
                 width=size[1],
                 height=size[0],
                 scale=scale,
-                datapath=Path(kwargs["path"]),
+                datapath=Path(kwargs["datapath"]),
             )
         elif kwargs["loadm"]:
             scene, obj, relation, coords, features, truth = loader.loadm(
@@ -130,7 +132,7 @@ def gui(**kwargs):
                 width=size[1],
                 height=size[0],
                 scale=scale,
-                datapath=Path(kwargs["path"]),
+                datapath=Path(kwargs["datapath"]),
             )
         elif kwargs["load"]:
             scene, obj, relation, coords, features, truth = loader.load(kwargs["load"])
@@ -139,7 +141,7 @@ def gui(**kwargs):
                 width=size[1],
                 height=size[0],
                 scale=scale,
-                datapath=Path(kwargs["path"]),
+                datapath=Path(kwargs["datapath"]),
             )
         else:
             app = App(game_instance=Game(), width=size[1], height=size[0], scale=scale)
@@ -156,6 +158,32 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Command line control for the Blokboi game API."
     )
+    parser.add_argument(
+        "--detail",
+        default="info",
+        choices=["debug", "info", "warning", "error", "critical"],
+        help="Level of detail to python log (default: info).",
+    )
+    parser.add_argument(
+        "--datapath",
+        type=str,
+        default="data",
+        help="Path to the data directory (default: data).",
+    )
+    parser.add_argument(
+        "--assetpath",
+        type=str,
+        default="assets",
+        help="Path to the asset directory (default: assets).",
+    )
+    parser.add_argument(
+        "--resultpath",
+        type=str,
+        default="results",
+        help="Path to the analysis result directory (default: results).",
+    )
+
+    # Main subparsers
     subparsers = parser.add_subparsers(title="subcommands")
 
     parser_gui = subparsers.add_parser(
@@ -193,28 +221,10 @@ if __name__ == "__main__":
     gui_loadgroup.add_argument(
         "--list", action="store_true", help="List the named scenes available."
     )
-    parser_gui.add_argument(
-        "--path",
-        type=str,
-        default="data",
-        help="Path to the data directory (default: data).",
-    )
-    parser_gui.add_argument(
-        "--detail",
-        default="debug",
-        choices=["debug", "info", "warning", "error", "critical"],
-        help="Level of detail to python log (default: info).",
-    )
     parser_gui.set_defaults(func=gui)
 
     parser_test = subparsers.add_parser(
         "test", description="Simple test of blokboi.", help="Run a simple test."
-    )
-    parser_test.add_argument(
-        "--detail",
-        default="debug",
-        choices=["debug", "info", "warning", "error", "critical"],
-        help="Level of detail to python log (default: info).",
     )
     parser_test.set_defaults(func=test)
 
@@ -233,18 +243,6 @@ if __name__ == "__main__":
         "--image_only", action="store_true", help="Only generate images."
     )
     parser_gen.add_argument(
-        "--path",
-        type=str,
-        default="data",
-        help="Path to the data directory (default: data).",
-    )
-    parser_gen.add_argument(
-        "--detail",
-        default="debug",
-        choices=["debug", "info", "warning", "error", "critical"],
-        help="Level of detail to python log (default: info).",
-    )
-    parser_gen.add_argument(
         "--heuristic_limit",
         default=100,
         type=int,
@@ -259,19 +257,30 @@ if __name__ == "__main__":
     parser_util = subparsers.add_parser(
         "util", description="Utility commands.", help="Utility commands."
     )
+
+    # Utility subparsers
     util_parsers = parser_util.add_subparsers(title="utilities")
     parser_toy = util_parsers.add_parser(
         "toygen",
         description="Generate toy examples scenes.",
         help="Generate toy example scenes.",
     )
-    parser_toy.add_argument(
-        "--path",
-        type=str,
-        default="data",
-        help="Path to the data directory (default: data).",
-    )
     parser_toy.set_defaults(func=generate_toys)
+
+    parser_heur_score = util_parsers.add_parser(
+        "score_heuristic",
+        description="Score the heuristic solutions.",
+        help="Score the heuristic solutions.",
+    )
+    parser_heur_score.add_argument(
+        "--pregen",
+        action="store_true",
+        help="Score the 'ground truth' on pregenerated maps.",
+    )
+    parser_heur_score.add_argument(
+        "--analyze", action="store_true", help="Perform analysis on the scores."
+    )
+    parser_heur_score.set_defaults(func=score_heuristic)
 
     args = parser.parse_args()
     args.func(**vars(args))
