@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import shutil
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
@@ -30,7 +31,13 @@ class RL:
 
         # check_env(env, warn=True)
 
-        model = PPO2("MlpPolicy", env, verbose=0).learn(10000)
+        datapath = Path(kwargs["datapath"]) / "rl"
+        if os.path.exists(datapath):
+            shutil.rmtree(datapath)
+
+        os.makedirs(datapath)
+
+        model = PPO2("MlpPolicy", env, verbose=0).learn(1000000)
 
         with open(os.path.join(log_dir, "monitor.csv"), "rt") as fh:
             firstline = fh.readline()
