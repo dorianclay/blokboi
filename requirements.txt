@@ -1,2 +1,5 @@
 bidict
 pre-commit
+tensorflow-gpu==1.15
+gym
+stable-baselines
