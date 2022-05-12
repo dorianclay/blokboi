@@ -1,0 +1,1 @@
+{"objective": "Put the blue block on top of the 9 block.", "relationship": "on top", "coordinates": [[7, 1], [19, 4]], "features": [[1, 0], [0, 1]], "ground truth": "lprrrprlprprprrrjrjplllllprrrjrjrjjrrrrp", "id": 3}

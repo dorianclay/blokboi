@@ -1,0 +1,1 @@
+{"objective": "Put the green block below the red block.", "relationship": "below", "coordinates": [[10, 2], [0, 2]], "features": [[1, 0], [1, 0]], "ground truth": "rlprrpjjjrprprrpljjljlllprplp", "id": 12}

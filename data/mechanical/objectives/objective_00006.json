@@ -1,0 +1,1 @@
+{"objective": "Put the purple block to the right of the red block.", "relationship": "right", "coordinates": [[2, 4], [14, 4]], "features": [[1, 0], [1, 0]], "ground truth": "llllprrrrrrrrrrrjplllllprrrrrrrrrrrjprrrrrrrpllllllllllpllllprrrrrrrrrrrjp", "id": 6}

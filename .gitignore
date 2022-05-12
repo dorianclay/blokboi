@@ -1,6 +1,10 @@
 #### CMAKE ####
 # Built Executables
 blokboi
+# Data
+data/images/
+data/objectives/
+data/scenes/
 
 # CMake
 **/cmake-build-debug

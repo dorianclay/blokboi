@@ -1,0 +1,1 @@
+{"objective": "Take the purple block off the red block.", "relationship": "off", "coordinates": [[14, 5], [14, 4]], "features": [[1, 0], [1, 0]], "ground truth": "llllprrrrrrrrrrpjplp", "id": 8}
