@@ -38,7 +38,9 @@ class MapLoader:
             (scene, objective, relationship, coordinates, ground truth)
         """
         self.logger.info(f"Loading map {map_key}.")
-        with open(self.datapath / "scenes" / f"scene_{map_key:05d}.npy") as npyfile:
+        with open(
+            self.datapath / "scenes" / f"scene_{map_key:05d}.npy", "rb"
+        ) as npyfile:
             scene = np.load(npyfile)
         with open(
             self.datapath / "objectives" / f"objective_{map_key:05d}.json", "r"
@@ -67,7 +69,7 @@ class MapLoader:
         """
         self.logger.info(f"Loading map {map_key}.")
         with open(
-            self.datapath / "mechanical" / "scenes" / f"scene_{map_key:05d}.npy"
+            self.datapath / "mechanical" / "scenes" / f"scene_{map_key:05d}.npy", "rb"
         ) as npyfile:
             scene = np.load(npyfile)
         with open(
@@ -111,7 +113,7 @@ class MapLoader:
                     objective = obj_dict
                     scenenum = int(filepath.stem.split("_")[1])
                     with open(
-                        self.datapath / "toy/scenes" / f"scene_{scenenum:05d}.npy"
+                        self.datapath / "toy/scenes" / f"scene_{scenenum:05d}.npy", "rb"
                     ) as npyfile:
                         scene = np.load(npyfile)
                     found = True
@@ -148,7 +150,7 @@ class MapLoader:
                 available.append(obj_dict["id"])
         return available
 
-    def save(self, game_instance: Game) -> None:
+    def save(self, game_instance: Game, id: str = None) -> None:
         """
         Save the intial state of a blokboi game.
 
@@ -160,15 +162,6 @@ class MapLoader:
         nothing
         """
         self.logger.info("Saving scene.")
-
-        scene = np.array(game_instance.init_data())
-
-        objective = {}
-        objective["objective"] = game_instance.objective()
-        objective["relationship"] = game_instance.relationship()
-        objective["coordinates"] = game_instance.init_coords()
-        objective["features"] = game_instance.feature_mask()
-        objective["ground truth"] = game_instance.steps_taken()
 
         jsondir = self.datapath / "objectives"
         npydir = self.datapath / "scenes"
@@ -190,6 +183,19 @@ class MapLoader:
             newnum = 0
         else:
             newnum = max(existing) + 1
+
+        scene = np.array(game_instance.init_data())
+
+        objective = {}
+        objective["objective"] = game_instance.objective()
+        objective["relationship"] = game_instance.relationship()
+        objective["coordinates"] = game_instance.init_coords()
+        objective["features"] = game_instance.feature_mask()
+        objective["ground truth"] = game_instance.steps_taken()
+        if id is not None:
+            objective["id"] = id
+        else:
+            objective["id"] = newnum
 
         with open(jsondir / f"objective_{newnum:05d}.json", "w") as jsonfile, open(
             npydir / f"scene_{newnum:05d}.npy", "wb"
