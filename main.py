@@ -4,10 +4,7 @@ import io
 import json
 from pathlib import Path
 from contextlib import redirect_stderr
-from pydoc import describe
-from sqlite3 import paramstyle
 import numpy as np
-from yaml import parse
 
 
 from blokboi import Game
@@ -15,6 +12,8 @@ from src.logger import Logger
 from src.image_gen import ImageGen
 from src.gui import *
 from src.map_loader import MapLoader
+from src.blokboi_env import BlokboiEnv
+from src.reinforcement import *
 from util.gen_ex_maps import generate_toys
 from util.score_heuristic import score_heuristic
 from run_tests import LocalTestRunner
@@ -26,6 +25,7 @@ def test(**kwargs):
         "blokboiTest", detail=kwargs["detail"], suppress_datetime=False, console=True
     )
     logger.info("Running local tests...")
+
     with redirect_stderr(io.StringIO()) as f:
         results = LocalTestRunner.run_tests()
     logger.info(f"Test results:\n{f.getvalue()}")
@@ -149,9 +149,9 @@ def gui(**kwargs):
 
 
 """
-################
-ARGUMENT PARSING
-################
+######################################################################
+                           ARGUMENT PARSING
+######################################################################
 """
 
 if __name__ == "__main__":
@@ -183,9 +183,10 @@ if __name__ == "__main__":
         help="Path to the analysis result directory (default: results).",
     )
 
-    # Main subparsers
+    ### Main subparsers
     subparsers = parser.add_subparsers(title="subcommands")
 
+    # gui
     parser_gui = subparsers.add_parser(
         "gui", description="The GUI App for blokboi.", help="Run the GUI app."
     )
@@ -223,11 +224,21 @@ if __name__ == "__main__":
     )
     parser_gui.set_defaults(func=gui)
 
+    # rl
+    parsers_rl = subparsers.add_parser(
+        "rl",
+        description="Run the reinforcement learner.",
+        help="Run the reinforcement learner.",
+    )
+    parsers_rl.set_defaults(func=RL.main)
+
+    # test
     parser_test = subparsers.add_parser(
         "test", description="Simple test of blokboi.", help="Run a simple test."
     )
     parser_test.set_defaults(func=test)
 
+    # gen
     parser_gen = subparsers.add_parser(
         "generate",
         description="Generate scene dataset.",
@@ -258,8 +269,10 @@ if __name__ == "__main__":
         "util", description="Utility commands.", help="Utility commands."
     )
 
-    # Utility subparsers
+    ### Utility subparsers
     util_parsers = parser_util.add_subparsers(title="utilities")
+
+    # toy
     parser_toy = util_parsers.add_parser(
         "toygen",
         description="Generate toy examples scenes.",
@@ -267,6 +280,7 @@ if __name__ == "__main__":
     )
     parser_toy.set_defaults(func=generate_toys)
 
+    # score_heuristic
     parser_heur_score = util_parsers.add_parser(
         "score_heuristic",
         description="Score the heuristic solutions.",

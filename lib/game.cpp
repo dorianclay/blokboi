@@ -66,6 +66,7 @@ Game::Game() {
   }
   else
     throw runtime_error("Could not generate a valid scene in " + to_string(HEURISTICLIMIT) + " attempts.");
+  _last_step_reward = 0;
 }
 
 Game::Game(Char3d pregen, string objective) {
@@ -81,6 +82,7 @@ Game::Game(Char3d pregen, string objective) {
   _player_controller = new PlayerController(_scene, _scene->get_player());
   _scene->objective(objective);
   report(*this);
+  _last_step_reward = 0;
 }
 
 Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coords, Int2d feature_mask) {
@@ -95,6 +97,7 @@ Game::Game(Char3d pregen, string objective, string relationship, Int2d obj_coord
   _scene = new Scene(pregen, objective, relationship, obj_coords, feature_mask);
   _player_controller = new PlayerController(_scene, _scene->get_player());
   report(*this);
+  _last_step_reward = 0;
 }
 
 Game::~Game() {
@@ -148,19 +151,33 @@ int Game::move(int direction) {
   }
 
   _sstream << ((direction == LEFT) ? "l" : "r");
-  return _player_controller->move(direction);
+  int success =  _player_controller->move(direction);
+  _last_step_reward = SCORE_STEP;
+  if (success < 0)
+    _last_step_reward += SCORE_ERROR;
+  return success;
 }
 
 int Game::jump() {
   _sstream << "j";
-  return _player_controller->jump();
+  int success =  _player_controller->jump();
+  _last_step_reward = SCORE_STEP;
+  if (success < 0)
+    _last_step_reward += SCORE_ERROR;
+  return success;
 }
 
 int Game::toggle_hold() {
+  int success;
   if (_player_controller->holding())
-    return put_down();
+    success = put_down();
   else
-    return pick_up();
+    success = pick_up();
+
+  _last_step_reward = SCORE_STEP;
+  if (success < 0)
+    _last_step_reward += SCORE_ERROR;
+  return success;
 }
 
 int Game::pick_up() {

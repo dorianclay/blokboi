@@ -24,6 +24,7 @@ PYBIND11_MODULE(blokboi, m) {
       .def("feature_mask", &Game::feature_mask)
       .def("success", &Game::success)
       .def("steps_taken", &Game::steps_taken)
+      .def("reward", &Game::reward)
       .def("set_objective", &Game::set_objective)
       .def("newGame", &Game::newGame)
       .def("resetGame", &Game::resetGame)
@@ -34,5 +35,6 @@ PYBIND11_MODULE(blokboi, m) {
       .def("pick_up", &Game::pick_up)
       .def("put_down", &Game::put_down)
       .def("verify", &Game::verify)
+      .def("score", &Game::score)
       .def("__repr__", [](Game &a) { return a.representation(); });
 }

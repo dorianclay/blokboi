@@ -11,6 +11,7 @@ private:
   Scene *_scene;
   PlayerController *_player_controller;
   std::stringstream _sstream;
+  int _last_step_reward;
   bool ensure_playable();
 
 public:
@@ -37,6 +38,7 @@ public:
   const Int2d feature_mask() const { return _scene->feature_mask(); }
   bool success() const;
   std::string steps_taken() const { return _sstream.str(); }
+  int reward() const { return _last_step_reward; }
 
 
   // Setters
@@ -53,6 +55,7 @@ public:
   int pick_up();
   int put_down();
   int verify(std::string solution);
+  int score() { verify(_sstream.str()); }
 };
 
 #endif /* GAME_H */

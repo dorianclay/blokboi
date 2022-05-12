@@ -37,19 +37,20 @@ class ImageGen:
 
     _skycolor = (90, 192, 236)
 
-    def make_image_from_str(scene, path, scale=1) -> None:
+    def image(scene, scale=1) -> Image:
         """
-        Generates an image from a string representation
+        Get the image of a scene
 
         ### Parameters
         `scene : Char3d array`:
             The Blokboi Char3d-representation of a Blokboi map.
-        `path : Path`:
-            The path to save the image to.
         `scale : int`:
             The scale to save images at.
+
+        ### Returns
+        `Image`
+            The PIL Image of a scene
         """
-        logger = logging.getLogger("image_gen")
         unit = 16 * scale
         width = len(scene) * unit
         height = len(scene[0]) * unit
@@ -67,13 +68,27 @@ class ImageGen:
                     (
                         count_r * unit,
                         height - (count_c + 1) * unit,
-                        # (count_c + 1) * unit,
-                        # (count_r + 1) * unit,
                     ),
                     mask=region,
                 )
                 count_c += 1
             count_r += 1
+        return newImage
+
+    def make_image_from_str(scene, path, scale=1) -> None:
+        """
+        Generates an image from a string representation
+
+        ### Parameters
+        `scene : Char3d array`:
+            The Blokboi Char3d-representation of a Blokboi map.
+        `path : Path`:
+            The path to save the image to.
+        `scale : int`:
+            The scale to save images at.
+        """
+        logger = logging.getLogger("image_gen")
+        newImage = ImageGen.image(scene, scale)
         newImage.save(path)
 
     def get_image_path(
@@ -97,7 +112,6 @@ class ImageGen:
         if obj_arr[0] in [".", "@"]:
             return assetpath / f"{scale}x" / f"{ImageGen._pathname_map[obj_arr[0]]}.png"
         elif obj_arr[0] == "P":
-            # TODO: make boi not static.
             if obj_arr[1] == "R":
                 return (
                     assetpath
