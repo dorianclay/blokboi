@@ -13,7 +13,6 @@ from src.image_gen import ImageGen
 from src.gui import *
 from src.map_loader import MapLoader
 from src.blokboi_env import BlokboiEnv
-from src.reinforcement import *
 from util.gen_ex_maps import generate_toys
 from util.score_heuristic import score_heuristic
 from run_tests import LocalTestRunner
@@ -148,6 +147,12 @@ def gui(**kwargs):
         app.mainloop()
 
 
+def reinforcement(**kwargs):
+    from src.reinforcement import RL
+
+    RL.main(**kwargs)
+
+
 """
 ######################################################################
                            ARGUMENT PARSING
@@ -230,7 +235,7 @@ if __name__ == "__main__":
         description="Run the reinforcement learner.",
         help="Run the reinforcement learner.",
     )
-    parsers_rl.set_defaults(func=RL.main)
+    parsers_rl.set_defaults(func=reinforcement)
 
     # test
     parser_test = subparsers.add_parser(

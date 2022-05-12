@@ -2,15 +2,28 @@ from tkinter import Image
 import gym
 from gym import spaces
 import numpy as np
+from pathlib import Path
 
 from blokboi import Game
 from src.image_gen import ImageGen
+from src.map_loader import MapLoader
 
 STEPLIMIT = 1000
 GENERATE_ATTEMPTS = 3
 
 
-class BlokboiEnv(gym.GoalEnv):
+def score(game_instance, resultfile):
+    """
+    Score and save the result of a game instance
+    """
+    if game_instance is None:
+        return
+    with open(resultfile, "wb") as npyfile:
+        score = game_instance.score()
+        np.save(npyfile, np.array(score))
+
+
+class BlokboiEnv(gym.Env):
     """
     Custom Environment to play blokboi
     """
@@ -22,18 +35,28 @@ class BlokboiEnv(gym.GoalEnv):
     JUMP = 2
     INTERACT = 3
 
-    def __init__(self, height=15, width=20, steplimit=STEPLIMIT):
+    def __init__(
+        self,
+        height=15,
+        width=20,
+        steplimit=STEPLIMIT,
+        datapath=Path("data"),
+        resultfile=Path("results/rl.npy"),
+    ):
         super(BlokboiEnv, self).__init__()
 
         self.height = height
         self.width = width
         self.steplimit = steplimit
+        self.resultfile = resultfile
+        self.loader = MapLoader(datapath / "rl")
+        self.game_instance = None
         # Define the action space as a gym.spaces object
         # There are 4 discrete actions: left, right, jump, interact
         n_actions = 4
         self.action_space = spaces.Discrete(n_actions)
         # Define the observation space as images:
-        #   let shape be the image shape for (HEIGHT, WIDTH< N_CHANNELS)
+        #   let shape be the image shape for (HEIGHT, WIDTH, N_CHANNELS)
         self.observation_space = spaces.Box(
             low=0, high=255, shape=(height * 16, width * 16, 3), dtype=np.uint8
         )
@@ -67,18 +90,20 @@ class BlokboiEnv(gym.GoalEnv):
         self.steps += 1
 
         # Check if the scene is done
+        # Get the reward for the last step
         if self.steps > self.steplimit:
             done = True
+            reward = -self.game_instance.reward()
+            score(self.game_instance, self.resultfile)
         else:
             done = self.game_instance.success()
-
-        # Get the reward for the last step
-        if done:
-            reward = 1
-            achieved = "success"
-        else:
-            reward = -self.game_instance.reward()
-            achieved = "walking"
+            if done:
+                reward = 1
+                achieved = "success"
+                score(self.game_instance, self.resultfile)
+            else:
+                reward = -self.game_instance.reward()
+                achieved = "walking"
 
         # Optionally, we can pass additional information (not used right now)
         info = {}
@@ -102,9 +127,15 @@ class BlokboiEnv(gym.GoalEnv):
         `Dict`
             observation
         """
+        if self.game_instance is not None:
+            self.loader.save(self.game_instance)
+
         for _ in range(GENERATE_ATTEMPTS):
             try:
-                self.game_instance = Game()
+                if self.game_instance is None:
+                    self.game_instance = Game()
+                else:
+                    self.game_instance.newGame()
                 break
             except RuntimeError:
                 continue

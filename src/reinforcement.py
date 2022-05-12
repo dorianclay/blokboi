@@ -1,7 +1,12 @@
+import os
+from pathlib import Path
+from matplotlib import pyplot as plt
 import numpy as np
+import pandas as pd
 from stable_baselines.common.env_checker import check_env
 from stable_baselines import DQN, PPO2, A2C, ACKTR
 from stable_baselines.common.cmd_util import make_vec_env
+from stable_baselines.bench import Monitor
 import logging
 
 from src.blokboi_env import BlokboiEnv
@@ -15,24 +20,27 @@ class RL:
 
         # Instantiate the environment
         env = BlokboiEnv()
+
+        log_dir = "logs"
+        monitor_env = Monitor(env, log_dir, allow_early_resets=True)
         # Wrap it
-        env = make_vec_env(lambda: env, n_envs=1)
+        env = make_vec_env(lambda: monitor_env, n_envs=1)
+
+        monitor_env
 
         # check_env(env, warn=True)
 
-        model = PPO2("MlpPolicy", env, verbose=0).learn(100)
+        model = PPO2("MlpPolicy", env, verbose=0).learn(10000)
 
-        RL.test(env, model, ntests=500, logger=logger, **kwargs)
-        # n_steps = 20
-        # for step in range(n_steps):
-        #     print(f"Step {step+1}")
-        #     obs, reward, done, info = env.step(0)
-        #     print('obs=', obs, 'reward=', reward, 'done=', done)
-        #     env.render(mode="console")
-        #     if done:
-        #         print("Goal reached!", "reward=", reward)
-        #         break
-        # print(f"Finished {n_steps} steps. reward={reward}")
+        with open(os.path.join(log_dir, "monitor.csv"), "rt") as fh:
+            firstline = fh.readline()
+            assert firstline[0] == "#"
+            df = pd.read_csv(fh, index_col=None)["r"]
+        df.rolling(window=1).mean().plot()  # window was 1000
+        # plt.show()
+        plt.savefig(Path(kwargs["resultpath"]) / "reinforcement.png")
+
+        # RL.test(env, model, ntests=500, logger=logger, **kwargs)
 
     def quicktest(env, model, logger=logging.getLogger("RL quicktest")):
         logger.warn("Quickly testing...")
@@ -52,7 +60,7 @@ class RL:
                 print("Goal reached!", "reward=", reward)
                 break
 
-    def test(env, model, ntests=2500, logger=logging.getLogger("RL test"), **kwargs):
+    def test(env, model, ntests=200, logger=logging.getLogger("RL test"), **kwargs):
         import os
         from pathlib import Path
 
